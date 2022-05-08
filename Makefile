@@ -1,4 +1,4 @@
-$(warning sw_debug:  in Makefile)
+$(warning sw_debug:   in Makefile)
 # (C) Copyright 2000-2009
 # Wolfgang Denk, DENX Software Engineering, wd@denx.de.
 #
