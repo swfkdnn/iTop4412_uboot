@@ -1,0 +1,44 @@
+A=0
+MKCONFIG  := $(CURDIR)/mkconfig
+export MKCONFIG
+
+C=1
+B:
+	@echo "BBBBBBBB"
+	@echo "A= $A"
+	@echo "C= $C"
+	
+test:	
+#itop_4412_android_config_scp_1GDDR:
+	@echo "C= $C"
+	@echo "A= $A"
+	@echo "000000000---itop_4412_android_config_scp_1GDDR---000000000000000000000"
+#	@$(MKCONFIG) $(@:_config_scp_1GDDR=_scp_1GDDR) arm arm_cortexa9 smdkc210 samsung s5pc210 SCP_1GDDR
+	@echo "MKCONFIG= $(MKCONFIG),,,,标号 = $(@:config_scp_1GDDR=scp_1GDDR)"
+	@echo "@ = $@"
+#	@ >$(obj)include/config.h
+#	@ >$(obj)1111111111111.h
+#	@ >sw.h
+#	@ echo > sw1.h
+#	@ echo >> sw1.h
+	@echo "obj_config=$(obj)include/config.h"
+	@echo "HOSTARCH = $(HOSTARCH)"
+	@echo "HOSTOS = $(HOSTOS)"
+	@echo "SHELL = $(SHELL)"
+	@echo "MAKEFLAGS = $(MAKEFLAGS)"
+	@echo "BUILD_DIR = $(BUILD_DIR)"
+	@echo "TOPDIR = $(TOPDIR)"
+	@echo "SRCTREE = $(SRCTREE)"
+	@echo "OBJTREE = $(OBJTREE)"
+	@echo "obj = $(obj)"
+	@echo "src = $(src)"
+	@echo "ARCH = $(ARCH)"
+	@echo "CPU = $(CPU)"
+	@echo "BOARD = $(BOARD)"
+	@echo "SOC = $(SOC)"
+	@echo "CROSS_COMPILE = $(CROSS_COMPILE)"
+	@echo "OBJCOPY = $(OBJCOPY)"
+	@echo "$(obj)u-boot = $($(obj)u-boot)"
+	@#@echo "SYM_PREFIX = $(SYM_PREFIX)"
+	@echo $(CURDIR)
+export CURDIR

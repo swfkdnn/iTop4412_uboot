@@ -1,0 +1,4 @@
+#!/bin/zsh
+echo "00zsh000"
+
+echo "$1-"
