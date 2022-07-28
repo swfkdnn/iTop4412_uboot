@@ -24,28 +24,33 @@
 # MA 02111-1307 USA
 #
 #===[]==sw2022-0503===
-$(warning sw_debug: in /home/sw/pp_self/1/iTop4412_uboot/board/samsung/smdkc210/Makefile)
 include $(TOPDIR)/config.mk
+#$(warning sw_debug: $(TOPDIR)/config.mk)
 #==
+$(warning sw_debug: sfdsfsfdfe)
 include /home/sw/pp_self/1/iTop4412_uboot/board/samsung/smdkc210/config.mk
 
-$(warning sw_debug: $(TOPDIR)/config.mk)
 LIB	= $(obj)lib$(BOARD).a
-$(warning sw_debug: LIB)
+#LIB	= $(obj)board/samsung/smdkc210/lib$(BOARD).a
 
 COBJS-y	:= smdkc210.o
 COBJS-$(CONFIG_SAMSUNG_ONENAND)	+= onenand.o
 
-
-
 SOBJS	:= lowlevel_init.o
 
-
-SRCS    := $(SOBJS:.o=.S) $(COBJS-y:.o=.c)
+SRCS    := $(SOBJS:.o=.S) $(COBJS-y:.o=.c)   #in topdir rules.mk  compile
 OBJS	:= $(addprefix $(obj),$(COBJS-y))
 SOBJS	:= $(addprefix $(obj),$(SOBJS))
 
+#OBJS	:= $(addprefix $(obj)/board/samsung/smdkc210/,$(COBJS-y))
+#SOBJS	:= $(addprefix $(obj)/board/samsung/smdkc210/,$(SOBJS))
+$(warning sw_debug: SRCS = $(SRCS))
+$(warning sw_debug: SOBJS = $(SOBJS))
+$(warning sw_debug: OBJS = $(OBJS))
+#$(warning sw_debug: include $(TOPDIR)/config.mk)
+
 $(LIB):	$(obj).depend $(SOBJS) $(OBJS)
+	@echo "12234534656"
 	$(AR) $(ARFLAGS) $@ $(SOBJS) $(OBJS)
 
 clean:
@@ -58,8 +63,8 @@ distclean:	clean
 
 # defines $(obj).depend target
 #=====[]=sw==2022-0503====
-#include $(SRCTREE)/rules.mk
-include /home/sw/pp_self/1/iTop4412_uboot/rules.mk
+include $(SRCTREE)/rules.mk
+#include /home/sw/pp_self/1/iTop4412_uboot/rules.mk
 
 sinclude $(obj).depend
 

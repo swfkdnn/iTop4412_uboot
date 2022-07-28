@@ -38,7 +38,8 @@
 #endif
 #if defined(CONFIG_S5PC210)
 //#include <s5pc210.h>
-#include "/home/sw/pp_self/1/iTop4412_uboot/include/s5pc21x.h"
+// no <s5pc210.h>   "s5pc21x.h" can't compile===[]sw2022-0508
+#include "/home/sw/pp_self/1/iTop4412_uboot/include/s5pc210.h"
 #endif
 
 #ifndef CONFIG_ENABLE_MMU
@@ -46,7 +47,8 @@
 #define CFG_PHY_UBOOT_BASE	CFG_UBOOT_BASE
 #endif
 #endif
-
+//[]sw0626
+//#include "/home/sw/pp_self/1/iTop4412_uboot/board/samsung/smdkc210/lowlevel_init_SCP.S"
 /*
  *************************************************************************
  *
@@ -54,12 +56,17 @@
  *
  *************************************************************************
  */
+
+/*
 	.word 0x2000
 	.word 0x0
 	.word 0x0
-	.word 0x0
+	.word 0x0                 字(word)在ARM体系结构中，字的长度为32位(bite)，4个字节(byte) 约为32K
+*/
+
+
 .globl _start
-_start: b	reset
+_start: b reset
 	ldr	pc, _undefined_instruction
 	ldr	pc, _software_interrupt
 	ldr	pc, _prefetch_abort
@@ -110,14 +117,15 @@ _TEXT_BASE:
  * by scsuh.
  */
 _TEXT_PHY_BASE:
-	.word	CFG_PHY_UBOOT_BASE
+	.word	CFG_PHY_UBOOT_BASE //MEMORY_BASE_ADDRESS + 0x3e00000
+//./include/configs/itop_4412_android.h:209:#define MEMORY_BASE_ADDRESS	0x40000000
 
 .globl _armboot_start
 _armboot_start: 
 	.word _start
 
 /*
- * These are defined in the board-specific linker script.
+ * These are defined in the board-specific linker script.  u-boot.lds
  */
 .globl _bss_start
 _bss_start:
@@ -127,12 +135,17 @@ _bss_start:
 _bss_end:
 	.word _end
 
-    .macro  cache_invalidate_dcache_v7
+
+
+
+.macro  cache_invalidate_dcache_v7
+//[]sw0626
     MRC     p15, 1, r0, c0, c0, 1      @ read Cache Level ID register (clidr)
+//  MRC 就是读 CP15 寄存器， MCR 就是写 CP15 寄存器
+//    MRC     p15, 0, r0, c0, c0, 0      @ read Cache Level ID register (clidr)
     ANDS    r3, r0, #0x7000000         @ extract level of coherency from clidr
     MOV     r3, r3, lsr #23            @ left align level of coherency bit field
     BEQ     finished_inval             @ if loc is 0, then no need to clean
-
     MOV     r10, #0                    @ start clean at cache level 0 (in r10)
 loop_1:
     ADD     r2, r10, r10, lsr #1       @ work out 3x current cache level
@@ -153,7 +166,7 @@ loop_1:
     ANDS    r7, r7, r1, lsr #13        @ extract max number of the index size
 loop_2:
     MOV     r8, r6                     @ create working copy of max way size
-	loop_3:
+loop_3:
     ORR     r11, r10, r8, lsl r5       @ factor way and cache number into r11
     ORR     r11, r11, r7, lsl r2       @ factor index number into r11
     MCR     p15, 0, r11, c7, c6, 2     @ invalidate by set/way
@@ -169,41 +182,47 @@ skip_inval:
 finished_inval:
     .endm
 
-#if defined(CONFIG_USE_IRQ)
+//[]sw0626   used in cpu_init
+//#if defined(CONFIG_USE_IRQ)
+#ifdef CONFIG_USE_IRQ
 /* IRQ stack memory (calculated at run-time) */
 .globl IRQ_STACK_START
 IRQ_STACK_START:
 	.word	0x0badc0de
-
 /* IRQ stack memory (calculated at run-time) */
 .globl FIQ_STACK_START
 FIQ_STACK_START:
 	.word 0x0badc0de
 #endif
 
-/*
- * the actual reset code
- */
-
+/* the actual reset code */
 reset:
-#if 0
-	/*
-	 * set the cpu to SVC32 mode and IRQ & FIQ disable
-	 */
-	mrs	r0, cpsr
-	bic	r0, r0, #0x3f
-	orr	r0, r0, #0xd3
+#if 1
+/* set the cpu to SVC32 mode and IRQ & FIQ disable */
+	mrs	r0, cpsr //Current Program Status Register
+	bic	r0, r0, #0x3f  //XX111111  Thumb
+	orr	r0, r0, #0xd3  //11010011 bit[7:6],bit[4],bit[1:0]=1
+///////////////////////XX000000
+///////////////////////11010011
+//该信号反映在外部引脚TBIT上。在程序中不得修改CPSR中的TBIT位，否则处理器工作状态不能确定。
 	msr	cpsr, r0
 #else//*****ly
 	mrs	r0, cpsr
-	bic	r0, r0, #0x1f
-	orr	r0, r0, #0xd3
+	bic	r0, r0, #0x1f    //XXX11111   ARM
+	orr	r0, r0, #0xd3    //11010011 bit[7:6],bit[4],bit[1:0]=1
+/////////////////////////XXX00000
+/////////////////////////11X10011  SVC mode  中断禁止位I、F：置1时，禁止IRQ中断和FIQ中断。
 	msr	cpsr,r0
 #endif
-//	cache_invalidate_dcache_v7			@ call cache macro
-#if 1 //*****ly
+//cache_invalidate_dcache_v7     @ call cache macro
+
+
+
+#if 0 //*****ly
 cache_init:
 	mrc	p15, 0, r0, c0, c0, 0	@ read main ID register
+//CP15 —系统控制协处理器（the system control coprocessor）
+//他通过协处理器指令MCR和MRC提供具体的寄存器来配置和控制caches、MMU、保护系统
 	and	r1, r0, #0x00f00000	@ variant
 	and	r2, r0, #0x0000000f	@ revision
 	orr	r2, r2, r1, lsr #20-4	@ combine variant and revision
@@ -211,16 +230,11 @@ cache_init:
 	mrceq	p15, 0, r0, c1, c0, 1	@ read ACTLR
 	orreq	r0, r0, #0x6		@ Enable DP1(2), DP2(1)
 	mcreq	p15, 0, r0, c1, c0, 1	@ write ACTLR
-	/*
-	 * Invalidate L1 I/D
-	 */
+/* Invalidate L1 I/D */
 	mov	r0, #0			@ set up for MCR
 	mcr	p15, 0, r0, c8, c7, 0	@ invalidate TLBs
 	mcr	p15, 0, r0, c7, c5, 0	@ invalidate icache
-
-	/*
-	 * disable MMU stuff and caches
-	 */
+/* disable MMU stuff and caches */
 	mrc	p15, 0, r0, c1, c0, 0
 	bic	r0, r0, #0x00002000	@ clear bits 13 (--V-)
 	bic	r0, r0, #0x00000007	@ clear bits 2:0 (-CAM)
@@ -229,128 +243,175 @@ cache_init:
 	orr	r0, r0, #0x00000800	@ set bit 11 (Z---) BTB
 	mcr	p15, 0, r0, c1, c0, 0
 #endif
-	
-
-        /* LED Test Code */
-		#if 0
-        ldr r0, =0x11000080
-        ldr r1, [r0]
-        bic r1, r1, #0xf00
-        orr r1, r1, #0x100
-        str r1, [r0]
-        #endif
 
 
-	/* Read booting information */
-        ldr	r0, =POWER_BASE
-        ldr	r1, [r0,#OMR_OFFSET]
-        bic	r2, r1, #0xffffffc1
 
-	/* NAND BOOT */
+
+
+
+
+
+
+/* LED Test Code */
+#if 1
+	ldr r0, =0x11000080
+	ldr r1, [r0]
+	bic r1, r1, #0xf00
+	orr r1, r1, #0x100       /* GPK2CON[2] */
+	str r1, [r0]
+	mov	r4, #0x10000     //?us
+	5: subs r4, r4, #1
+	bne	5b
+#endif
+/*
+---------------------------------
+LED3
+--> VDD50_EN(in) 
+--> Xmmc1CMD/GPK1_1(J2)
+--> GPK1CON = 0x11000060 --> (0x1 << 4) = 0x10 (output)
+--> GPK1PUDPDN = 0x11000074 --> (0x1 << 2) = 0x4 Enables Pull-down/(0x3 << 2) = Enables Pull-up
+*/
+	ldr	r0, =0x11000060        /* GPK1(1)  */
+/*
+	ldr	r1, 0x00000010     GPK1(1)  output  Error: internal_relocation (type: OFFSET_IMM) not fixed up
+*/
+	mov	r1, #0x10            /* GPK1(1)  output   */
+	str	r1, [r0]
+	ldr	r2, =0x11000074
+	mov	r3, #0x4             /* Pull down */
+	str	r3, [r2]
+	mov	r4, #0x10000
+	9: subs r4, r4, #1
+	bne	9b
+/* 
+------------------------------------
+LED2
+--> KP_COL0 (in) 
+--> XGNSS_GPIO_0/GPL2_0 (AA4) 
+--> GPL2CON = 0x11000100  --> 0x1(output) 
+--> GPL2PUDPDN = 0x11000114 --> 0x1 = Enables Pull-down/0x3 = Enables Pull-up
+*/
+	ldr	r0, =0x11000100  /* GPL2(0)  */
+	mov	r1, #0x1         /* GPL2(0) output */
+	str	r1, [r0]
+	ldr	r2, =0x11000114
+	mov	r3, #0x3         //Pull up
+	str	r3, [r2]
+	mov	r4, #0x10000     //?us
+	10: subs r4, r4, #1
+	bne	10b
+
+/*
+	ldr r0, =0x11000100
+	movl r1,[r0]
+	orr r1, r1, #0x1
+	str r1,[r0]
+	ldr r0, =0x11000114
+	movl r1, [r0]
+	orr r1, r1, #0x1
+	str r1, [r0]
+-------------------------------
+*/
+
+
+
+
+
+/* Read booting information */
+/* 这个寄存器就是去读取OM(从哪启动)寄存器的值 */
+	ldr	r0, =POWER_BASE      //0x10020000 
+//[]sw2022-0508  error :internal_relocation (type: OFFSET_IMM) not fixed up
+	ldr	r1, [r0,#OMR_OFFSET]
+	bic	r2, r1, #0xffffffc1
+
+	/* NAND BOOT ? */
 @	cmp	r2, #0x0		@ 512B 4-cycle
 @	moveq	r3, #BOOT_NAND
-
 @	cmp	r2, #0x2		@ 2KB 5-cycle
 @	moveq	r3, #BOOT_NAND
-
 @	cmp	r2, #0x4		@ 4KB 5-cycle	8-bit ECC
 @	moveq	r3, #BOOT_NAND
-
 	cmp     r2, #0xA
-        moveq   r3, #BOOT_ONENAND
-
+	moveq   r3, #BOOT_ONENAND
 @	cmp	r2, #0x6		@ 4KB 5-cycle	16-bit ECC
 @	moveq	r3, #BOOT_NAND
 
-	/* SD/MMC BOOT */
+/* SD/MMC BOOT ? */
 	cmp     r2, #0x4
-        moveq   r3, #BOOT_MMCSD	
+	moveq   r3, #BOOT_MMCSD
 
-	/* eMMC4.3 BOOT */
+/* eMMC4.3 BOOT ? */
 	cmp		r2, #0x6
 	moveq	r3, #BOOT_EMMC43
 
-	/* eMMC441 BOOT */
+/* eMMC441 BOOT ? */
 	cmp		r2, #0x28
 	moveq	r3, #BOOT_EMMC441
-	
-        /* NOR BOOT */
+
+/* NOR BOOT ? */
 @	cmp     r2, #0x14
 @	moveq   r3, #BOOT_NOR	
 
-	/* For second device booting */
-	/* OneNAND BOOTONG failed */
+/* For second device booting */
+/* OneNAND BOOTONG failed */
 @	cmp     r2, #0x8
 @	moveq   r3, #BOOT_SEC_DEV
 
-	/* Uart BOOTONG failed */
+/* Uart BOOTONG failed */
 @	cmp     r2, #(0x1<<4)
 @	moveq   r3, #BOOT_SEC_DEV
-	
-	ldr	r0, =INF_REG_BASE
-	str	r3, [r0, #INF_REG3_OFFSET]     
-
-	/*
-	 * Go setup Memory and board specific bits prior to relocation.
-	 */
-	//b     .
-	bl	lowlevel_init	/* go setup pll,mux,memory */
 
 
+//[]sw2022-0508  error :internal_relocation (type: OFFSET_IMM) not fixed up
+	ldr	r0, =INF_REG_BASE   //将配置写⼊相应的寄存器
+	str	r3, [r0, #INF_REG3_OFFSET]
+
+/* Go setup Memory and board specific bits prior to relocation.*/
+	bl	lowlevel_init    /* go setup pll,mux,memory */
 	ldr	r0, =0x1002330C  /* PS_HOLD_CONTROL register */
-	ldr	r1, =0x00005300	 /* PS_HOLD output high	*/
+	ldr	r1, =0x00005300	 /* PS_HOLD output high */
 	str	r1, [r0]
 
-
 	/* get ready to call C functions */
-	ldr	sp, _TEXT_PHY_BASE	/* setup temp stack pointer */
+	ldr	sp, _TEXT_PHY_BASE	/* setup temp stack pointer  0x43e00000   */
 	sub	sp, sp, #12
 	mov	fp, #0			/* no previous frame, so fp=0 */
+// 如果已经在DRAM⾥⾯跑了就不需要重载了,实际上SDRAM在BL1的时候就初始化了,
+//所以uboot已经运⾏在了SDRAM上,但具体在哪运⾏可能不是我们想定义
 
-
-	/* I-Cache & D-Cache Enabled    */  
+/* I-Cache & D-Cache Enabled */
 //	mrc p15, 0, r0, c1, c0, 0
 //	orr r0, r0, #(0x1 << 2)
 //	orr r0, r0, #(0x1 << 12)
 //	mcr p15, 0, r0, c1, c0, 0
 
-	/* when we already run in ram, we don't need to relocate U-Boot.
-	 * and actually, memory controller must be configured before U-Boot
-	 * is running in ram.
-	 */
+// when we already run in ram, we don't need to relocate U-Boot.
+// and actually, memory controller must be configured before U-Boot is running in ram.
 	ldr	r0, =0xff000fff
-	bic	r1, pc, r0		/* r0 <- current base addr of code */
-	ldr	r2, _TEXT_BASE		/* r1 <- original base addr in ram */
-	bic	r2, r2, r0		/* r0 <- current base addr of code */
-	cmp     r1, r2                  /* compare r0, r1                  */
-	beq     after_copy		/* r0 == r1 then skip flash copy   */
+	bic	r1, pc, r0        /* r0 <- current base addr of code */
+	ldr	r2, _TEXT_BASE    /* r1 <- original base addr in ram */
+	bic	r2, r2, r0        /* r0 <- current base addr of code */
+	cmp     r1, r2        /* compare r0, r1                  */
+	beq     after_copy    /* r0 == r1 then skip flash copy   */
 
-
-
-	ldr	r0, =0x11000104  /* GPL2(0)  */
+/* light led2 如果需要重载u-boot 则点亮LED作为指⽰ */
+	ldr	r0, =0x11000104   /* GPL2(0)  */
 	ldr	r1, =0x00000001	 /* GPL2(0 output high	*/
 	str	r1, [r0]
-	
 	ldr	r0, =0x11000100  /* GPL2(0)  */
 	ldr	r1, =0x00000001	 /* GPL2(0 output high	*/
 	str	r1, [r0]
-
-	
-	/* wait ?us */
+	/* wait ?us 延时*/
 	mov	r1, #0x10000
-9:	subs	r1, r1, #1
+	9: subs r1, r1, #1
 	bne	9b
 
 //	ldr	r0, =0x11000C44 /* GPX2(0)  */
 //	ldr	r1, [r0]
 //	bic	r2, r1, #0xfe
 //	ldr	r1, =0x1
-
-
-
 //	ldr	r0, =INF_REG_BASE
 //	ldr	r3, [r0, #INF_REG3_OFFSET]  
-	
 //	cmp	r1, r2
 //	moveq   r3, #BOOT_MMCSD	
 //	ldr	r0, =INF_REG_BASE
@@ -358,14 +419,14 @@ cache_init:
 //	cmp	r1, r2
 //	beq     mmcsd_boot
 
-
-
-	ldr	r0, =INF_REG_BASE
+	ldr	r0, =INF_REG_BASE  //读出寄存器值,可知从哪⾥启动的
+//[]sw2022-0508  error :internal_relocation (type: OFFSET_IMM) not fixed up
 	ldr	r1, [r0, #INF_REG3_OFFSET]
-	cmp	r1, #BOOT_NAND		/* 0x0 => boot device is nand */
+
+	cmp	r1, #BOOT_NAND     /* 0x0 => boot device is nand */
 	beq		nand_boot
 	
-	cmp	r1, #BOOT_ONENAND	/* 0x1 => boot device is onenand */
+	cmp	r1, #BOOT_ONENAND  /* 0x1 => boot device is onenand */
 	beq		onenand_boot
 	
 	cmp     r1, #BOOT_EMMC441
@@ -395,29 +456,30 @@ onenand_boot:
 second_mmcsd_boot:
 	ldr   r3, =BOOT_MMCSD	
 	ldr	r0, =INF_REG_BASE
+//[]sw2022-0508  error :internal_relocation (type: OFFSET_IMM) not fixed up
 	str	r3, [r0, #INF_REG3_OFFSET]
-	
+
 mmcsd_boot:
 #ifdef CONFIG_CLK_1000_400_200
-	ldr	r0, =CMU_BASE
-	ldr	r2, =CLK_DIV_FSYS2_OFFSET
-	ldr	r1, [r0, r2]
+	ldr r0, =CMU_BASE
+	ldr r2, =CLK_DIV_FSYS2_OFFSET  //设置分频
+	ldr r1, [r0, r2]
 	orr r1, r1, #0xf
 	str r1, [r0, r2]
 #endif
-	bl      movi_uboot_copy
-	b       after_copy
+	bl  movi_uboot_copy  //确定重定位地址及大小
+	b   after_copy       //重定位代码
 
 emmc_boot:
 #if defined(CONFIG_CLK_1000_400_200) || defined(CONFIG_CLK_1000_200_200) || defined(CONFIG_CLK_800_400_200)
-	ldr	r0, =CMU_BASE
-	ldr	r2, =CLK_DIV_FSYS1_OFFSET
-	ldr	r1, [r0, r2]
-	orr r1, r1, #0x3
+	ldr r0, =CMU_BASE
+	ldr r2, =CLK_DIV_FSYS1_OFFSET
+	ldr r1, [r0, r2]
+	orr r1, r1, #0x3  /* 进⾏或运算  DOUTMMC0 = MOUTMMC0/(3 + 1) */
 	str r1, [r0, r2]
 #endif
-	bl		emmc_uboot_copy
-	b	after_copy
+	bl  emmc_uboot_copy
+	b   after_copy
 
 emmc441_boot:
 #if defined(CONFIG_CLK_1000_400_200) || defined(CONFIG_CLK_1000_200_200) || defined(CONFIG_CLK_800_400_200)
@@ -436,7 +498,6 @@ emmc441_boot:
 	bne  second_mmcsd_boot
 	b	after_copy
 
-
 nor_boot:
 @	bl	read_hword
 	b	after_copy
@@ -444,14 +505,13 @@ nor_boot:
 
 after_copy:
 
-
 #if defined(CONFIG_ENABLE_MMU)
 enable_mmu:
-	/* enable domain access */
+/* enable domain access */
 	ldr	r5, =0x0000ffff
 	mcr	p15, 0, r5, c3, c0, 0		@load domain access register
 
-	/* Set the TTB register */
+/* Set the TTB register */
 	ldr	r0, _mmu_table_base
 	ldr	r1, =CFG_PHY_UBOOT_BASE
 	ldr	r2, =0xfff00000
@@ -459,7 +519,7 @@ enable_mmu:
 	orr	r1, r0, r1
 	mcr	p15, 0, r1, c2, c0, 0
 
-	/* Enable the MMU */
+/* Enable the MMU */
 mmu_on:
 	mrc	p15, 0, r0, c1, c0, 0
 	orr	r0, r0, #1
@@ -470,13 +530,12 @@ mmu_on:
 	nop
 #endif
 
-
 #ifdef CONFIG_EVT1
-	/* store DMC density information in u-boot C level variable */
-	ldr	r0, = CFG_UBOOT_BASE
-	sub	r0, r0, #4
+/* store DMC density information in u-boot C level variable */
+	ldr	r0, = CFG_UBOOT_BASE    //把u-boot地址0x43e00000写入r0
+	sub	r0, r0, #4              //把u-boot代码基地址减去4后的字数据写入r1
 	ldr	r1, [r0]
-	ldr	r0, _dmc_density
+	ldr	r0, _dmc_density        //0xFFFFFFFF = 4G的EMMC
 	str	r1, [r0]
 #endif
 
@@ -484,33 +543,31 @@ skip_hw_init:
 	/* Set up the stack						    */
 stack_setup:
 #if defined(CONFIG_MEMORY_UPPER_CODE)
-	ldr	sp, =(CFG_UBOOT_BASE + CFG_UBOOT_SIZE - 0x1000)
+	ldr	sp, =(CFG_UBOOT_BASE + CFG_UBOOT_SIZE - 0x1000)         //0x43e00000+2M-4k
 #else
-	ldr	r0, _TEXT_BASE		/* upper 128 KiB: relocated uboot   */
-	sub	r0, r0, #CONFIG_SYS_MALLOC_LEN	/* malloc area                      */
-	sub	r0, r0, #CFG_GBL_DATA_SIZE /* bdinfo                        */
+	ldr	r0, _TEXT_BASE                                          // upper 128 KiB: relocated uboot
+	sub	r0, r0, #CONFIG_SYS_MALLOC_LEN                          // malloc area
+	sub	r0, r0, #CFG_GBL_DATA_SIZE                              // bdinfo
 #if defined(CONFIG_USE_IRQ)
 	sub	r0, r0, #(CONFIG_STACKSIZE_IRQ+CONFIG_STACKSIZE_FIQ)
 #endif
-	sub	sp, r0, #12		/* leave 3 words for abort-stack    */
-
+	sub	sp, r0, #12                                              // leave 3 words for abort-stack
 #endif
 
 clear_bss:
-	ldr	r0, _bss_start		/* find start of bss segment        */
-	ldr	r1, _bss_end		/* stop here                        */
-	mov 	r2, #0x00000000		/* clear                            */
+	ldr	r0, _bss_start                                           // find start of bss segment
+	ldr	r1, _bss_end                                             // stop here
+	mov 	r2, #0x00000000                                        // clear
 
 clbss_l:
-	str	r2, [r0]		/* clear loop...                    */
+	str	r2, [r0]                                                 // clear loop...
 	add	r0, r0, #4
 	cmp	r0, r1
 	ble	clbss_l
-	
 	ldr	pc, _start_armboot
 
 _start_armboot:
-	.word start_armboot
+	.word start_armboot                                         //进入这个C函数后就属于第二阶段代码，汇编到此结束
 
 #ifdef CONFIG_EVT1
 _dmc_density:
@@ -523,52 +580,44 @@ _mmu_table_base:
 #endif
 
 
-/*
- * copy U-Boot to SDRAM and jump to ram (from NAND or OneNAND)
- * r0: size to be compared
- * Load 1'st 2blocks to RAM because U-boot's size is larger than 1block(128k) size
- */
-	.globl copy_from_nand
+// copy U-Boot to SDRAM and jump to ram (from NAND or OneNAND)
+// r0: size to be compared
+// Load 1'st 2blocks to RAM because U-boot's size is larger than 1block(128k) size
+.globl copy_from_nand
 copy_from_nand:
 	push	{lr}		/* save return address */
-
 	mov	r9, r0
-	
 	mov	r9, #0x100		/* Compare about 8KB */
 	bl	copy_uboot_to_ram
-
 	tst 	r0, #0x0
 	bne	copy_failed
-
 	ldr	r0, =0xd0020000
-
 	ldr	r1, _TEXT_PHY_BASE	/* 0x23e00000 */
 1:	ldr	r3, [r0], #4
 	ldr	r4, [r1], #4
 	teq	r3, r4
-	bne	compare_failed	/* not matched */
+//[]sw0626
+//	bne	compare_failed	/* not matched */
 	subs	r9, r9, #4
 	bne	1b
-
 	pop	{pc}		/* all is OK */
 
 copy_failed:
 	nop			/* copy from nand failed */
 	b	copy_failed
-
-compare_failed:
-	nop			/* compare failed */
-	b	compare_failed
+//[]sw0626
+//compare_fai//led:
+//	nop			/* compare failed */
+//	b	compare_failed
 
 /*
  * we assume that cache operation is done before. (eg. cleanup_before_linux())
  * actually, we don't need to do anything about cache if not use d-cache in U-Boot
  * So, in this function we clean only MMU. by scsuh
- *
  * void	theLastJump(void *kernel, int arch_num, uint boot_params);
  */
 #if defined(CONFIG_ENABLE_MMU)
-	.globl theLastJump
+.globl theLastJump
 theLastJump:
 	mov	r9, r0
 	ldr	r3, =0xfff00000
@@ -587,12 +636,11 @@ phy_last_jump:
 	orr	r0, r0, #0x00000002	/* set bit 2 (A) Align */
 	orr	r0, r0, #0x00001000	/* set bit 12 (I) I-Cache */
 	mcr	p15, 0, r0, c1, c0, 0
-
 	mcr	p15, 0, r0, c8, c7, 0	/* flush v4 TLB */
-
 	mov	r0, #0
 	mov	pc, r9
 #endif
+
 /*
  *************************************************************************
  *
@@ -610,7 +658,6 @@ phy_last_jump:
 #define S_PC		60
 #define S_LR		56
 #define S_SP		52
-
 #define S_IP		48
 #define S_FP		44
 #define S_R10		40
@@ -624,7 +671,6 @@ phy_last_jump:
 #define S_R2		8
 #define S_R1		4
 #define S_R0		0
-
 #define MODE_SVC 0x13
 #define I_BIT	 0x80
 
@@ -633,23 +679,21 @@ phy_last_jump:
  * use irq_save_user_regs / irq_restore_user_regs for IRQ/FIQ handling
  */
 
-	.macro	bad_save_user_regs
+.macro bad_save_user_regs
 	sub	sp, sp, #S_FRAME_SIZE		@ carve out a frame on current user stack
 	stmia	sp, {r0 - r12}			@ Save user registers (now in svc mode) r0-r12
-
 	ldr	r2, _armboot_start
 	sub	r2, r2, #(CONFIG_SYS_MALLOC_LEN)
 	sub	r2, r2, #(CFG_GBL_DATA_SIZE+8)	@ set base 2 words into abort stack
 	ldmia	r2, {r2 - r3}			@ get values for "aborted" pc and cpsr (into parm regs)
 	add	r0, sp, #S_FRAME_SIZE		@ grab pointer to old stack
-
 	add	r5, sp, #S_SP
 	mov	r1, lr
 	stmia	r5, {r0 - r3}			@ save sp_SVC, lr_SVC, pc, cpsr
 	mov	r0, sp				@ save current stack into r0 (param register)
-	.endm
+.endm
 
-	.macro	irq_save_user_regs
+.macro irq_save_user_regs
 	sub	sp, sp, #S_FRAME_SIZE
 	stmia	sp, {r0 - r12}			@ Calling r0-r12
 	add	r8, sp, #S_PC			@ !!!! R8 NEEDS to be saved !!!! a reserved stack spot would be good.
@@ -659,33 +703,31 @@ phy_last_jump:
 	str	r6, [r8, #4]			@ Save CPSR
 	str	r0, [r8, #8]			@ Save OLD_R0
 	mov	r0, sp
-	.endm
+.endm
 
-	.macro	irq_restore_user_regs
+.macro	irq_restore_user_regs
 	ldmia	sp, {r0 - lr}^			@ Calling r0 - lr
 	mov	r0, r0
 	ldr	lr, [sp, #S_PC]			@ Get PC
 	add	sp, sp, #S_FRAME_SIZE
 	subs	pc, lr, #4			@ return & move spsr_svc into cpsr
-	.endm
+.endm
 
-	.macro get_bad_stack
+.macro get_bad_stack
 	ldr	r13, _armboot_start		@ setup our mode stack (enter in banked mode)
 	sub	r13, r13, #(CONFIG_SYS_MALLOC_LEN)	@ move past malloc pool
 	sub	r13, r13, #(CFG_GBL_DATA_SIZE+8) @ move to reserved a couple spots for abort stack
-
 	str	lr, [r13]			@ save caller lr in position 0 of saved stack
 	mrs	lr, spsr			@ get the spsr
 	str	lr, [r13, #4]			@ save spsr in position 1 of saved stack
-
 	mov	r13, #MODE_SVC			@ prepare SVC-Mode
 	@ msr	spsr_c, r13
 	msr	spsr, r13			@ switch modes, make sure moves will execute
 	mov	lr, pc				@ capture return pc
 	movs	pc, lr				@ jump to next instruction & switch modes.
-	.endm
+.endm
 
-	.macro get_bad_stack_swi
+.macro get_bad_stack_swi
 	sub	r13, r13, #4			@ space on current stack for scratch reg.
 	str	r0, [r13]			@ save R0's value.
 	ldr	r0, _armboot_start		@ get data regions start
@@ -696,15 +738,15 @@ phy_last_jump:
 	str	lr, [r0, #4]			@ save spsr in position 1 of saved stack
 	ldr	r0, [r13]			@ restore r0
 	add	r13, r13, #4			@ pop stack entry
-	.endm
+.endm
 
-	.macro get_irq_stack			@ setup IRQ stack
+.macro get_irq_stack			@ setup IRQ stack
 	ldr	sp, IRQ_STACK_START
-	.endm
+.endm
 
-	.macro get_fiq_stack			@ setup FIQ stack
+.macro get_fiq_stack			@ setup FIQ stack
 	ldr	sp, FIQ_STACK_START
-	.endm
+.endm
 
 /*
  * exception handlers
@@ -755,7 +797,6 @@ fiq:
 	irq_save_user_regs
 	bl	do_fiq
 	irq_restore_user_regs
-
 #else
 
 	.align	5
@@ -786,17 +827,17 @@ arm_cache_flush:
  *
  *     - mm    - mm_struct describing address space
  */
-       .align 5
+.align 5
 .global v7_flush_dcache_all
 v7_flush_dcache_all:
-
 	ldr	r0, =0xffffffff
 	mrc	p15, 1, r0, c0, c0, 1 		@ Read CLIDR
 	ands	r3, r0, #0x7000000
 	mov	r3, r3, LSR #23       		@ Cache level value (naturally aligned)
 	beq 	Finished
 	mov	r10, #0
-Loop1:         
+
+Loop1:
 	add	r2, r10, r10, LSR #1  		@ Work out 3xcachelevel
 	mov	r1, r0, LSR r2        		@ bottom 3 bits are the Ctype for this level
 	and	r1, r1, #7            		@ get those 3 bits alone
@@ -813,9 +854,11 @@ Loop1:
 	clz	r5, r4                		@ R5 is the bit position of the way size increment
 	ldr	r7, =0x00007FFF
 	ands	r7, r7, r1, LSR #13  		@ R7 is the max number of the index size (right aligned)
-Loop2:         
+
+Loop2:
 	mov	r9, r4                      	@ R9 working copy of the max way size (right aligned)
-Loop3:         
+
+Loop3:
 	orr	r11, r10, r9, LSL r5        	@ factor in the way number and cache number into R11
 	orr	r11, r11, r7, LSL r2        	@ factor in the index number
 	mcr	p15, 0, r11, c7, c6, 2 		@ invalidate by set/way
@@ -823,14 +866,16 @@ Loop3:
 	bge	Loop3
 	subs	r7, r7, #1                 	@ decrement the index
 	bge	Loop2
-Skip:          
+
+Skip:
 	add	r10, r10, #2                	@ increment the cache number
 	cmp	r3, r10
 	bgt	Loop1
+
 Finished:
 	mov	pc, lr
-	
-       .align  5
+
+.align  5
 .global disable_l2cache
 disable_l2cache:
 	mrc     p15, 0, r0, c1, c0, 1
@@ -839,7 +884,7 @@ disable_l2cache:
 	mov	pc, lr
 
 
-       .align  5
+.align  5
 .global enable_l2cache
 enable_l2cache:
 	mrc     p15, 0, r0, c1, c0, 1
@@ -847,14 +892,14 @@ enable_l2cache:
 	mcr     p15, 0, r0, c1, c0, 1
 	mov     pc, lr
 
-       .align  5
+.align  5
 .global set_l2cache_auxctrl
 set_l2cache_auxctrl:
 	mov	r0, #0x0
 	mcr     p15, 1, r0, c9, c0, 2
 	mov     pc, lr
 
-       .align  5
+.align  5
 .global set_l2cache_auxctrl_cycle
 set_l2cache_auxctrl_cycle:
 	mrc 	p15, 1, r0, c9, c0, 2
@@ -865,9 +910,9 @@ set_l2cache_auxctrl_cycle:
 	mcr 	p15, 1, r0, c9, c0, 2
 	mov     pc,lr
 
-	.align 5
+.align 5
 CoInvalidateDCacheIndex:
-	;/* r0 = index */
+/* r0 = index */
 	mcr     p15, 0, r0, c7, c6, 2
 	mov     pc,lr
 
@@ -877,15 +922,18 @@ CoInvalidateDCacheIndex:
 #elif defined(CONFIG_S5PC11X) || defined(CONFIG_S5PC210)|| defined(CONFIG_S5PV310)
 /* For future usage of S3C64XX*/
 #else
-	.align	5
+
+.align	5
 .globl reset_cpu
 reset_cpu:
 	ldr	r1, rstctl	/* get addr for global reset reg */
 	mov	r3, #0x2	/* full reset pll+mpu */
 	str	r3, [r1]	/* force reset */
 	mov	r0, r0
+
 _loop_forever:
 	b	_loop_forever
+
 rstctl:
 	.word	PM_RSTCTRL_WKUP
 

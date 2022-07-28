@@ -56,6 +56,7 @@ SRCS	:= $(COBJS:.o=.c)
 OBJS	:= $(addprefix $(obj),$(COBJS))
 
 $(LIB):	$(obj).depend $(OBJS)
+	@echo "jxvsdfre"
 	$(AR) $(ARFLAGS) $@ $(OBJS)
 
 #########################################################################

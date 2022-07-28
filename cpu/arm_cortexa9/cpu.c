@@ -254,15 +254,12 @@ int _console_setup(void)
 	
 	return 0;
 }
-//------------------------------------------------------
+
 
 int cpu_init (void)
 {
-//------------------------------------------------------
-//	_console_setup();
-
-//	_console_write("uart", 4);
-//------------------------------------------------------
+	_console_setup();
+	_console_write("uart", 4);
 	
 	/*
 	 * setup up stacks if necessary

@@ -60,7 +60,8 @@ PLATFORM_CPPFLAGS += $(call cc-option,\
 ifneq (,$(findstring -mabi=aapcs-linux,$(PLATFORM_CPPFLAGS)))
 # This file is parsed several times; make sure to add only once.
 ifeq (,$(findstring lib_arm/eabi_compat.o,$(PLATFORM_LIBS)))
-PLATFORM_LIBS += $(OBJTREE)/lib_arm/eabi_compat.o
+#PLATFORM_LIBS += $(OBJTREE)/lib_arm/eabi_compat.o
+PLATFORM_LIBS += $(OBJTREE)/eabi_compat.o
 endif
 endif
 LDSCRIPT := $(SRCTREE)/cpu/$(CPU)/u-boot.lds

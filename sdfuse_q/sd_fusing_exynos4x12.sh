@@ -53,7 +53,10 @@ umount $partition2 2> /dev/null
 umount $partition3 2> /dev/null
 umount $partition4 2> /dev/null
 
-echo "$2 fusing..."
+echo "$2 fusing..jkljlj."
+echo "1=$1 //asdsasdiop."
+echo "2=$2 //opalad."
+# seek=1 >> 1block
 dd iflag=dsync oflag=dsync if=../$2 of=$1 seek=1 && \
 	echo "$2 image has been fused successfully."
 
@@ -67,5 +70,5 @@ dd iflag=dsync oflag=dsync if=../$2 of=$1 seek=1 && \
 
 ####################################
 #<Message Display>
-echo "Eject SD card"
+echo " please Eject SD card"
 

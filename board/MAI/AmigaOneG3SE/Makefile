@@ -20,6 +20,8 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston,
 # MA 02111-1307 USA
 #
+$(warning sw_debug: !!!!!!!!!!!!<< error   board >>!!!!!!!!!!!!!!!!!!)
+
 
 include $(TOPDIR)/config.mk
 ifneq ($(OBJTREE),$(SRCTREE))

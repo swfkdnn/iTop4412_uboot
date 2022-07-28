@@ -154,7 +154,8 @@ else
 LDSCRIPT := $(TOPDIR)/board/$(BOARDDIR)/u-boot.lds
 endif
 endif
-OBJCFLAGS += --gap-fill=0xff
+OBJCFLAGS += --gap-fill=0xff $(DBGFLAGS)
+
 
 gccincdir := $(shell $(CC) -print-file-name=include)
 
@@ -183,7 +184,7 @@ else
 CFLAGS := $(CPPFLAGS) -Wall -Wstrict-prototypes
 endif
 
-CFLAGS += $(call cc-option,-fno-stack-protector)
+CFLAGS += $(DBGFLAGS) $(call cc-option,-fno-stack-protector)
 
 # avoid trigraph warnings while parsing pci.h (produced by NIOS gcc-2.9)
 # this option have to be placed behind -Wall -- that's why it is here
@@ -195,7 +196,7 @@ endif
 
 # $(CPPFLAGS) sets -g, which causes gcc to pass a suitable -g<format>
 # option to the assembler.
-AFLAGS_DEBUG :=
+AFLAGS_DEBUG := -g
 
 # turn jbsr into jsr for m68k
 ifeq ($(ARCH),m68k)
@@ -206,7 +207,7 @@ endif
 
 AFLAGS := $(AFLAGS_DEBUG) -D__ASSEMBLY__ $(CPPFLAGS)
 
-LDFLAGS += -Bstatic -T $(obj)u-boot.lds $(PLATFORM_LDFLAGS)
+LDFLAGS += -Bstatic -T $(obj)u-boot.lds $(PLATFORM_LDFLAGS) $(DBGFLAGS)
 ifneq ($(TEXT_BASE),)
 LDFLAGS += -Ttext $(TEXT_BASE)
 endif
@@ -248,27 +249,64 @@ $(obj)%.s:	%.S
 	$(CPP) $(AFLAGS) $(AFLAGS_$(@F)) $(AFLAGS_$(BCURDIR)) -o $@ $<
 
 $(obj)%.o:	%.S
-	echo "--in .o-.S-"
-	echo "--$(obj)%.o--%.S-"
+#	echo "-in--sdkjfer--$(obj)%.o--%.S-"
 	$(CC)  $(AFLAGS) $(AFLAGS_$(@F)) $(AFLAGS_$(BCURDIR)) -o $@ $< -c
 
+#=====[]sw2022-05-13=======good===
+#$(obj)cpu/arm_cortexa9/%.o:	%.S
+#	@echo "kjkjl11"
+#	$(CC)  $(AFLAGS) $(AFLAGS_$(@F)) $(AFLAGS_$(BCURDIR)) -o $@ $< -c
+
+
+#$(obj)cpu/arm_cortexa9/start.o:	/home/sw/pp_self/1/iTop4412_uboot/cpu/arm_cortexa9/start.S
+#	@echo "kjkjl22"
+#	@echo "@F= $(@F)"
+#	@echo "AFLAGS = $(AFLAGS)"
+#	@mkdir -p $(obj)cpu/arm_cortexa9
+#	$(CC)  $(AFLAGS) $(AFLAGS_$(@F)) $(AFLAGS_$(BCURDIR)) -o $@ $< -c
+
+#$(obj)cpu/arm_cortexa9/s5pc210/cpu_init.o:/home/sw/pp_self/1/iTop4412_uboot/cpu/arm_cortexa9/s5pc210/cpu_init_SCP.S
+#	@echo "rewffsd"
+#	$(CC)  $(AFLAGS) $(AFLAGS_$(@F)) $(AFLAGS_$(BCURDIR)) -o $@ $< -c
+
+####################################
+#in board/samsung/smdkc210/config.mk
+####################################
+#$(obj)board/samsung/smdkc210/lowlevel_init.o:/home/sw/pp_self/1/iTop4412_uboot/board/samsung/smdkc210/lowlevel_init.S
+#	@echo "asdwdadd000"
+#	$(CC)  $(AFLAGS) $(AFLAGS_$(@F)) $(AFLAGS_$(BCURDIR)) -o $@ $< -c
+#
+#$(obj)board/samsung/smdkc210/smdkc210.o:/home/sw/pp_self/1/iTop4412_uboot/board/samsung/smdkc210/smdkc210.c
+#	@echo "affafasf000"
+#	$(CC)  $(CFLAGS) $(CFLAGS_$(@F)) $(CFLAGS_$(BCURDIR)) -o $@ $< -c
+
+#$(obj)cpu/arm_cortexa9/s5pc210/%.o:	%.c
+#	$(CC)  $(CFLAGS) $(CFLAGS_$(@F)) $(CFLAGS_$(BCURDIR)) -o $@ $< -c
+
+
+#=================================
+
+
 $(obj)%.o:	%.c
+	@echo "rkjklk"
 	$(CC)  $(CFLAGS) $(CFLAGS_$(@F)) $(CFLAGS_$(BCURDIR)) -o $@ $< -c
 $(obj)%.i:	%.c
 	$(CPP) $(CFLAGS) $(CFLAGS_$(@F)) $(CFLAGS_$(BCURDIR)) -o $@ $< -c
 $(obj)%.s:	%.c
 	$(CC)  $(CFLAGS) $(CFLAGS_$(@F)) $(CFLAGS_$(BCURDIR)) -o $@ $< -c -S
 
-$(warning sw_debug: ---$(obj)%.o----%.S---- )
-$(warning sw_debug: $(@F) )
-$(warning sw_debug: $(CC) )
-$(warning sw_debug: $(AFLAGS))
-$(warning sw_debug: $(AFLAGS_$(@F)) )
-$(warning sw_debug: $(AFLAGS_$(BCURDIR)))
-$(warning sw_debug: $@ )
-$(warning sw_debug: $<)
-$(warning sw_debug: CURDIR = $(CURDIR))
-$(warning sw_debug: BCURDIR = $(BCURDIR))
-$(warning sw_debug: obj = $(obj))
-$(warning sw_debug: out /home/sw/pp_self/1/iTop4412_uboot/config.mk)
+
+
+#$(warning sw_debug: ---$(obj)%.o----%.S---- )
+#$(warning sw_debug: $(@F) )
+#$(warning sw_debug: $(CC) )
+#$(warning sw_debug: $(AFLAGS))
+#$(warning sw_debug: $(AFLAGS_$(@F)) )
+#$(warning sw_debug: $(AFLAGS_$(BCURDIR)))
+#$(warning sw_debug: $@ )
+#$(warning sw_debug: $<)
+#$(warning sw_debug: CURDIR = $(CURDIR))
+#$(warning sw_debug: BCURDIR = $(BCURDIR))
+#$(warning sw_debug: obj = $(obj))
+#$(warning sw_debug: out /home/sw/pp_self/1/iTop4412_uboot/config.mk)
 #########################################################################

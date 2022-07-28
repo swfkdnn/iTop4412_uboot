@@ -33,9 +33,9 @@
 //#include <common.h>
 //[]sw2022-0504
 #include "/home/sw/pp_self/1/iTop4412_uboot/include/common.h"
-typedef vu_char		S5PC21X_REG8;
-typedef vu_short	S5PC21X_REG16;
-typedef vu_long		S5PC21X_REG32;
+typedef vu_char S5PC21X_REG8;
+typedef vu_short  S5PC21X_REG16;
+typedef vu_long S5PC21X_REG32;
 
 /* Memory controller (see manual chapter 5) */
 typedef struct {

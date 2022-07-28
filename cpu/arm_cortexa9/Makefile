@@ -23,10 +23,9 @@
 #[]sw2022=0501====
 $(warning sw_debug:  in-/home/sw/pp_self/1/iTop4412_uboot/cpu/arm_cortexa9/Makefile--)
 $(warning sw_debug:  -TOPDIR = $(TOPDIR)-)
-#include $(TOPDIR)/config.mk
-include /home/sw/pp_self/1/iTop4412_uboot/config.mk
+include $(TOPDIR)/config.mk
+#include /home/sw/pp_self/1/iTop4412_uboot/config.mk
 
-$(warning sw_debug:  ------1---------)
 $(warning sw_debug:  obj = $(obj))
 LIB	= $(obj)lib$(CPU).a
 
@@ -36,26 +35,26 @@ COBJS	:= cpu.o
 SRCS	:= $(START:.o=.S) $(COBJS:.o=.c)
 OBJS	:= $(addprefix $(obj),$(COBJS))
 START	:= $(addprefix $(obj),$(START))
+#START	:= $(addprefix $(obj)/cpu/$(CPU),$(START))
+$(warning sw_debug:  obj= $(obj)-  START = $(START)-)
 
 #SUBDIRS = s5pc210
 
 all:	$(obj).depend $(START) $(LIB)
-	echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~in all "
-	echo "START = $(START)"
+	@echo "ksecdc"
+	@echo "START = $(START)"
 
-$(warning sw_debug:  ------1.5--------)
 
 $(LIB):	$(OBJS)
+	@echo "in LIB LIB= $(LIB)--OBJS=$(OBJS)--AR= $(AR)--ARFLAG=$(ARFLAGS)"
 	$(AR) $(ARFLAGS) $@ $(OBJS)
-	echo "in LIB LIB= $(LIB)--OBJS=$(OBJS)--AR= $(AR)--ARFLAG=$(ARFLAGS)"
 
-$(warning sw_debug:  ------2--------)
 #########################################################################
 
 # defines $(obj).depend target
 #include $(SRCTREE)/rules.mk
-#include $(TOPDIR)/rules.mk
-include /home/sw/pp_self/1/iTop4412_uboot/rules.mk
+include $(TOPDIR)/rules.mk
+#include /home/sw/pp_self/1/iTop4412_uboot/rules.mk
 
 
 sinclude $(obj).depend

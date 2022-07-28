@@ -24,11 +24,14 @@
 #########################################################################
 $(warning sw_debug: ~~~~~~ in rules ~~~~)
 _depend:	$(obj).depend
-
-#$(obj).depend:	$(src)Makefile $(TOPDIR)/config.mk $(SRCS) $(HOSTSRCS)
-$(obj).depend:	$(src)Makefile /home/sw/pp_self/1/iTop4412_uboot/config.mk $(SRCS) $(HOSTSRCS)
+$(warning sw_debug: ~~~SRCS = $(SRCS)~~HOSTSRCS = $(HOSTSRCS)~~)
+$(obj).depend:	$(src)Makefile $(TOPDIR)/config.mk $(SRCS) $(HOSTSRCS)
+#$(obj).depend:	$(src)Makefile /home/sw/pp_self/1/iTop4412_uboot/config.mk $(SRCS) $(HOSTSRCS)
+		@echo "fsafdsf"
+		@echo "in .depend  SRCS = $(SRCS)"
 		@rm -f $@
 		@for f in $(SRCS); do \
+			echo "!!!!! f= $$f \n";\
 			g=`basename $$f | sed -e 's/\(.*\)\.\w/\1.o/'`; \
 			$(CC) -M $(CPPFLAGS) -MQ $(obj)$$g $$f >> $@ ; \
 		done
@@ -42,4 +45,5 @@ $(HOSTOBJS): $(obj)%.o: %.c
 $(NOPEDOBJS): $(obj)%.o: %.c
 	$(HOSTCC) $(HOSTCFLAGS_NOPED) $(HOSTCFLAGS_$(@F)) $(HOSTCFLAGS_$(BCURDIR)) -o $@ $< -c
 
+$(warning sw_debug: ~~~~~~out rules ~~~~)
 #########################################################################

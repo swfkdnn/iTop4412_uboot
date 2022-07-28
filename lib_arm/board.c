@@ -347,8 +347,10 @@ init_fnc_t *init_sequence[] = {
 	NULL,
 };
 
+//[]sw0712
 void start_armboot (void)
 {
+	debug ("0713 target is ok ~~ in start_armboot");
 	init_fnc_t **init_fnc_ptr;
 	char *s;
 	int mmc_exist = 0;
@@ -365,9 +367,13 @@ void start_armboot (void)
 	gd->bd = (bd_t*)((char*)gd - sizeof(bd_t));
 	memset (gd->bd, 0, sizeof (bd_t));
 
+
+//代码已经重定位标志置位，此时代码已经搬迁到了内存中
 //	gd->flags |= GD_FLG_RELOC;
 
-	monitor_flash_len = _bss_start - _armboot_start;
+
+	//u-boot镜像大小获取
+  monitor_flash_len = _bss_start - _armboot_start;
 
 	for (init_fnc_ptr = init_sequence; *init_fnc_ptr; ++init_fnc_ptr) {
 		if ((*init_fnc_ptr)() != 0) {

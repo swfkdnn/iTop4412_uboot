@@ -166,7 +166,7 @@ $(warning sw_debug: ..)
 #=[][1]==================
 all:
 $(warning sw_debug: in all: )
-$(warning sw_debug: autoconf.mk.dep   autoconf.mk  is none )
+#$(warning sw_debug: autoconf.mk.dep   autoconf.mk  is none )
 sinclude $(obj)include/autoconf.mk.dep
 sinclude $(obj)include/autoconf.mk
 
@@ -191,7 +191,9 @@ ifeq ($(ARCH),arm)
 #CROSS_COMPILE = /usr/local/arm/4.2.2-eabi/usr/bin/arm-linux-
 #CROSS_COMPILE = /opt/toolchains/arm-2009q3/bin/arm-none-linux-gnueabi-
 #CROSS_COMPILE = /usr/local/arm/arm-2009q3/bin/arm-none-linux-gnueabi-
-CROSS_COMPILE = /home/sw/bb/gcc-arm-11.2-2022.02-x86_64-arm-none-linux-gnueabihf/bin/arm-none-linux-gnueabihf-
+#CROSS_COMPILE = /home/sw/bb/gcc-arm-11.2-2022.02-x86_64-arm-none-linux-gnueabihf/bin/arm-none-linux-gnueabihf-
+CROSS_COMPILE = /home/sw/bb/arm-2009q3/bin/arm-none-linux-gnueabi-
+$(warning sw_debug: CROSS_COMPILE  = $(CROSS_COMPILE))
 endif
 
 ifeq ($(ARCH),i386)
@@ -238,7 +240,9 @@ $(warning sw_debug: HOSTCC =  $(HOSTCC))
 # U-Boot objects....order is important (i.e. start must be first)
 
 $(warning sw_debug: OBJS =  $(OBJS))
-OBJS  = cpu/$(CPU)/start.o
+#OBJS  = cpu/$(CPU)/start.o
+OBJS  = start.o
+SEARCH_DIR :=/home/sw/pp_self/1/iTop4412_uboot/sw_build
 #$(warning sw_debug: CPU =  $(CPU))
 
 ifeq ($(CPU),i386)
@@ -254,9 +258,13 @@ endif
 
 OBJS := $(addprefix $(obj),$(OBJS))
 
+
+
 LIBS  = lib_generic/libgeneric.a
 LIBS += lib_generic/lzma/liblzma.a
 LIBS += lib_generic/lzo/liblzo.a
+
+
 $(warning sw_debug: --------no common file----)
 
 #=332==[]sw2022-0501======
@@ -264,16 +272,16 @@ $(warning sw_debug: --------no common file----)
 #	"board/samsung/smdkc210/lib$(VENDOR).a"; fi)
 #LIBS += $(shell if [ -f board/samsung/smdkc210/Makefile ]; then echo \
 #	"board/samsung/smdkc210/lib$(BOARD).a"; fi)
-LIBS += $(shell if [ -f board/$(VENDOR)/common/Makefile ]; then echo \
-	"board/$(VENDOR)/common/lib$(VENDOR).a"; fi)
+#LIBS += $(shell if [ -f board/$(VENDOR)/common/Makefile ]; then echo \
+#	"board/$(VENDOR)/common/lib$(VENDOR).a"; fi)
 $(warning sw_debug: board/VENDOR =  $(VENDOR)---BOARD= $(BOARD)-----)
 
 
 LIBS += cpu/$(CPU)/lib$(CPU).a
 $(warning sw_debug: -----------no lib$(CPU).a----------)
 #==472==[]=sw===2022-0503
-#LIB = $(obj)lib$(BOARD).a
-LIB = /home/sw/pp_self/1/iTop4412_uboot/board/samsung/smdkc210/lib$(BOARD).a
+LIB = $(obj)lib$(BOARD).a
+#LIB = $(obj)board/samsung/smdkc210/lib$(BOARD).a
 ifdef SOC
 $(warning sw_debug: -----------no lib$(SOC).a----------)
 LIBS += cpu/$(CPU)/$(SOC)/lib$(SOC).a
@@ -284,7 +292,7 @@ LIBS += cpu/ixp/npe/libnpe.a
 endif
 
 LIBS += lib_$(ARCH)/lib$(ARCH).a
-$(warning sw_debug: -----------no lib$(ARCH).a----------)
+$(warning sw_debug:  -----------no lib$(ARCH).a----------)
 
 $(warning sw_debug: -----LIBS files @@@@@----------)
 LIBS += fs/cramfs/libcramfs.a fs/fat/libfat.a fs/fdos/libfdos.a fs/jffs2/libjffs2.a \
@@ -347,7 +355,8 @@ endif
 #BOARDDIR = home/sw/pp_self/1/iTop4412_uboot/board/samsung/smdkc210
 #BOARDDIR = home/sw/pp_self/1/iTop4412_uboot/board/samsung/smdkc210
 BOARDDIR = $(VENDOR)/$(BOARD)
-LIBBOARD = board/$(BOARDDIR)/lib$(BOARD).a
+#LIBBOARD = board/$(BOARDDIR)/lib$(BOARD).a
+LIBBOARD = lib$(BOARD).a
 #LIBBOARD = $(BOARDDIR)/lib$(BOARD).a
 #LIBBOARD = $(BOARDDIR)/lib$(BOARD).a
 LIBBOARD := $(addprefix $(obj),$(LIBBOARD))
@@ -364,9 +373,11 @@ PLATFORM_LIBGCC = -L $(USE_PRIVATE_LIBGCC) -lgcc
 endif
 else
 PLATFORM_LIBGCC = -L $(shell dirname `$(CC) $(CFLAGS) -print-libgcc-file-name`) -lgcc
+$(warning sw_debug:  USE_PRIVATE_LIBGCC =  not define --------------------)
 endif
 PLATFORM_LIBS += $(PLATFORM_LIBGCC)
 export PLATFORM_LIBS
+$(warning sw_debug:  PLATFORM_LIBGCC =$(PLATFORM_LIBGCC))
 
 # Special flags for CPP when processing the linker script.
 # Pass the version down so we can handle backwards compatibility
@@ -376,6 +387,8 @@ LDPPFLAGS += \
 	-include $(TOPDIR)/include/u-boot/u-boot.lds.h \
 	$(shell $(LD) --version | \
 	  sed -ne 's/GNU ld version \([0-9][0-9]*\)\.\([0-9][0-9]*\).*/-DLD_MAJOR=\1 -DLD_MINOR=\2/p')
+
+
 $(warning sw_debug:  LD=  $(LD))
 
 ifeq ($(CONFIG_NAND_U_BOOT),y)
@@ -385,6 +398,7 @@ U_BOOT_NAND = $(obj)u-boot-nand.bin
 endif
 
 ifeq ($(CONFIG_ONENAND_U_BOOT),y)
+$(warning sw_debug: CONFIG_ONENAND_U_BOOT = $(CONFIG_ONENAND_U_BOOT))
 ONENAND_IPL = onenand_ipl
 U_BOOT_ONENAND = $(obj)u-boot-onenand.bin
 ONENAND_BIN ?= $(obj)onenand_ipl/onenand-ipl-2k.bin
@@ -399,18 +413,22 @@ __LIBS := $(subst $(obj),,$(LIBS)) $(subst $(obj),,$(LIBBOARD))
 ALL += $(obj)u-boot.srec $(obj)u-boot.bin $(obj)System.map $(U_BOOT_NAND) $(U_BOOT_ONENAND)
 
 all:		$(ALL)
-	echo "---in all--ALL= $(ALL)----------"
+	@echo "jklmkli"
+	@echo "ALL= $(ALL)"
 
 $(obj)u-boot.hex:	$(obj)u-boot
 		$(OBJCOPY) ${OBJCFLAGS} -O ihex $< $@
 
 $(obj)u-boot.srec:	$(obj)u-boot
+		@echo "iuyop000"
+		@echo "GEN_UBOOT = $(GEN_UBOOT)"
 		$(OBJCOPY) -O srec $< $@
 
 $(obj)u-boot.bin:	$(obj)u-boot
+		@echo "dscasef"
 		$(OBJCOPY) ${OBJCFLAGS} -O binary $< $@
 		@#./mkuboot		
-		@split -b 14336 u-boot.bin bl2
+		@split -b 14336 sw_build/u-boot.bin bl2   #split 14k
 		@+make -C sdfuse_q/
 		@#cp u-boot.bin u-boot-4212.bin
 		@#cp u-boot.bin u-boot-4412.bin
@@ -451,21 +469,48 @@ $(obj)u-boot.sha1:	$(obj)u-boot.bin
 $(obj)u-boot.dis:	$(obj)u-boot
 		$(OBJDUMP) -d $< > $@
 
+
+#[]sw 2022-05-08
+#		UNDEF_SYM=`$(OBJDUMP) -x $(LIBBOARD) $(LIBS) | \
+#======================================
 GEN_UBOOT = \
-		UNDEF_SYM=`$(OBJDUMP) -x $(LIBBOARD) $(LIBS) | \
+		UNDEF_SYM=`$(OBJDUMP) -x $(addprefix sw_build/,$(notdir $(LIBBOARD))) \
+		$(addprefix sw_build/,$(notdir $(LIBS))) | \
 		sed  -n -e 's/.*\($(SYM_PREFIX)__u_boot_cmd_.*\)/-u\1/p'|sort|uniq`;\
 		cd $(LNDIR) && $(LD) $(LDFLAGS) $$UNDEF_SYM $(__OBJS) \
-			--start-group $(__LIBS) --end-group $(PLATFORM_LIBS) \
-			-Map u-boot.map -o u-boot
+		--start-group $(notdir $(__LIBS)) --end-group $(PLATFORM_LIBS) \
+		-Map u-boot.map -o u-boot
 
 
 $(warning sw_debug: ~~~~~~ u-boot ~~~~)
 $(obj)u-boot:	depend $(SUBDIRS) $(OBJS) $(LIBBOARD) $(LIBS) $(LDSCRIPT) $(obj)u-boot.lds
-		echo "in GEN_UBOOT  OBJDUMP = $(OBJDUMP) ---LIBBOARD=$(LIBBOARD)--LIBS=$(LIBS)--SYM_PREFIX=$(SYM_PREFIX)"
-		echo "in GEN_UBOOT  LNDIR = $(LNDIR) --LD = $(LD)--LDFLAGS = $(LDFLAGS) ---UNDEF_SYM = $$UNDEF_SYM"
-		echo "in GEN_UBOOT  __OBJS = $(__OBJS)-----__LIBS = $(__LIBS)--PLATFORM = $(PLATFORM)"
+		@echo "__OBJS = $(__OBJS)--"
+		@echo "__OBJCOPY = $(OBJCOPY)  "
+		@echo "__OBJCFLAGS = ${OBJCFLAGS}  "
+		@echo "dsfcxv"
+		@echo "in GEN_UBOOT  OBJDUMP = $(OBJDUMP) "
+		@echo "---LIBBOARD=$(LIBBOARD)-"
+		@echo "--LIB = $(LIB)"
+		@echo "-LIBS=$(LIBS)-"
+		@echo "-SYM_PREFIX=$(SYM_PREFIX)"
+		@echo " LNDIR = $(LNDIR) -"
+		@echo "-LD = $(LD)-"
+		@echo "-LDFLAGS = $(LDFLAGS) -"
+		@echo "--UNDEF_SYM = $$UNDEF_SYM"
+		@echo "-__LIBS = $(__LIBS)-"
+		@echo "-PLATFORM_LIBS = $(PLATFORM_LIBS)"
+		@echo "cd $(LNDIR) && $(LD) $(LDFLAGS) $$UNDEF_SYM $(__OBJS)"
+		@echo "ifeq (USE_PRIVATE_LIBGCC = "$(USE_PRIVATE_LIBGCC)", "yes")"
+		@echo "PLATFORM_LIBGCC = -L $(shell dirname `$(CC) $(CFLAGS) -print-libgcc-file-name`) -lgcc"
+		@echo "LD_LIBRARY_PATH = $(LD_LIBRARY_PATH)"
+		@echo " SEARCH_DIR = $(SEARCH_DIR)"
+		@echo "CURDIR = $(CURDIR)"
 		$(GEN_UBOOT)
-
+#		cp start.o cpu/arm_cortexa9/
+#		cp cpu_init.o cpu/arm_cortexa9/s5pc210
+#		cp lowlevel_init.o board/samsung/smdkc210
+#		cp ace_sha1.o common
+#		cp eabi_compat.o lib_arm
 
 
 ifeq ($(CONFIG_KALLSYMS),y)
@@ -477,10 +522,12 @@ ifeq ($(CONFIG_KALLSYMS),y)
 endif
 
 $(OBJS):	depend
-		@echo "^^^^^^^^$(MAKE) -C cpu/$(CPU) $(if $(REMOTE_BUILD),$@,$(notdir $@))^^^^^^^^^^^^^^^^^^^^^^^^"
+		@echo "wefoikdm"
 		$(MAKE) -C cpu/$(CPU) $(if $(REMOTE_BUILD),$@,$(notdir $@))
 
 $(LIBS):	depend $(SUBDIRS)
+		@echo "kjggter"
+		@echo "SUBDIRS = $(SUBDIRS)"
 		$(MAKE) -C $(dir $(subst $(obj),,$@))
 
 
@@ -488,18 +535,29 @@ $(LIBS):	depend $(SUBDIRS)
 #====333=====
 $(LIBBOARD):	depend $(LIB)
 		@echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
-		@echo "obj = $(obj)......LIBBOARD = $@.....///subst result = $(subst $(obj),,$@)//...dir result = $(dir $(subst @(obj),,$@))"
+		@echo "obj = $(obj)......"
+		@echo "echo LIBBOARD = $@.....///"
+		@echo "subst result = $(subst $(obj),,$@)//"
+		@echo "dir result = $(dir $(subst @(obj),,$@))"
 		@echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
-		$(MAKE) -C $(dir $(subst $(obj),,$@))	#qudiao obj
+		#$(MAKE) -C $(dir $(subst $(obj),,$@)) --no-builtin-rules
+		#$(MAKE) -C $(dir $(subst $(obj),,$@))
+		$(MAKE) -C /home/sw/pp_self/1/iTop4412_uboot/board/samsung/smdkc210
+
 
 $(SUBDIRS):	depend
+		echo "in SUBDIRS"
 		$(MAKE) -C $@ all
 
 $(LDSCRIPT):	depend
 		$(MAKE) -C $(dir $@) $(notdir $@)
 
 $(obj)u-boot.lds: $(LDSCRIPT)
-		$(CPP) $(CPPFLAGS) $(LDPPFLAGS) -ansi -D__ASSEMBLY__ -P - <$^ >$@
+		@echo "sdfkim"
+		@echo "LDSCRIPT = $(LDSCRIPT)"
+		@echo "($ ^) = $^ //($ @) = $@"
+	$(CPP) $(CPPFLAGS) $(LDPPFLAGS) -ansi -D__ASSEMBLY__ -P - <$^ >$@
+##		$(CC) $(CFLAGS) $(LDFLAGS) -ansi -D__ASSEMBLY__ -P - <$^ >$@
 
 $(NAND_SPL):	$(TIMESTAMP_FILE) $(VERSION_FILE) $(obj)include/autoconf.mk
 		$(MAKE) -C nand_spl/board/$(BOARDDIR) all
@@ -541,9 +599,11 @@ $(warning sw_debug: --------depend dep--------)
 $(warning sw_debug: ------SRCTREE  ==== $(SRCTREE)-------)
 include $(SRCTREE)/rules.mk
 depend dep:	$(TIMESTAMP_FILE) $(VERSION_FILE) $(obj)include/autoconf.mk
-		@echo "in --depend dep SUBDIRS=$(SUBDIRS)  LDSCRIPT = $(LDSCRIPT)////////////////////////////////////"
-		for dir in $(SUBDIRS) cpu/$(CPU) $(dir $(LDSCRIPT)) ; do \
+		@echo "in --depend dep SUBDIRS=$(SUBDIRS)/////  LDSCRIPT = $(LDSCRIPT)////////////////////////////////////"
+		for dir in $(SUBDIRS) cpu/$(CPU) cpu/$(CPU)/s5pc210 $(dir $(LDSCRIPT)) ; do \
 			$(MAKE) -C $$dir _depend ; done
+
+#for dir in $(SUBDIRS) cpu/$(CPU) $(dir $(LDSCRIPT)) ; do \
 
 TAG_SUBDIRS = $(SUBDIRS)
 TAG_SUBDIRS += $(dir $(__LIBS))
@@ -565,6 +625,7 @@ SYSTEM_MAP = \
 		grep -v '\(compiled\)\|\(\.o$$\)\|\( [aUw] \)\|\(\.\.ng$$\)\|\(LASH[RL]DI\)' | \
 		LC_ALL=C sort
 $(obj)System.map:	$(obj)u-boot
+		@echo "skjdcjo"
 		@$(call SYSTEM_MAP,$<) > $(obj)System.map
 
 #
@@ -3335,7 +3396,8 @@ smdkc210_android_config:	unconfig
 #add by dg 2015-08-04 for android ,linux 
 #========================================================
 #===[]{=2022-04-26--
-itop_4412_android_config_scp_1GDDR:		unconfig
+itop_4412_android_config_scp_1GDDR:		distclean
+#itop_4412_android_config_scp_1GDDR:		unconfig
 #itop_4412_android_config_scp_1GDDR:
 #=========}==	
 	@echo "000000000---itop_4412_android_config_scp_1GDDR---000000000000000000000"
@@ -3380,7 +3442,7 @@ itop_4412_android_config_scp_1GDDR:		unconfig
 #	@echo "LDSCRIPT = $(LDSCRIPT)"			 
 #	@echo "ONENAND_IPL = $(ONENAND_IPL)"					
 #	@echo "TAG_SUBDIRS = $(SYSTEM_MAP)"					
-#	@echo "SYSTEM_MAP = $(SYSTEM_MAP)"				
+	@echo "SYSTEM_MAP = $(SYSTEM_MAP)"				
 #	@echo "CC = $(CC)"				
 #	@echo "===========000000============================="				
 

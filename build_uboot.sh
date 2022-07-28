@@ -133,6 +133,9 @@ case "$1" in
 		#rm BL2.bin.signed.4412
 		rm u-boot.bin
 
+		echo "ROOT_DIR = $ROOT_DIR ///PWD = $(pwd)...."
+		echo "sec_path = $sec_path...."
+
 		echo 
 		echo 
 		;;

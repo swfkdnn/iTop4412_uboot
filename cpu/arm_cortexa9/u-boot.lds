@@ -24,20 +24,21 @@
  * MA 02111-1307 USA
  */
 
-OUTPUT_FORMAT("elf32-littlearm", "elf32-littlearm", "elf32-littlearm")
-OUTPUT_ARCH(arm)
-ENTRY(_start)
+OUTPUT_FORMAT("elf32-littlearm", "elf32-littlearm", "elf32-littlearm")   /* elf格式 32位 ARM指令 小端 */
+OUTPUT_ARCH(arm)                                                         /* ARM 平台 */
+ENTRY(_start)                                                            /* 起始代码_start */
 SECTIONS
 {
-	. = 0x00000000;
+	. = 0x00000000;                       /* 后记：这个链接起始地址实际上被-Ttest $(TEST_BASE)更新了*/
+/*	. = 0xc3e00000; */
 
-	. = ALIGN(4);
+	. = ALIGN(4);                                                         /* 4字节对其 */
 	.text	:
 	{
-		cpu/arm_cortexa9/start.o		(.text)
-		cpu/arm_cortexa9/s5pc210/cpu_init.o	(.text)
-		board/samsung/smdkc210/lowlevel_init.o	(.text)
-		common/ace_sha1.o (.text)
+		start.o		(.text)                                                   /* 放在代码开始位置 */
+		cpu_init.o	(.text)
+		lowlevel_init.o	(.text)
+		ace_sha1.o (.text)
 		*(.text)
 	}
 
