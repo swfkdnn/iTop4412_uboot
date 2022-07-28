@@ -19,10 +19,10 @@
  /home/sw/pp_self/1/iTop4412_uboot/sw_build/include2/asm/string.h \
  /home/sw/pp_self/1/iTop4412_uboot/sw_build/include/asm/proc/ptrace.h \
  /home/sw/pp_self/1/iTop4412_uboot/include/linux/config.h \
- /home/sw/bb/gcc-arm-11.2-2022.02-x86_64-arm-none-linux-gnueabihf/lib/gcc/arm-none-linux-gnueabihf/11.2.1/include/stdarg.h \
+ /home/sw/bb/arm-2009q3/bin/../lib/gcc/arm-none-linux-gnueabi/4.4.1/include/stdarg.h \
  include/part.h include/ide.h include/flash.h include/image.h \
  include/compiler.h \
- /home/sw/bb/gcc-arm-11.2-2022.02-x86_64-arm-none-linux-gnueabihf/lib/gcc/arm-none-linux-gnueabihf/11.2.1/include/stddef.h \
+ /home/sw/bb/arm-2009q3/bin/../lib/gcc/arm-none-linux-gnueabi/4.4.1/include/stddef.h \
  /home/sw/pp_self/1/iTop4412_uboot/include/linux/string.h \
  /home/sw/pp_self/1/iTop4412_uboot/sw_build/include2/asm/byteorder.h \
  /home/sw/pp_self/1/iTop4412_uboot/include/linux/byteorder/little_endian.h \
