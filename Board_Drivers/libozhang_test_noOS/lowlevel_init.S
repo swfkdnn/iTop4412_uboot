@@ -1,0 +1,140 @@
+#define EPLL_LOCK (0x10030000 + 0xC010)
+#define VPLL_LOCK (0x10030000 + 0xC020)
+#define MPLL_LOCK (0x10040000 + 0x0008)
+#define APLL_LOCK (0x10040000 + 0x4000)
+
+#define APLL_CON0 (0x10040000 + 0x4100)
+#define MPLL_CON0 (0x10040000 + 0x0108)
+#define EPLL_CON0 (0x10030000 + 0xC110)
+#define VPLL_CON0 (0x10030000 + 0xC120)
+
+#define CLK_SRC_CPU (0x10040000 + 0x4200)
+#define CLK_SRC_DMC (0x10040000 + 0x0200)
+#define CLK_SRC_TOP0 (0x10030000 + 0xC210)
+#define CLK_SRC_TOP1 (0x10030000 + 0xC214)
+#define CLK_SRC_LEFTBUS (0x10030000 + 0x4200)
+#define CLK_SRC_RIGHTBUS (0x10030000 + 0x8200)
+#define CLK_SRC_LEFTBUS (0x10030000 + 0x4200)
+#define CLK_SRC_PERIL0 (0x10030000 + 0xC250)
+
+#define CLK_DIV_CPU0 (0x10040000 + 0x4500)
+#define CLK_DIV_CPU1 (0x10040000 + 0x4504)
+#define CLK_DIV_DMC0 (0x10040000 + 0x0500)
+#define CLK_DIV_DMC1 (0x10040000 + 0x0504)
+#define CLK_DIV_TOP  (0x10030000 + 0xC510)
+#define CLK_DIV_LEFTBUS (0x10030000 + 0x4500)
+#define CLK_DIV_RIGHTBUS (0x10030000 + 0x8500)
+#define CLK_DIV_PERIL0 (0x10030000 + 0xC550)
+
+.global lowlevel_init
+lowlevel_init:
+	// 初始化 APLL_LOCK 寄存器
+	ldr r0, =(APLL_LOCK)
+	ldr r1, =0x00000FFF   
+	str r1, [r0]
+	// 初始化 MPLL_LOCK 寄存器
+	ldr r0, =(MPLL_LOCK)
+	ldr r1, =0x00000FFF
+	str r1, [r0]
+	// 初始化 EPLL_LOCK 寄存器
+	ldr r0, =(EPLL_LOCK)
+	ldr r1, =0x00000FFF
+	str r1, [r0]
+	// 初始化 VPLL_LOCK 寄存器
+	ldr r0, =(VPLL_LOCK)
+	ldr r1, =0x00000FFF
+	str r1, [r0]
+	// 使能 APLL PDIV = 3, MDIV = 125, SDIV = 0, Fvco_out = Fref
+	// Fref = FIN / PDIV = 24MHz / 3 = 8MHz 
+	// FAPLLOUT = MDIV * FIN / (PDIV + 2^SDIV) = 125 * 24Mhz / (3 * 2 ^ 0) = 1000MHz
+	ldr r0, =(APLL_CON0)
+	ldr r1, =0x807D0300  
+	str r1, [r0]
+	// 使能 MPLL PDIV = 3, MDIV = 100, SDIV = 0, Fvco_out = Fref
+	// Fref = FIN / PDIV = 24MHz / 3 = 8MHz 
+	// FMPLLOUT = MDIV * FIN / (PDIV + 2^SDIV) = 100 * 24Mhz / (3 * 2 ^ 0) = 800MHz
+	ldr r0, =(MPLL_CON0)
+	ldr r1, =0x80640300
+	str r1, [r0]
+	// 使能 EPLL PDIV = 3, MDIV = 100, SDIV = 1, Fvco_out = Fref
+	// Fref = FIN / PDIV = 24MHz / 3 = 8MHz 
+	// FEPLLOUT = (MDIV + K/65536 ) * FIN / (PDIV + 2^SDIV) = (100 + 0 / 65536) * 24Mhz / (3 * 2 ^ 1) = 400MHz
+	ldr r0, =(EPLL_CON0)
+	ldr r1, =0x80640301
+	str r1, [r0]
+	// 使能 VPLL PDIV = 3, MDIV = 100, SDIV = 3, Fvco_out = Fref
+	// Fref = FIN / PDIV = 24MHz / 3 = 8MHz 
+	// FVPLLOUT = (MDIV + K/65536 ) * FIN / (PDIV + 2^SDIV) = (100 + 0 / 65536) * 24Mhz / (3 * 2 ^ 3) = 100MHz
+	ldr r0, =(VPLL_CON0)
+	ldr r1, =0x80640303
+	str r1, [r0] 
+    // MUX_MPLL_USER_SEL_C = FOUTMPLL MUX_HPM_SEL = MOUTAPLL MUX_CORE_SEL = MOUTAPLL MUX_APLL_SEL = MOUTAPLLFOUT 
+	ldr r0, =(CLK_SRC_CPU)
+	ldr r1, =0x01000001
+	str r1, [r0]
+	// MUX_PWI_SEL = XusbXTI MUX_MPLL_SEL = MOUTMPLLFOUT 
+	ldr r0, =(CLK_SRC_DMC)
+	ldr r1, =0x00011000
+	str r1, [r0]
+	// MUX_ONENAND_SEL = ACLK_133 MUX_ACLK_133_SEL = SCLKMPLL MUX_ACLK_160_SEL = SCLKMPLL MUX_ACLK_100_SEL = SCLKMPLL
+	// MUX_ACLK_200_SEL = SCLKMPLL MUX_EPLL_SEL = FOUTEPLL MUX_EPLL_SEL = FOUTEPLL MUX_ONENAND_1_SEL = MOUTONENAND
+	ldr r0, =(CLK_SRC_TOP0)
+	ldr r1, =0x00000110
+	str r1, [r0]
+	// MUX_MPLL_USER_SEL_T = SCLKMPLLL MUX_ACLK_266_GPS_SUB_SEL = DIVOUT_ACLK_266_GPS
+	ldr r0, =(CLK_SRC_TOP1)
+	ldr r1, =0x00011000
+	str r1, [r0]
+	// MUX_MPLL_USER_SEL_L = FOUTMPLL MUX_GDL_SEL = SCLKMPLL
+	ldr r0, =(CLK_SRC_LEFTBUS)
+	ldr r1, =0x00000010
+	str r1, [r0]
+	// MUX_MPLL_USER_SEL_R = FOUTMPLL MUX_GDR_SEL = SCLKMPLL
+	ldr r0, =(CLK_SRC_RIGHTBUS)
+	ldr r1, =0x00000010
+	str r1, [r0]
+
+	ldr r0, =(CLK_SRC_PERIL0)
+	ldr r1, =0x00666666
+	str r1, [r0]
+
+    // CORE2_RATIO = 0 APLL_RATIO = 1 PCLK_DBG_RATIO = 1 ATB_RATIO = 4 PERIPH_RATIO = 3
+	// COREM1_RATIO = 7 COREM0_RATIO = 3 CORE_RATIO = 0
+	ldr r0, =(CLK_DIV_CPU0)
+	ldr r1, =0x01143730
+	str r1, [r0]
+    // CORES_RATIO = 0 HPM_RATIO = 0 COPY_RATIO = 4
+	ldr r0, =(CLK_DIV_CPU1)
+	ldr r1, =0x00000004
+	str r1, [r0]
+	// DMCP_RATIO = 1 DMCD_RATIO = 1 DMC_RATIO = 1 DPHY_RATIO = 1 ACP_PCLK_RATIO = 1 ACP_RATIO = 3
+	ldr r0, =(CLK_DIV_DMC0)
+	ldr r1, =0x00111113
+	str r1, [r0]
+	// DPM_RATIO =1 DVSEM_RATIO = 1 C2C_ACLK_RATIO = 1 PWI_RATIO = 1 C2C_RATIO = 1 G2D_ACP_RATIO = 3
+	ldr r0, =(CLK_DIV_DMC1)
+	ldr r1, =0x01011113
+	str r1, [r0]
+	// ACLK_400_MCUISP_RATIO = 1 ACLK_266_GPS_RATIO = 2 ONENAND_RATIO = 0 ACLK_133_RATIO = 5
+	// ACLK_160_RATIO = 4 ACLK_100_RATIO = 7 ACLK_200_RATIO = 3
+	ldr r0, =(CLK_DIV_TOP)
+	ldr r1, =0x01205473
+	str r1, [r0]
+    // GPL_RATIO = 1 GDL_RATIO = 3
+	ldr r0, =(CLK_DIV_LEFTBUS)
+	ldr r1, =0x00000013
+	str r1, [r0]
+    // GPR_RATIO = 1 GDR_RATIO = 3
+	// ACLK_GPR = MOUTGPR/(GPR_RATIO + 1)
+	// ACLK_GDR = MOUTGDR/(GDR_RATIO + 1)
+	ldr r0, =(CLK_DIV_RIGHTBUS)
+	ldr r1, =0x00000013
+	str r1, [r0]
+
+	ldr r0, =(CLK_DIV_PERIL0)
+	ldr r1, =0x00777777
+	str r1, [r0]
+
+	mov pc, lr
+
+
