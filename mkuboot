@@ -17,8 +17,8 @@ echo " -------/dev/sdb"
 	./sd_fusing_exynos4x12.sh /dev/sdb u-boot-iTOP-4412.bin
 else
 echo "---------$1"
-##	./sd_fusing_exynos4x12.sh $1 u-boot-sw4412.bin
-	./sd_fusing_exynos4x12.sh $1 u-boot-O.bin
+	./sd_fusing_exynos4x12.sh $1 u-boot-sw4412.bin
+##	./sd_fusing_exynos4x12.sh $1 u-boot-O.bin
 ##	./sd_fusing_exynos4x12.sh $1 Board_Drivers/1_leds/led.bin
 ##	./sd_fusing_exynos4x12.sh $1 Board_Drivers/2_helloworld/hello.bin
 fi

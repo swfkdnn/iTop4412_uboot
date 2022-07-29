@@ -111,1143 +111,1143 @@ Linker script and memory map
                 0x00000000                . = 0x0
                 0x00000000                . = ALIGN (0x4)
 
-.text           0xc3e00000    0x27aa4
+.text           0xc3e00000    0x27b24
  start.o(.text)
- .text          0xc3e00000      0x780 start.o
-                0xc3e00000                _start
-                0xc3e00040                _end_vect
-                0xc3e00048                _armboot_start
-                0xc3e0004c                _bss_start
-                0xc3e00050                _bss_end
-                0xc3e002a4                copy_from_nand
-                0xc3e002e4                theLastJump
-                0xc3e005e0                arm_cache_flush
-                0xc3e00600                v7_flush_dcache_all
-                0xc3e006a0                disable_l2cache
-                0xc3e006c0                enable_l2cache
-                0xc3e006e0                set_l2cache_auxctrl
-                0xc3e00700                set_l2cache_auxctrl_cycle
+ .text          0xc3e00000      0x800 start.o
+                0xc3e00010                _start
+                0xc3e00050                _end_vect
+                0xc3e00058                _armboot_start
+                0xc3e0005c                _bss_start
+                0xc3e00060                _bss_end
+                0xc3e00308                copy_from_nand
+                0xc3e00348                theLastJump
+                0xc3e00640                arm_cache_flush
+                0xc3e00660                v7_flush_dcache_all
+                0xc3e00700                disable_l2cache
+                0xc3e00720                enable_l2cache
+                0xc3e00740                set_l2cache_auxctrl
+                0xc3e00760                set_l2cache_auxctrl_cycle
  cpu_init.o(.text)
- .text          0xc3e00780      0x388 cpu_init.o
-                0xc3e007a0                mem_ctrl_asm_init_ddr3
+ .text          0xc3e00800      0x388 cpu_init.o
+                0xc3e00820                mem_ctrl_asm_init_ddr3
  lowlevel_init.o(.text)
- .text          0xc3e00b08      0x7d0 lowlevel_init.o
-                0xc3e00b3c                lowlevel_init
-                0xc3e00fc0                uart_asm_init
-                0xc3e01064                nand_asm_init
+ .text          0xc3e00b88      0x7d0 lowlevel_init.o
+                0xc3e00bbc                lowlevel_init
+                0xc3e01040                uart_asm_init
+                0xc3e010e4                nand_asm_init
  ace_sha1.o(.text)
- .text          0xc3e012d8       0xc4 ace_sha1.o
-                0xc3e012d8                ace_hash_sha1_digest
+ .text          0xc3e01358       0xc4 ace_sha1.o
+                0xc3e01358                ace_hash_sha1_digest
  *(.text)
- .text          0xc3e0139c      0x5f4 libgeneric.a(string.o)
-                0xc3e0139c                strcpy
-                0xc3e013b8                strncpy
-                0xc3e013e0                strcat
-                0xc3e01410                strncat
-                0xc3e0146c                strcmp
-                0xc3e0149c                strncmp
-                0xc3e014e4                strchr
-                0xc3e01510                strlen
-                0xc3e01530                strrchr
-                0xc3e01568                strnlen
-                0xc3e01590                strspn
-                0xc3e015d4                strpbrk
-                0xc3e0160c                strtok
-                0xc3e01688                strsep
-                0xc3e016bc                strswab
-                0xc3e01704                memset
-                0xc3e01778                bcopy
-                0xc3e017a0                memcpy
-                0xc3e0180c                memmove
-                0xc3e01868                memcmp
-                0xc3e018a0                memscan
-                0xc3e018d0                strstr
-                0xc3e01930                memchr
-                0xc3e0195c                strdup
- .text          0xc3e01990       0xdc libs5pc210.a(nand_cp.o)
-                0xc3e01990                copy_uboot_to_ram
- .text          0xc3e01a6c      0x44c libs5pc210.a(interrupts.o)
-                0xc3e01a6c                enable_interrupts
-                0xc3e01a70                disable_interrupts
-                0xc3e01a78                interrupt_init
-                0xc3e01ae8                set_timer
-                0xc3e01af8                reset_timer_masked
-                0xc3e01b1c                reset_timer
-                0xc3e01b20                get_timer_masked
-                0xc3e01b68                get_timer
-                0xc3e01b7c                udelay
-                0xc3e01bec                udelay_masked
-                0xc3e01c5c                get_ticks
-                0xc3e01c70                get_tbclk
-                0xc3e01c88                show_regs
-                0xc3e01da0                bad_mode
-                0xc3e01dbc                do_irq
-                0xc3e01de0                do_fiq
-                0xc3e01e04                do_not_used
-                0xc3e01e28                do_data_abort
-                0xc3e01e4c                do_prefetch_abort
-                0xc3e01e70                do_software_interrupt
-                0xc3e01e94                do_undefined_instruction
- .text          0xc3e01eb8      0x160 libs5pc210.a(onenand_cp.o)
-                0xc3e01eb8                onenand_readw
-                0xc3e01ec0                onenand_writew
-                0xc3e01ec8                onenand_loadpage
-                0xc3e01f48                onenand_isbad
-                0xc3e01f70                onenand_readpage
-                0xc3e01fbc                onenand_bl2_copy
- .text          0xc3e02018      0x120 libs5pc210.a(movi.o)
-                0xc3e02018                movi_uboot_copy
-                0xc3e02040                emmc_uboot_copy
-                0xc3e02064                emmc441_uboot_copy
-                0xc3e02090                movi_calc_checksum_bl1
-                0xc3e020b8                movi_write_bl1
-                0xc3e02108                movi_write_env
-                0xc3e02120                movi_read_env
- .text          0xc3e02138      0x2c4 libarm.a(board.o)
-                0xc3e02138                coloured_LED_init
-                0xc3e02138                __coloured_LED_init
-                0xc3e0213c                red_LED_on
-                0xc3e0213c                __red_LED_on
-                0xc3e02140                __red_LED_off
-                0xc3e02140                red_LED_off
-                0xc3e02144                green_LED_on
-                0xc3e02144                __green_LED_on
-                0xc3e02148                __green_LED_off
-                0xc3e02148                green_LED_off
-                0xc3e0214c                __yellow_LED_on
-                0xc3e0214c                yellow_LED_on
-                0xc3e02150                __yellow_LED_off
-                0xc3e02150                yellow_LED_off
-                0xc3e02154                blue_LED_on
-                0xc3e02154                __blue_LED_on
-                0xc3e02158                blue_LED_off
-                0xc3e02158                __blue_LED_off
-                0xc3e021e4                hang
-                0xc3e022c8                start_armboot
- .text          0xc3e023fc     0x18c0 libmmc.a(mmc.o)
-                0xc3e02424                mmc_send_cmd
-                0xc3e02434                mmc_set_blocklen
-                0xc3e0246c                mmc_send_ext_csd
-                0xc3e024bc                mmc_set_relative_addr
-                0xc3e024f4                mmc_switch
-                0xc3e02538                mmc_change_freq
-                0xc3e025e4                sd_switch
-                0xc3e02650                mmc_set_ios
-                0xc3e02660                mmc_set_clock
-                0xc3e02680                mmc_set_bus_width
-                0xc3e02688                mmc_send_if_cond
-                0xc3e02704                board_mmc_init
-                0xc3e0270c                emmc_boot_close
-                0xc3e0275c                emmc_boot_open
-                0xc3e027f4                emmc_boot_partition_size_change
-                0xc3e02910                emmc_boot_erase
-                0xc3e02a3c                mmc_send_app_op_cond
-                0xc3e02b2c                mmc_go_idle
-                0xc3e02b80                mmc_send_op_cond
-                0xc3e02c20                mmc_erase
-                0xc3e02fcc                print_mmc_devices
-                0xc3e03040                find_mmc_device
-                0xc3e0308c                mmc_get_dev
-                0xc3e0314c                movi_write
-                0xc3e03268                movi_read
-                0xc3e03280                sd_change_freq
-                0xc3e03450                mmc_startup
-                0xc3e03ad0                mmc_init
-                0xc3e03b34                mmc_initialize
-                0xc3e03c4c                mmc_register
- .text          0xc3e03cbc       0xac libcommon.a(cmd_bdinfo.o)
-                0xc3e03cd0                do_bdinfo
- .text          0xc3e03d68       0x90 libcommon.a(cmd_boot.o)
-                0xc3e03d68                do_go_exec
-                0xc3e03d80                do_go
- .text          0xc3e03df8      0xd60 libcommon.a(cmd_bootm.o)
-                0xc3e03e1c                arch_preboot_os
-                0xc3e03e1c                __arch_preboot_os
-                0xc3e03f0c                do_iminfo
-                0xc3e03f78                do_bootd
-                0xc3e04330                bootm_start
-                0xc3e04684                do_bootm_subcommand
-                0xc3e04848                do_bootm
- .text          0xc3e04b58       0xf0 libcommon.a(cmd_console.o)
-                0xc3e04b58                do_coninfo
- .text          0xc3e04c48       0x84 libcommon.a(cmd_echo.o)
-                0xc3e04c48                do_echo
- .text          0xc3e04ccc      0x408 libcommon.a(cmd_elf.o)
-                0xc3e04ccc                load_elf_image
-                0xc3e04d64                valid_elf_image
-                0xc3e04db8                do_bootvx
-                0xc3e04ff8                do_bootelf_exec
-                0xc3e0503c                do_bootelf
- .text          0xc3e050d4      0x598 libcommon.a(cmd_ext2.o)
-                0xc3e050d4                ext_format
-                0xc3e051d8                do_ext3_format
-                0xc3e051e8                do_ext2_format
-                0xc3e051f8                do_ext2load
-                0xc3e05538                do_ext2ls
- .text          0xc3e0566c     0x221c libcommon.a(cmd_fastboot.o)
-                0xc3e0566c                LCD_turnon
-                0xc3e05670                LCD_setfgcolor
-                0xc3e05674                LCD_setleftcolor
-                0xc3e05678                LCD_setprogress
-                0xc3e05698                fastboot_flash_get_ptn
-                0xc3e056bc                fastboot_flash_get_ptn_count
-                0xc3e056cc                fastboot_flash_find_ptn
-                0xc3e05740                fastboot_flash_dump_ptn
-                0xc3e0588c                fastboot_flash_add_ptn
-                0xc3e05edc                sd_format_mmcs
-                0xc3e063d0                do_fastboot
-                0xc3e074f8                do_sdfuse
- .text          0xc3e07888      0x5e8 libcommon.a(cmd_fat.o)
-                0xc3e07888                do_fat_format
-                0xc3e07970                do_fat_fsinfo
-                0xc3e07a70                do_fat_ls
-                0xc3e07b70                do_fat_fsload
- .text          0xc3e07e70       0x4c libcommon.a(cmd_help.o)
-                0xc3e07e70                do_help
- .text          0xc3e07ebc      0x2fc libcommon.a(cmd_itest.o)
-                0xc3e07f44                binary_test
-                0xc3e08124                do_itest
- .text          0xc3e081b8      0xc70 libcommon.a(cmd_load.o)
-                0xc3e081b8                ktrans
-                0xc3e081d8                chk1
-                0xc3e08240                k_data_init
-                0xc3e08260                k_data_save
-                0xc3e08280                k_data_restore
-                0xc3e0829c                k_data_char
-                0xc3e082ec                send_pad
-                0xc3e0831c                s1_sendpacket
-                0xc3e08348                handle_send_packet
-                0xc3e0850c                send_nack
-                0xc3e0856c                send_ack
-                0xc3e086f4                do_load_serial_bin
-                0xc3e08d48                do_load_serial
- .text          0xc3e08e28       0x68 libcommon.a(cmd_max8997.o)
-                0xc3e08e28                do_max8997
- .text          0xc3e08e90       0xb0 libcommon.a(cmd_mdmupgrade.o)
-                0xc3e08e90                do_mdmup
- .text          0xc3e08f40      0x90c libcommon.a(cmd_mem.o)
-                0xc3e08f40                do_mem_crc
-                0xc3e08ff0                do_mem_base
-                0xc3e09034                do_mem_mtest
-                0xc3e091d8                do_mem_loop
-                0xc3e092d0                do_mem_cp
-                0xc3e093a0                do_mem_cmp
-                0xc3e09530                do_mem_mw
-                0xc3e09738                do_mem_nm
-                0xc3e09758                do_mem_mm
-                0xc3e09778                do_mem_md
- .text          0xc3e0984c       0x88 libcommon.a(cmd_misc.o)
-                0xc3e0984c                do_sleep
- .text          0xc3e098d4      0xbfc libcommon.a(cmd_mmc.o)
-                0xc3e098d4                do_mmcinfo
-                0xc3e09a24                do_mmcops_secure
-                0xc3e09ce4                do_mmcops
-                0xc3e0a124                do_emmc
- .text          0xc3e0a4d0      0xc38 libcommon.a(cmd_mmc_fdisk.o)
-                0xc3e0a4d0                calc_unit
-                0xc3e0a510                encode_chs
-                0xc3e0a530                get_SDInfo
-                0xc3e0a618                make_partitionInfo
-                0xc3e0a814                put_mmc_mbr
-                0xc3e0a878                get_mmc_mbr
-                0xc3e0a8d8                get_mmc_block_count
-                0xc3e0a91c                decode_partitionInfo
-                0xc3e0a95c                get_mmc_part_info
-                0xc3e0a9f8                print_mmc_part_info
-                0xc3e0ab9c                encode_partitionInfo
-                0xc3e0ac14                make_mmc_partition
-                0xc3e0afdc                create_mmc_fdisk
-                0xc3e0b074                do_fdisk
- .text          0xc3e0b108      0x8a8 libcommon.a(cmd_movi.o)
-                0xc3e0b108                do_movi
-                0xc3e0b740                init_raw_area_table
- .text          0xc3e0b9b0      0x7f0 libcommon.a(cmd_nvedit.o)
-                0xc3e0b9b0                get_env_id
-                0xc3e0b9c0                envmatch
-                0xc3e0ba20                getenv_r
-                0xc3e0bac0                do_saveenv
-                0xc3e0baec                getenv
-                0xc3e0bb54                _do_setenv
-                0xc3e0bf4c                do_setenv
-                0xc3e0bf78                setenv
-                0xc3e0bfc4                do_editenv
-                0xc3e0c114                do_printenv
- .text          0xc3e0c1a0      0x1e8 libcommon.a(cmd_source.o)
-                0xc3e0c1bc                source
-                0xc3e0c340                do_source
- .text          0xc3e0c388      0x110 libcommon.a(cmd_usbd.o)
-                0xc3e0c388                do_usbd_dnw
- .text          0xc3e0c498       0x20 libcommon.a(cmd_version.o)
-                0xc3e0c498                do_version
- .text          0xc3e0c4b8      0x2dc libcommon.a(cmd_ximg.o)
-                0xc3e0c4b8                do_imgextract
- .text          0xc3e0c794      0x2ec libcommon.a(command.o)
-                0xc3e0c794                cmd_get_data_size
-                0xc3e0c7e4                cmd_usage
-                0xc3e0c844                find_cmd_tbl
-                0xc3e0c8d8                find_cmd
-                0xc3e0c900                _do_help
- .text          0xc3e0ca80      0x548 libcommon.a(console.o)
-                0xc3e0cb20                fgetc
-                0xc3e0cb48                ftstc
-                0xc3e0cb70                fputc
-                0xc3e0cb9c                fputs
-                0xc3e0cbc8                disable_ctrlc
-                0xc3e0cbe0                had_ctrlc
-                0xc3e0cbf0                clear_ctrlc
-                0xc3e0cc04                dbg
-                0xc3e0cc10                console_init_f
-                0xc3e0cc20                search_device
-                0xc3e0cc48                console_assign
-                0xc3e0cc88                fprintf
-                0xc3e0ccd0                puts
-                0xc3e0ccec                vprintf
-                0xc3e0cd18                printf
-                0xc3e0cd58                stdio_print_current_devices
-                0xc3e0ce10                console_init_r
-                0xc3e0cef0                serial_printf
-                0xc3e0cf30                putc
-                0xc3e0cf4c                tstc
-                0xc3e0cf64                getc
-                0xc3e0cf7c                ctrlc
- .text          0xc3e0cfc8      0x1a8 libcommon.a(decompress_ext4.o)
-                0xc3e0cfc8                check_compress_ext4
-                0xc3e0d08c                write_compressed_ext4
- .text          0xc3e0d170     0x10c4 libcommon.a(dlmalloc.o)
-                0xc3e0d170                sbrk
-                0xc3e0d1a8                malloc_trim
-                0xc3e0d278                free
-                0xc3e0d4a8                cfree
-                0xc3e0d4ac                malloc
-                0xc3e0dac0                memalign
-                0xc3e0dbd0                pvalloc
-                0xc3e0dbe8                valloc
-                0xc3e0dbf4                malloc_usable_size
-                0xc3e0dc38                mallopt
-                0xc3e0dcb0                calloc
-                0xc3e0dd90                mem_malloc_init
-                0xc3e0ddbc                realloc
- .text          0xc3e0e234      0x1d0 libcommon.a(env_auto.o)
-                0xc3e0e234                env_get_char_spec
-                0xc3e0e240                env_init
-                0xc3e0e25c                saveenv_nand
-                0xc3e0e264                saveenv_nand_adv
-                0xc3e0e26c                env_relocate_spec_onenand
-                0xc3e0e2f8                env_relocate_spec_nand
-                0xc3e0e2fc                env_relocate_spec_movinand
-                0xc3e0e334                env_relocate_spec
-                0xc3e0e36c                saveenv_onenand
-                0xc3e0e384                saveenv_movinand
-                0xc3e0e3bc                saveenv
- .text          0xc3e0e404      0x13c libcommon.a(env_common.o)
-                0xc3e0e404                env_get_char_memory
-                0xc3e0e428                env_get_addr
-                0xc3e0e44c                env_get_char
-                0xc3e0e47c                env_crc_update
-                0xc3e0e4a4                set_default_env
-                0xc3e0e4e8                env_relocate
- .text          0xc3e0e540      0x1e4 libcommon.a(exports.o)
-                0xc3e0e544                get_version
-                0xc3e0e54c                jumptable_init
- .text          0xc3e0e724      0x7b4 libcommon.a(image.o)
-                0xc3e0e75c                image_multi_count
-                0xc3e0e784                get_table_entry_name
-                0xc3e0e7b0                genimg_get_os_name
-                0xc3e0e7c8                genimg_get_arch_name
-                0xc3e0e7e0                genimg_get_type_name
-                0xc3e0e7f8                genimg_get_comp_name
-                0xc3e0e810                genimg_get_image
-                0xc3e0e814                genimg_has_config
-                0xc3e0e81c                get_table_entry_id
-                0xc3e0e868                genimg_get_comp_id
-                0xc3e0e880                genimg_get_type_id
-                0xc3e0e898                genimg_get_arch_id
-                0xc3e0e8b0                genimg_get_os_id
-                0xc3e0e8ec                genimg_get_format
-                0xc3e0e910                image_multi_getimg
-                0xc3e0e998                genimg_print_size
-                0xc3e0e9c4                image_print_contents
-                0xc3e0eb58                memmove_wd
-                0xc3e0eb5c                getenv_bootm_low
-                0xc3e0eb90                getenv_yesno
-                0xc3e0ebb4                getenv_bootm_size
-                0xc3e0ebe8                image_check_dcrc
-                0xc3e0ec30                image_check_hcrc
-                0xc3e0ec84                boot_get_ramdisk
- .text          0xc3e0eed8     0x10f4 libcommon.a(main.o)
-                0xc3e0eed8                __show_boot_progress
-                0xc3e0eed8                show_boot_progress
-                0xc3e0eedc                parse_line
-                0xc3e0ef68                run_command
-                0xc3e0f338                do_run
-                0xc3e0f5d0                readline_into_buffer
-                0xc3e0fe50                readline
-                0xc3e0fe6c                main_loop
- .text          0xc3e0ffcc      0x2d8 libcommon.a(s_record.o)
-                0xc3e10040                srec_decode
- .text          0xc3e102a4      0x174 libcommon.a(stdio.o)
-                0xc3e102a4                stdio_get_list
-                0xc3e102b0                stdio_clone
-                0xc3e102f8                stdio_get_by_name
-                0xc3e1034c                stdio_register
-                0xc3e1038c                stdio_init
- .text          0xc3e10418      0x97c libcommon.a(xyzModem.o)
-                0xc3e10418                parse_num
-                0xc3e10554                xyzModem_error
-                0xc3e10574                xyzModem_stream_close
-                0xc3e105c4                CYGACC_COMM_IF_PUTC
-                0xc3e105cc                CYGACC_COMM_IF_GETC_TIMEOUT
-                0xc3e1064c                xyzModem_stream_terminate
-                0xc3e1099c                xyzModem_stream_read
-                0xc3e10c30                xyzModem_stream_open
- .text          0xc3e10d94      0x41c libsmdkc210.a(smdkc210.o)
-                0xc3e10d94                board_init
-                0xc3e10db8                virt_to_phy_smdkc210
-                0xc3e10dc8                checkboard
-                0xc3e10df4                dram_init
-                0xc3e11004                chk_bootdev
-                0xc3e110a8                check_bootmode
-                0xc3e1114c                board_late_init
- .text          0xc3e111b0       0x44 libgeneric.a(crc16.o)
-                0xc3e111b0                cyg_crc16
- .text          0xc3e111f4      0x104 libgeneric.a(crc32.o)
-                0xc3e111f4                crc32_no_comp
-                0xc3e112e0                crc32
-                0xc3e112f4                crc32_wd
- .text          0xc3e112f8      0x23c libgeneric.a(display_options.o)
-                0xc3e112f8                print_size
-                0xc3e113bc                display_options
-                0xc3e113dc                print_buffer
- .text          0xc3e11534      0x1c4 libgeneric.a(gunzip.o)
-                0xc3e11534                zunzip
-                0xc3e1162c                gunzip
-                0xc3e116e0                zfree
-                0xc3e116e8                zalloc
- .text          0xc3e116f8       0x78 libgeneric.a(net_utils.o)
-                0xc3e116f8                string_to_ip
- .text          0xc3e11770      0xc0c libgeneric.a(vsprintf.o)
-                0xc3e1178c                simple_strtoul
-                0xc3e11848                simple_strtol
-                0xc3e11870                ustrtoul
-                0xc3e118e4                simple_strtoull
-                0xc3e119fc                panic
-                0xc3e11eec                vsprintf
-                0xc3e12358                sprintf
- .text          0xc3e1237c     0x2718 libgeneric.a(zlib.o)
-                0xc3e1237c                inflate_fast
-                0xc3e12898                inflate_table
-                0xc3e12e00                inflateReset
-                0xc3e12e9c                inflateInit2_
-                0xc3e12f98                inflateInit_
-                0xc3e12fa8                inflateEnd
-                0xc3e1302c                adler32
-                0xc3e13328                zcfree
-                0xc3e13330                zcalloc
-                0xc3e13338                inflate
- .text          0xc3e14a94        0x0 libgeneric.a(ctype.o)
- .text          0xc3e14a94       0xf4 libgeneric.a(div64.o)
-                0xc3e14a94                __div64_32
- .text          0xc3e14b88      0x304 libarm_cortexa9.a(cpu.o)
-                0xc3e14bc4                InitBaseHwForNfc
-                0xc3e14c4c                _console_write
-                0xc3e14ca0                _console_setup
-                0xc3e14d00                cpu_init
-                0xc3e14d20                icache_enable
-                0xc3e14d3c                icache_disable
-                0xc3e14d58                icache_status
-                0xc3e14d68                dcache_enable
-                0xc3e14d84                dcache_disable
-                0xc3e14da0                dcache_status
-                0xc3e14db0                branch_enable
-                0xc3e14dcc                branch_disable
-                0xc3e14de8                branch_status
-                0xc3e14df8                cpu_mmc_init
-                0xc3e14e10                reset_cpu
-                0xc3e14e44                do_reset
-                0xc3e14e5c                cleanup_before_linux
- .text          0xc3e14e8c       0xa4 libs5pc210.a(serial.o)
-                0xc3e14e8c                serial_setbrg
-                0xc3e14e90                serial_init
-                0xc3e14eac                serial_tstc
-                0xc3e14ec0                serial_putc
-                0xc3e14eec                serial_puts
-                0xc3e14f14                serial_getc
- .text          0xc3e14f30     0x1dc0 libs5pc210.a(usbd-otg-hs.o)
-                0xc3e14f30                s3c_usb_phy_off
-                0xc3e14f5c                s3c_usb_core_soft_reset
-                0xc3e14f80                s3c_usb_init_core
-                0xc3e14f9c                s3c_usb_check_current_mode
-                0xc3e14fb4                s3c_usb_set_soft_disconnect
-                0xc3e14fcc                s3c_usb_clear_soft_disconnect
-                0xc3e14fe4                s3c_usb_init_device
-                0xc3e15010                s3c_usbc_activate
-                0xc3e15018                s3c_usb_stop
-                0xc3e1502c                s3c_usb_set_inep_xfersize
-                0xc3e15060                s3c_usb_set_outep_xfersize
-                0xc3e15094                s3c_usb_write_ep0_fifo
-                0xc3e150e4                s3c_usb_write_in_fifo
-                0xc3e15134                s3c_usb_read_out_fifo
-                0xc3e15180                s3c_usb_get_desc
-                0xc3e1528c                s3c_usb_clear_feature
-                0xc3e152fc                s3c_usb_set_feature
-                0xc3e15454                s3c_usb_get_status
-                0xc3e154ec                s3c_usb_ep0_int_hndlr
-                0xc3e1565c                s3c_usb_set_otherspeed_conf_desc
-                0xc3e15748                s3c_usb_transfer_ep0
-                0xc3e15fd0                s3c_usb_int_bulkin
-                0xc3e16098                s3c_usb_upload_start
-                0xc3e161f0                s3c_usb_download_start
-                0xc3e1630c                s3c_usb_dma_in_done
-                0xc3e163a4                s3c_usb_set_all_outep_nak
-                0xc3e163cc                s3c_usb_clear_all_outep_nak
-                0xc3e163f4                s3c_usb_set_max_pktsize
-                0xc3e16440                s3c_usb_set_endpoint
-                0xc3e16484                s3c_usb_set_descriptors
-                0xc3e165d4                s3c_usb_check_speed
-                0xc3e165ec                s3c_usb_clear_dnfile_info
-                0xc3e16608                s3c_usb_clear_upfile_info
-                0xc3e16624                s3c_usb_check_setconf
-                0xc3e1663c                s3c_usb_set_opmode
-                0xc3e166ac                s3c_usb_reset
-                0xc3e1670c                s3c_usb_set_init
-                0xc3e1676c                s3c_usb_verify_checksum
-                0xc3e1680c                s3c_usb_download_continue
-                0xc3e168b8                s3c_usb_int_bulkout
-                0xc3e168e0                s3c_usb_pkt_receive
-                0xc3e1694c                s3c_usb_print_pkt
-                0xc3e16998                s3c_usb_dma_out_done
-                0xc3e16a3c                s3c_usb_transfer
-                0xc3e16b38                s3c_udc_int_hndlr
-                0xc3e16bd8                s3c_usb_wait_cable_insert
-                0xc3e16c28                s3c_usb_init_phy
-                0xc3e16c68                s3c_usbctl_init
- .text          0xc3e16cf0      0x18c libs5pc210.a(cpu_info.o)
-                0xc3e16cf0                get_device_type
-                0xc3e16d00                arch_cpu_init
-                0xc3e16e5c                print_cpuinfo
- .text          0xc3e16e7c     0x204c libs5pc210.a(fastboot.o)
-                0xc3e16e7c                fboot_usb_phy_off
-                0xc3e16ea8                fboot_usb_core_soft_reset
-                0xc3e16ecc                fboot_usb_init_core
-                0xc3e16ee8                fboot_usb_check_current_mode
-                0xc3e16f00                fboot_usb_set_soft_disconnect
-                0xc3e16f18                fboot_usb_clear_soft_disconnect
-                0xc3e16f30                fboot_usb_init_device
-                0xc3e16f5c                fboot_usbc_activate
-                0xc3e16f64                fboot_usb_stop
-                0xc3e16f78                fboot_usb_set_inep_xfersize
-                0xc3e16fac                fboot_usb_set_outep_xfersize
-                0xc3e16fe0                fboot_usb_write_ep0_fifo
-                0xc3e17030                fboot_usb_write_in_fifo
-                0xc3e17080                fboot_usb_read_out_fifo
-                0xc3e170cc                fboot_usb_get_desc
-                0xc3e171ec                fboot_usb_clear_feature
-                0xc3e1725c                fboot_usb_set_feature
-                0xc3e173b4                fboot_usb_get_status
-                0xc3e1744c                fboot_usb_ep0_int_hndlr
-                0xc3e175bc                fboot_usb_set_otherspeed_conf_desc
-                0xc3e176a8                fboot_usb_transfer_ep0
-                0xc3e17f48                fboot_usb_upload_start
-                0xc3e180a0                fboot_usb_download_start
-                0xc3e181bc                fboot_usb_dma_in_done
-                0xc3e18254                fboot_usb_set_all_outep_nak
-                0xc3e1827c                fboot_usb_clear_all_outep_nak
-                0xc3e182a4                fboot_usb_set_max_pktsize
-                0xc3e182f0                fboot_usb_set_endpoint
-                0xc3e18334                fboot_usb_set_descriptors
-                0xc3e18488                fboot_usb_check_speed
-                0xc3e184a0                fboot_usb_clear_dnfile_info
-                0xc3e184bc                fboot_usb_clear_upfile_info
-                0xc3e184d8                fboot_usb_check_setconf
-                0xc3e184f0                fboot_usb_set_opmode
-                0xc3e18560                fboot_usb_reset
-                0xc3e185c0                fastboot_shutdown
-                0xc3e185c4                fastboot_fifo_size
-                0xc3e185e0                fastboot_getvar
-                0xc3e185e8                fboot_usb_int_bulkin
-                0xc3e18674                fastboot_preboot
-                0xc3e18708                fboot_usb_set_init
-                0xc3e18768                fboot_usb_verify_checksum
-                0xc3e187fc                fboot_usb_download_continue
-                0xc3e188a8                fboot_usb_print_pkt
-                0xc3e188e8                fboot_usb_dma_out_done
-                0xc3e1898c                fboot_usb_transfer
-                0xc3e18a8c                fboot_usb_wait_cable_insert
-                0xc3e18acc                fboot_usb_init_phy
-                0xc3e18b0c                fboot_usbctl_init
-                0xc3e18b94                fastboot_init
-                0xc3e18c70                fboot_usb_int_bulkout
-                0xc3e18d00                fboot_usb_pkt_receive
-                0xc3e18d6c                fboot_usb_int_hndlr
-                0xc3e18e28                fastboot_poll
-                0xc3e18e7c                fastboot_tx_status
- .text          0xc3e18ec8      0x468 libs5pc210.a(pmic.o)
-                0xc3e18ec8                PMIC_GetVoltage_Buck
-                0xc3e18f10                PMIC_SetVoltage_Buck
-                0xc3e18f54                I2C_S5M8767_VolSetting
-                0xc3e18fc0                pmic8767_init
-                0xc3e19018                PMIC_InitIp
-                0xc3e192a0                GPIO_Reset_B
-                0xc3e192e8                GPIO_Reset_A
- .text          0xc3e19330     0x2be4 libs5pc210.a(gpio.o)
-                0xc3e19330                GPIO_Init
-                0xc3e19344                GPIO_SetFunctionEach
-                0xc3e19374                GPIO_SetFunctionAll
-                0xc3e1938c                GPIO_SetDataEach
-                0xc3e193bc                GPIO_SetDataAll
-                0xc3e193d8                GPIO_GetDataAll
-                0xc3e193f4                GPIO_SetPullUpDownEach
-                0xc3e19428                GPIO_SetPullUpDownAll
-                0xc3e19444                ETC_SetPullUpDownEach
-                0xc3e19474                ETC_SetPullUpDownAll
-                0xc3e1948c                GPIO_SetDSEach
-                0xc3e194c0                GPIO_SetDSAll
-                0xc3e194ec                GPIO_SetConRegPDNAll
-                0xc3e19508                GPIO_SetPullUDPDNAll
-                0xc3e19524                GPIO_EINT1ClrPend
-                0xc3e19548                GPIO_EINT1UnMask
-                0xc3e19570                GPIO_EINT1Mask
-                0xc3e195a0                GPIO_EINT2ClrPend
-                0xc3e195c4                GPIO_EINT2UnMask
-                0xc3e195ec                GPIO_EINT2Mask
-                0xc3e1961c                GPIO_EINT3ClrPend
-                0xc3e19640                GPIO_EINT3UnMask
-                0xc3e19668                GPIO_EINT3Mask
-                0xc3e19698                GPIO_EINT4ClrPend
-                0xc3e196bc                GPIO_EINT4UnMask
-                0xc3e196e4                GPIO_EINT4Mask
-                0xc3e19714                GPIO_EINT5ClrPend
-                0xc3e19738                GPIO_EINT5UnMask
-                0xc3e19760                GPIO_EINT5Mask
-                0xc3e19790                GPIO_EINT6ClrPend
-                0xc3e197b4                GPIO_EINT6UnMask
-                0xc3e197dc                GPIO_EINT6Mask
-                0xc3e1980c                GPIO_EINT7ClrPend
-                0xc3e19830                GPIO_EINT7UnMask
-                0xc3e19858                GPIO_EINT7Mask
-                0xc3e19888                GPIO_EINT8ClrPend
-                0xc3e198ac                GPIO_EINT8UnMask
-                0xc3e198d4                GPIO_EINT8Mask
-                0xc3e19904                GPIO_EINT9ClrPend
-                0xc3e19928                GPIO_EINT9UnMask
-                0xc3e19950                GPIO_EINT9Mask
-                0xc3e19980                GPIO_EINT10ClrPend
-                0xc3e199a4                GPIO_EINT10UnMask
-                0xc3e199cc                GPIO_EINT10Mask
-                0xc3e199fc                GPIO_EINT11ClrPend
-                0xc3e19a20                GPIO_EINT11UnMask
-                0xc3e19a48                GPIO_EINT11Mask
-                0xc3e19a78                GPIO_EINT12ClrPend
-                0xc3e19a9c                GPIO_EINT12UnMask
-                0xc3e19ac4                GPIO_EINT12Mask
-                0xc3e19af4                GPIO_EINT13ClrPend
-                0xc3e19b18                GPIO_EINT13UnMask
-                0xc3e19b40                GPIO_EINT13Mask
-                0xc3e19b70                GPIO_EINT14ClrPend
-                0xc3e19b94                GPIO_EINT14UnMask
-                0xc3e19bbc                GPIO_EINT14Mask
-                0xc3e19bec                GPIO_EINT15ClrPend
-                0xc3e19c10                GPIO_EINT15UnMask
-                0xc3e19c38                GPIO_EINT15Mask
-                0xc3e19c68                GPIO_EINT16ClrPend
-                0xc3e19c8c                GPIO_EINT16UnMask
-                0xc3e19cb4                GPIO_EINT16Mask
-                0xc3e19ce4                GPIO_EINT21ClrPend
-                0xc3e19d00                GPIO_EINT21UnMask
-                0xc3e19d20                GPIO_EINT21Mask
-                0xc3e19d48                GPIO_EINT22ClrPend
-                0xc3e19d64                GPIO_EINT22UnMask
-                0xc3e19d84                GPIO_EINT22Mask
-                0xc3e19dac                GPIO_EINT23ClrPend
-                0xc3e19dc8                GPIO_EINT23UnMask
-                0xc3e19de8                GPIO_EINT23Mask
-                0xc3e19e10                GPIO_EINT24ClrPend
-                0xc3e19e2c                GPIO_EINT24UnMask
-                0xc3e19e4c                GPIO_EINT24Mask
-                0xc3e19e74                GPIO_EINT25ClrPend
-                0xc3e19e90                GPIO_EINT25UnMask
-                0xc3e19eb0                GPIO_EINT25Mask
-                0xc3e19ed8                GPIO_EINT26ClrPend
-                0xc3e19ef4                GPIO_EINT26UnMask
-                0xc3e19f14                GPIO_EINT26Mask
-                0xc3e19f3c                GPIO_EINT27ClrPend
-                0xc3e19f58                GPIO_EINT27UnMask
-                0xc3e19f78                GPIO_EINT27Mask
-                0xc3e19fa0                GPIO_EINT28ClrPend
-                0xc3e19fbc                GPIO_EINT28UnMask
-                0xc3e19fdc                GPIO_EINT28Mask
-                0xc3e1a004                GPIO_EINT29ClrPend
-                0xc3e1a020                GPIO_EINT29UnMask
-                0xc3e1a040                GPIO_EINT29Mask
-                0xc3e1a068                GPIO_EINT40ClrPend
-                0xc3e1a084                GPIO_EINT40UnMask
-                0xc3e1a0a4                GPIO_EINT40Mask
-                0xc3e1a0cc                GPIO_EINT41ClrPend
-                0xc3e1a0e8                GPIO_EINT41UnMask
-                0xc3e1a108                GPIO_EINT41Mask
-                0xc3e1a130                GPIO_EINT42ClrPend
-                0xc3e1a14c                GPIO_EINT42UnMask
-                0xc3e1a16c                GPIO_EINT42Mask
-                0xc3e1a194                GPIO_EINT43ClrPend
-                0xc3e1a1b0                GPIO_EINT43UnMask
-                0xc3e1a1d0                GPIO_EINT43Mask
-                0xc3e1a1f8                EINT_GRPPRI_XA
-                0xc3e1a220                EINT_GRPPRI_XB
-                0xc3e1a240                EINT_PRIORITY_XA
-                0xc3e1a274                EINT_PRIORITY_XB
-                0xc3e1a2a0                Get_EINTSVC_XA
-                0xc3e1a2bc                Get_EINTSVC_XB
-                0xc3e1a2d0                Get_EINTSVCPEND_XA
-                0xc3e1a2ec                Get_EINTSVCPEND_XB
-                0xc3e1a300                EINT_GRPFIXPRI_XA
-                0xc3e1a328                EINT_GRPFIXPRI_XB
-                0xc3e1a348                EINT_FIXPRI_XB
-                0xc3e1a38c                EINT_FIXPRI_XA
-                0xc3e1a400                GPIO_SetEint1
-                0xc3e1a4fc                GPIO_SetEint2
-                0xc3e1a604                GPIO_SetEint3
-                0xc3e1a70c                GPIO_SetEint4
-                0xc3e1a7f4                GPIO_SetEint5
-                0xc3e1a8dc                GPIO_SetEint6
-                0xc3e1a998                GPIO_SetEint7
-                0xc3e1aa54                GPIO_SetEint8
-                0xc3e1ab3c                GPIO_SetEint9
-                0xc3e1ac44                GPIO_SetEint10
-                0xc3e1ad4c                GPIO_SetEint11
-                0xc3e1ae54                GPIO_SetEint12
-                0xc3e1af5c                GPIO_SetEint13
-                0xc3e1b064                GPIO_SetEint14
-                0xc3e1b16c                GPIO_SetEint15
-                0xc3e1b274                GPIO_SetEint16
-                0xc3e1b37c                GPIO_SetEint21
-                0xc3e1b468                GPIO_SetEint22
-                0xc3e1b534                GPIO_SetEint23
-                0xc3e1b620                GPIO_SetEint24
-                0xc3e1b70c                GPIO_SetEint25
-                0xc3e1b7f8                GPIO_SetEint26
-                0xc3e1b8e4                GPIO_SetEint27
-                0xc3e1b9d0                GPIO_SetEint28
-                0xc3e1ba78                GPIO_SetEint29
-                0xc3e1bb64                GPIO_SetEint40
-                0xc3e1bc50                GPIO_SetEint41
-                0xc3e1bd3c                GPIO_SetEint42
-                0xc3e1be28                GPIO_SetEint43
- .text          0xc3e1bf14     0x1364 libs5pc210.a(i2c.o)
-                0xc3e1bf14                I2C_GetLastError
-                0xc3e1bf2c                I2C_SetClock
-                0xc3e1bf98                I2C_SetAckGeneration
-                0xc3e1bfd4                I2C_SetSlaveAddress
-                0xc3e1c008                I2C_SetFilter
-                0xc3e1c044                I2C_SetOutputDelay
-                0xc3e1c07c                I2C_EnableInt
-                0xc3e1c0a0                I2C_DisableInt
-                0xc3e1c0c4                I2C_GetIntStatus
-                0xc3e1c0e4                I2C_WaitForXferNoAck
-                0xc3e1c124                I2C_ClearIntStatus
-                0xc3e1c148                I2C_SetMode
-                0xc3e1c244                I2C_GenerateSignal
-                0xc3e1c280                I2C_GetBusStatus
-                0xc3e1c2a0                I2C_IsBusReady
-                0xc3e1c2c4                I2C_WaitForBusReady
-                0xc3e1c304                I2C_IsBusBusy
-                0xc3e1c324                I2C_IsMatchAddress
-                0xc3e1c344                I2C_WaitForMatchAddress
-                0xc3e1c394                I2C_IsXferAck
-                0xc3e1c3b8                I2C_WaitForXferAck
-                0xc3e1c408                I2C_WriteAddress
-                0xc3e1c428                I2C_WriteData
-                0xc3e1c444                I2C_ReadData
-                0xc3e1c460                I2C_SetGPIO
-                0xc3e1c898                I2C_InitSlave
-                0xc3e1c8f0                I2C_InitMaster
-                0xc3e1c938                I2C_CalculatePrescaler
-                0xc3e1ca08                I2C_PrintErrorCase
-                0xc3e1cd14                I2C_RecvEx
-                0xc3e1cd18                I2C_Recv
-                0xc3e1d074                I2C_SendEx
-                0xc3e1d078                I2C_Send
-                0xc3e1d1d0                I2C_InitIp
- .text          0xc3e1d278     0x1f14 libs5pc210.a(cmu.o)
-                0xc3e1d278                SYSC_SetCpuDiv
-                0xc3e1d2f8                SYSC_SetCoreDiv
-                0xc3e1d394                SYSC_SetTopBusDiv
-                0xc3e1d42c                SYSC_SetDivDefaultVal
-                0xc3e1d4b4                SYSC_SetLocktimeVal
-                0xc3e1d534                SYSC_CheckPllLock
-                0xc3e1d588                SYSC_EnablePll
-                0xc3e1d5ec                SYSC_DisablePll
-                0xc3e1d644                SYSC_SetDitherParam
-                0xc3e1d8ac                SYSC_CalcPllFout
-                0xc3e1d9e8                SYSC_GetMuxSrc
-                0xc3e1da10                SYSC_SetMuxSrc
-                0xc3e1dac8                SYSC_SetClkDiv
-                0xc3e1db1c                SYSC_GetClkDiv
-                0xc3e1db48                SYSC_SetClkGateIp
-                0xc3e1db7c                SYSC_GetClkGateIp
-                0xc3e1dba8                SYSC_SetClkGateBlock
-                0xc3e1dbdc                SYSC_GetClkGateBlock
-                0xc3e1dc60                SYSC_SetClkOut
-                0xc3e1dd70                SYSC_SetPllByPms
-                0xc3e1dff8                SYSC_SetPllByFout
-                0xc3e1e4a4                SYSC_GetVcoPll
-                0xc3e1e5fc                SYSC_GetFoutPll
-                0xc3e1e76c                SYSC_ChangePllnDiv
-                0xc3e1e930                SYSC_InitSysClk
-                0xc3e1efe8                SYSC_GetClkFreq
- .text          0xc3e1f18c       0x98 libs5pc210.a(speed.o)
-                0xc3e1f1e0                get_ARM_CLK
-                0xc3e1f214                get_MPLL_CLK
-                0xc3e1f21c                get_APLL_CLK
- .text          0xc3e1f224      0x458 libs5pc210.a(max8997.o)
-                0xc3e1f540                pmic_write
-                0xc3e1f544                max8997_init
-                0xc3e1f60c                lowlevel_init_max8997
-                0xc3e1f678                pmic_read
- .text          0xc3e1f67c      0x260 libs5pc210.a(setup_hsmmc.o)
-                0xc3e1f67c                setup_sdhci0_cfg_card
-                0xc3e1f680                setup_hsmmc_cfg_gpio
-                0xc3e1f718                setup_hsmmc_clock
-                0xc3e1f804                set_hsmmc_pre_ratio
-                0xc3e1f88c                clear_hsmmc_clock_div
- .text          0xc3e1f8dc      0x174 libs5pc210.a(recovery.o)
-                0xc3e1f8dc                factory_reset
-                0xc3e1f9a0                recovery_preboot
- .text          0xc3e1fa50      0x238 libarm.a(bootm.o)
-                0xc3e1fa50                do_bootm_linux
- .text          0xc3e1fc88        0x4 libarm.a(cache.o)
-                0xc3e1fc88                flush_cache
- .text          0xc3e1fc8c     0x19d0 libfat.a(fat.o)
-                0xc3e1fe44                disk_read
-                0xc3e20198                file_fat_detectfs
-                0xc3e205d0                do_fat_read
-                0xc3e20ec4                file_fat_read
-                0xc3e20efc                file_fat_ls
-                0xc3e20f0c                fat_register_device
-                0xc3e2101c                fat_format_device
- .text          0xc3e2165c     0x3370 libext2fs.a(ext2fs.o)
-                0xc3e2165c                get_random_val
-                0xc3e21674                default_journal_size
-                0xc3e216b4                ext2fs_format
-                0xc3e23bf0                ext2fs_free_node
-                0xc3e23c10                ext2fs_close
-                0xc3e23d90                ext2fs_mount
-                0xc3e23e44                ext2fs_read_file
-                0xc3e24318                ext2fs_read
-                0xc3e245c0                ext2fs_find_file1
-                0xc3e24848                ext2fs_find_file
-                0xc3e248c4                ext2fs_open
-                0xc3e24958                ext2fs_ls
- .text          0xc3e249cc      0x224 libext2fs.a(dev.o)
-                0xc3e249cc                ext2fs_devread
-                0xc3e24ba4                ext2fs_set_blk_dev
- .text          0xc3e24bf0      0x37c libdisk.a(part.o)
-                0xc3e24bf0                dev_print
-                0xc3e24dec                get_partition_info
-                0xc3e24e10                init_part
-                0xc3e24e2c                get_dev
-                0xc3e24e90                print_part
- .text          0xc3e24f6c      0x508 libdisk.a(part_dos.o)
-                0xc3e24fb0                test_part_dos
-                0xc3e2525c                get_partition_info_dos
-                0xc3e25448                print_part_dos
- .text          0xc3e25474      0x528 libmmc.a(s3c_hsmmc.o)
-                0xc3e25844                smdk_s3c_hsmmc_init
- .text          0xc3e2599c      0xd14 libmmc.a(s5p_mshc.o)
-                0xc3e25b5c                mshci_fifo_deinit
-                0xc3e265bc                emmc_mode_change
-                0xc3e2660c                smdk_s5p_mshc_init
- .text          0xc3e266b0       0x1c /home/sw/pp_self/1/iTop4412_uboot/sw_build/eabi_compat.o
-                0xc3e266b0                raise
- .text          0xc3e266cc      0x20c /home/sw/bb/arm-2009q3/bin/../lib/gcc/arm-none-linux-gnueabi/4.4.1/libgcc.a(_udivsi3.o)
-                0xc3e266cc                __udivsi3
-                0xc3e266cc                __aeabi_uidiv
-                0xc3e268b8                __aeabi_uidivmod
- .text          0xc3e268d8      0x240 /home/sw/bb/arm-2009q3/bin/../lib/gcc/arm-none-linux-gnueabi/4.4.1/libgcc.a(_divsi3.o)
-                0xc3e268d8                __aeabi_idiv
-                0xc3e268d8                __divsi3
-                0xc3e26af8                __aeabi_idivmod
- .text          0xc3e26b18       0x1c /home/sw/bb/arm-2009q3/bin/../lib/gcc/arm-none-linux-gnueabi/4.4.1/libgcc.a(_lshrdi3.o)
-                0xc3e26b18                __aeabi_llsr
-                0xc3e26b18                __lshrdi3
- .text          0xc3e26b34      0x3b8 /home/sw/bb/arm-2009q3/bin/../lib/gcc/arm-none-linux-gnueabi/4.4.1/libgcc.a(_arm_addsubdf3.o)
-                0xc3e26b34                __aeabi_drsub
-                0xc3e26b3c                __aeabi_dsub
-                0xc3e26b3c                __subdf3
-                0xc3e26b40                __adddf3
-                0xc3e26b40                __aeabi_dadd
-                0xc3e26dec                __aeabi_ui2d
-                0xc3e26dec                __floatunsidf
-                0xc3e26e10                __floatsidf
-                0xc3e26e10                __aeabi_i2d
-                0xc3e26e38                __extendsfdf2
-                0xc3e26e38                __aeabi_f2d
-                0xc3e26e78                __aeabi_ul2d
-                0xc3e26e78                __floatundidf
-                0xc3e26e8c                __floatdidf
-                0xc3e26e8c                __aeabi_l2d
- .text          0xc3e26eec      0x470 /home/sw/bb/arm-2009q3/bin/../lib/gcc/arm-none-linux-gnueabi/4.4.1/libgcc.a(_arm_muldivdf3.o)
-                0xc3e26eec                __aeabi_dmul
-                0xc3e26eec                __muldf3
-                0xc3e27158                __aeabi_ddiv
-                0xc3e27158                __divdf3
- .text          0xc3e2735c       0xa0 /home/sw/bb/arm-2009q3/bin/../lib/gcc/arm-none-linux-gnueabi/4.4.1/libgcc.a(_arm_truncdfsf2.o)
-                0xc3e2735c                __aeabi_d2f
-                0xc3e2735c                __truncdfsf2
- .text          0xc3e273fc      0x250 /home/sw/bb/arm-2009q3/bin/../lib/gcc/arm-none-linux-gnueabi/4.4.1/libgcc.a(_arm_addsubsf3.o)
-                0xc3e273fc                __aeabi_frsub
-                0xc3e27404                __subsf3
-                0xc3e27404                __aeabi_fsub
-                0xc3e27408                __aeabi_fadd
-                0xc3e27408                __addsf3
-                0xc3e27598                __aeabi_ui2f
-                0xc3e27598                __floatunsisf
-                0xc3e275a0                __aeabi_i2f
-                0xc3e275a0                __floatsisf
-                0xc3e275c0                __floatundisf
-                0xc3e275c0                __aeabi_ul2f
-                0xc3e275d0                __floatdisf
-                0xc3e275d0                __aeabi_l2f
- .text          0xc3e2764c      0x2f8 /home/sw/bb/arm-2009q3/bin/../lib/gcc/arm-none-linux-gnueabi/4.4.1/libgcc.a(_arm_muldivsf3.o)
-                0xc3e2764c                __mulsf3
-                0xc3e2764c                __aeabi_fmul
-                0xc3e277e4                __divsf3
-                0xc3e277e4                __aeabi_fdiv
- .text          0xc3e27944       0xfc /home/sw/bb/arm-2009q3/bin/../lib/gcc/arm-none-linux-gnueabi/4.4.1/libgcc.a(_arm_cmpsf2.o)
-                0xc3e27944                __gtsf2
-                0xc3e27944                __gesf2
-                0xc3e2794c                __lesf2
-                0xc3e2794c                __ltsf2
-                0xc3e27954                __nesf2
-                0xc3e27954                __eqsf2
-                0xc3e27954                __cmpsf2
-                0xc3e279b8                __aeabi_cfrcmple
-                0xc3e279c8                __aeabi_cfcmple
-                0xc3e279c8                __aeabi_cfcmpeq
-                0xc3e279dc                __aeabi_fcmpeq
-                0xc3e279f0                __aeabi_fcmplt
-                0xc3e27a04                __aeabi_fcmple
-                0xc3e27a18                __aeabi_fcmpge
-                0xc3e27a2c                __aeabi_fcmpgt
- .text          0xc3e27a40       0x54 /home/sw/bb/arm-2009q3/bin/../lib/gcc/arm-none-linux-gnueabi/4.4.1/libgcc.a(_arm_fixunssfsi.o)
-                0xc3e27a40                __aeabi_f2uiz
-                0xc3e27a40                __fixunssfsi
- .text          0xc3e27a94       0x10 /home/sw/bb/arm-2009q3/bin/../lib/gcc/arm-none-linux-gnueabi/4.4.1/libgcc.a(_dvmd_lnx.o)
-                0xc3e27a94                __aeabi_ldiv0
-                0xc3e27a94                __aeabi_idiv0
+ .text          0xc3e0141c      0x5f4 libgeneric.a(string.o)
+                0xc3e0141c                strcpy
+                0xc3e01438                strncpy
+                0xc3e01460                strcat
+                0xc3e01490                strncat
+                0xc3e014ec                strcmp
+                0xc3e0151c                strncmp
+                0xc3e01564                strchr
+                0xc3e01590                strlen
+                0xc3e015b0                strrchr
+                0xc3e015e8                strnlen
+                0xc3e01610                strspn
+                0xc3e01654                strpbrk
+                0xc3e0168c                strtok
+                0xc3e01708                strsep
+                0xc3e0173c                strswab
+                0xc3e01784                memset
+                0xc3e017f8                bcopy
+                0xc3e01820                memcpy
+                0xc3e0188c                memmove
+                0xc3e018e8                memcmp
+                0xc3e01920                memscan
+                0xc3e01950                strstr
+                0xc3e019b0                memchr
+                0xc3e019dc                strdup
+ .text          0xc3e01a10       0xdc libs5pc210.a(nand_cp.o)
+                0xc3e01a10                copy_uboot_to_ram
+ .text          0xc3e01aec      0x44c libs5pc210.a(interrupts.o)
+                0xc3e01aec                enable_interrupts
+                0xc3e01af0                disable_interrupts
+                0xc3e01af8                interrupt_init
+                0xc3e01b68                set_timer
+                0xc3e01b78                reset_timer_masked
+                0xc3e01b9c                reset_timer
+                0xc3e01ba0                get_timer_masked
+                0xc3e01be8                get_timer
+                0xc3e01bfc                udelay
+                0xc3e01c6c                udelay_masked
+                0xc3e01cdc                get_ticks
+                0xc3e01cf0                get_tbclk
+                0xc3e01d08                show_regs
+                0xc3e01e20                bad_mode
+                0xc3e01e3c                do_irq
+                0xc3e01e60                do_fiq
+                0xc3e01e84                do_not_used
+                0xc3e01ea8                do_data_abort
+                0xc3e01ecc                do_prefetch_abort
+                0xc3e01ef0                do_software_interrupt
+                0xc3e01f14                do_undefined_instruction
+ .text          0xc3e01f38      0x160 libs5pc210.a(onenand_cp.o)
+                0xc3e01f38                onenand_readw
+                0xc3e01f40                onenand_writew
+                0xc3e01f48                onenand_loadpage
+                0xc3e01fc8                onenand_isbad
+                0xc3e01ff0                onenand_readpage
+                0xc3e0203c                onenand_bl2_copy
+ .text          0xc3e02098      0x120 libs5pc210.a(movi.o)
+                0xc3e02098                movi_uboot_copy
+                0xc3e020c0                emmc_uboot_copy
+                0xc3e020e4                emmc441_uboot_copy
+                0xc3e02110                movi_calc_checksum_bl1
+                0xc3e02138                movi_write_bl1
+                0xc3e02188                movi_write_env
+                0xc3e021a0                movi_read_env
+ .text          0xc3e021b8      0x2c4 libarm.a(board.o)
+                0xc3e021b8                coloured_LED_init
+                0xc3e021b8                __coloured_LED_init
+                0xc3e021bc                red_LED_on
+                0xc3e021bc                __red_LED_on
+                0xc3e021c0                __red_LED_off
+                0xc3e021c0                red_LED_off
+                0xc3e021c4                green_LED_on
+                0xc3e021c4                __green_LED_on
+                0xc3e021c8                __green_LED_off
+                0xc3e021c8                green_LED_off
+                0xc3e021cc                __yellow_LED_on
+                0xc3e021cc                yellow_LED_on
+                0xc3e021d0                __yellow_LED_off
+                0xc3e021d0                yellow_LED_off
+                0xc3e021d4                blue_LED_on
+                0xc3e021d4                __blue_LED_on
+                0xc3e021d8                blue_LED_off
+                0xc3e021d8                __blue_LED_off
+                0xc3e02264                hang
+                0xc3e02348                start_armboot
+ .text          0xc3e0247c     0x18c0 libmmc.a(mmc.o)
+                0xc3e024a4                mmc_send_cmd
+                0xc3e024b4                mmc_set_blocklen
+                0xc3e024ec                mmc_send_ext_csd
+                0xc3e0253c                mmc_set_relative_addr
+                0xc3e02574                mmc_switch
+                0xc3e025b8                mmc_change_freq
+                0xc3e02664                sd_switch
+                0xc3e026d0                mmc_set_ios
+                0xc3e026e0                mmc_set_clock
+                0xc3e02700                mmc_set_bus_width
+                0xc3e02708                mmc_send_if_cond
+                0xc3e02784                board_mmc_init
+                0xc3e0278c                emmc_boot_close
+                0xc3e027dc                emmc_boot_open
+                0xc3e02874                emmc_boot_partition_size_change
+                0xc3e02990                emmc_boot_erase
+                0xc3e02abc                mmc_send_app_op_cond
+                0xc3e02bac                mmc_go_idle
+                0xc3e02c00                mmc_send_op_cond
+                0xc3e02ca0                mmc_erase
+                0xc3e0304c                print_mmc_devices
+                0xc3e030c0                find_mmc_device
+                0xc3e0310c                mmc_get_dev
+                0xc3e031cc                movi_write
+                0xc3e032e8                movi_read
+                0xc3e03300                sd_change_freq
+                0xc3e034d0                mmc_startup
+                0xc3e03b50                mmc_init
+                0xc3e03bb4                mmc_initialize
+                0xc3e03ccc                mmc_register
+ .text          0xc3e03d3c       0xac libcommon.a(cmd_bdinfo.o)
+                0xc3e03d50                do_bdinfo
+ .text          0xc3e03de8       0x90 libcommon.a(cmd_boot.o)
+                0xc3e03de8                do_go_exec
+                0xc3e03e00                do_go
+ .text          0xc3e03e78      0xd60 libcommon.a(cmd_bootm.o)
+                0xc3e03e9c                arch_preboot_os
+                0xc3e03e9c                __arch_preboot_os
+                0xc3e03f8c                do_iminfo
+                0xc3e03ff8                do_bootd
+                0xc3e043b0                bootm_start
+                0xc3e04704                do_bootm_subcommand
+                0xc3e048c8                do_bootm
+ .text          0xc3e04bd8       0xf0 libcommon.a(cmd_console.o)
+                0xc3e04bd8                do_coninfo
+ .text          0xc3e04cc8       0x84 libcommon.a(cmd_echo.o)
+                0xc3e04cc8                do_echo
+ .text          0xc3e04d4c      0x408 libcommon.a(cmd_elf.o)
+                0xc3e04d4c                load_elf_image
+                0xc3e04de4                valid_elf_image
+                0xc3e04e38                do_bootvx
+                0xc3e05078                do_bootelf_exec
+                0xc3e050bc                do_bootelf
+ .text          0xc3e05154      0x598 libcommon.a(cmd_ext2.o)
+                0xc3e05154                ext_format
+                0xc3e05258                do_ext3_format
+                0xc3e05268                do_ext2_format
+                0xc3e05278                do_ext2load
+                0xc3e055b8                do_ext2ls
+ .text          0xc3e056ec     0x221c libcommon.a(cmd_fastboot.o)
+                0xc3e056ec                LCD_turnon
+                0xc3e056f0                LCD_setfgcolor
+                0xc3e056f4                LCD_setleftcolor
+                0xc3e056f8                LCD_setprogress
+                0xc3e05718                fastboot_flash_get_ptn
+                0xc3e0573c                fastboot_flash_get_ptn_count
+                0xc3e0574c                fastboot_flash_find_ptn
+                0xc3e057c0                fastboot_flash_dump_ptn
+                0xc3e0590c                fastboot_flash_add_ptn
+                0xc3e05f5c                sd_format_mmcs
+                0xc3e06450                do_fastboot
+                0xc3e07578                do_sdfuse
+ .text          0xc3e07908      0x5e8 libcommon.a(cmd_fat.o)
+                0xc3e07908                do_fat_format
+                0xc3e079f0                do_fat_fsinfo
+                0xc3e07af0                do_fat_ls
+                0xc3e07bf0                do_fat_fsload
+ .text          0xc3e07ef0       0x4c libcommon.a(cmd_help.o)
+                0xc3e07ef0                do_help
+ .text          0xc3e07f3c      0x2fc libcommon.a(cmd_itest.o)
+                0xc3e07fc4                binary_test
+                0xc3e081a4                do_itest
+ .text          0xc3e08238      0xc70 libcommon.a(cmd_load.o)
+                0xc3e08238                ktrans
+                0xc3e08258                chk1
+                0xc3e082c0                k_data_init
+                0xc3e082e0                k_data_save
+                0xc3e08300                k_data_restore
+                0xc3e0831c                k_data_char
+                0xc3e0836c                send_pad
+                0xc3e0839c                s1_sendpacket
+                0xc3e083c8                handle_send_packet
+                0xc3e0858c                send_nack
+                0xc3e085ec                send_ack
+                0xc3e08774                do_load_serial_bin
+                0xc3e08dc8                do_load_serial
+ .text          0xc3e08ea8       0x68 libcommon.a(cmd_max8997.o)
+                0xc3e08ea8                do_max8997
+ .text          0xc3e08f10       0xb0 libcommon.a(cmd_mdmupgrade.o)
+                0xc3e08f10                do_mdmup
+ .text          0xc3e08fc0      0x90c libcommon.a(cmd_mem.o)
+                0xc3e08fc0                do_mem_crc
+                0xc3e09070                do_mem_base
+                0xc3e090b4                do_mem_mtest
+                0xc3e09258                do_mem_loop
+                0xc3e09350                do_mem_cp
+                0xc3e09420                do_mem_cmp
+                0xc3e095b0                do_mem_mw
+                0xc3e097b8                do_mem_nm
+                0xc3e097d8                do_mem_mm
+                0xc3e097f8                do_mem_md
+ .text          0xc3e098cc       0x88 libcommon.a(cmd_misc.o)
+                0xc3e098cc                do_sleep
+ .text          0xc3e09954      0xbfc libcommon.a(cmd_mmc.o)
+                0xc3e09954                do_mmcinfo
+                0xc3e09aa4                do_mmcops_secure
+                0xc3e09d64                do_mmcops
+                0xc3e0a1a4                do_emmc
+ .text          0xc3e0a550      0xc38 libcommon.a(cmd_mmc_fdisk.o)
+                0xc3e0a550                calc_unit
+                0xc3e0a590                encode_chs
+                0xc3e0a5b0                get_SDInfo
+                0xc3e0a698                make_partitionInfo
+                0xc3e0a894                put_mmc_mbr
+                0xc3e0a8f8                get_mmc_mbr
+                0xc3e0a958                get_mmc_block_count
+                0xc3e0a99c                decode_partitionInfo
+                0xc3e0a9dc                get_mmc_part_info
+                0xc3e0aa78                print_mmc_part_info
+                0xc3e0ac1c                encode_partitionInfo
+                0xc3e0ac94                make_mmc_partition
+                0xc3e0b05c                create_mmc_fdisk
+                0xc3e0b0f4                do_fdisk
+ .text          0xc3e0b188      0x8a8 libcommon.a(cmd_movi.o)
+                0xc3e0b188                do_movi
+                0xc3e0b7c0                init_raw_area_table
+ .text          0xc3e0ba30      0x7f0 libcommon.a(cmd_nvedit.o)
+                0xc3e0ba30                get_env_id
+                0xc3e0ba40                envmatch
+                0xc3e0baa0                getenv_r
+                0xc3e0bb40                do_saveenv
+                0xc3e0bb6c                getenv
+                0xc3e0bbd4                _do_setenv
+                0xc3e0bfcc                do_setenv
+                0xc3e0bff8                setenv
+                0xc3e0c044                do_editenv
+                0xc3e0c194                do_printenv
+ .text          0xc3e0c220      0x1e8 libcommon.a(cmd_source.o)
+                0xc3e0c23c                source
+                0xc3e0c3c0                do_source
+ .text          0xc3e0c408      0x110 libcommon.a(cmd_usbd.o)
+                0xc3e0c408                do_usbd_dnw
+ .text          0xc3e0c518       0x20 libcommon.a(cmd_version.o)
+                0xc3e0c518                do_version
+ .text          0xc3e0c538      0x2dc libcommon.a(cmd_ximg.o)
+                0xc3e0c538                do_imgextract
+ .text          0xc3e0c814      0x2ec libcommon.a(command.o)
+                0xc3e0c814                cmd_get_data_size
+                0xc3e0c864                cmd_usage
+                0xc3e0c8c4                find_cmd_tbl
+                0xc3e0c958                find_cmd
+                0xc3e0c980                _do_help
+ .text          0xc3e0cb00      0x548 libcommon.a(console.o)
+                0xc3e0cba0                fgetc
+                0xc3e0cbc8                ftstc
+                0xc3e0cbf0                fputc
+                0xc3e0cc1c                fputs
+                0xc3e0cc48                disable_ctrlc
+                0xc3e0cc60                had_ctrlc
+                0xc3e0cc70                clear_ctrlc
+                0xc3e0cc84                dbg
+                0xc3e0cc90                console_init_f
+                0xc3e0cca0                search_device
+                0xc3e0ccc8                console_assign
+                0xc3e0cd08                fprintf
+                0xc3e0cd50                puts
+                0xc3e0cd6c                vprintf
+                0xc3e0cd98                printf
+                0xc3e0cdd8                stdio_print_current_devices
+                0xc3e0ce90                console_init_r
+                0xc3e0cf70                serial_printf
+                0xc3e0cfb0                putc
+                0xc3e0cfcc                tstc
+                0xc3e0cfe4                getc
+                0xc3e0cffc                ctrlc
+ .text          0xc3e0d048      0x1a8 libcommon.a(decompress_ext4.o)
+                0xc3e0d048                check_compress_ext4
+                0xc3e0d10c                write_compressed_ext4
+ .text          0xc3e0d1f0     0x10c4 libcommon.a(dlmalloc.o)
+                0xc3e0d1f0                sbrk
+                0xc3e0d228                malloc_trim
+                0xc3e0d2f8                free
+                0xc3e0d528                cfree
+                0xc3e0d52c                malloc
+                0xc3e0db40                memalign
+                0xc3e0dc50                pvalloc
+                0xc3e0dc68                valloc
+                0xc3e0dc74                malloc_usable_size
+                0xc3e0dcb8                mallopt
+                0xc3e0dd30                calloc
+                0xc3e0de10                mem_malloc_init
+                0xc3e0de3c                realloc
+ .text          0xc3e0e2b4      0x1d0 libcommon.a(env_auto.o)
+                0xc3e0e2b4                env_get_char_spec
+                0xc3e0e2c0                env_init
+                0xc3e0e2dc                saveenv_nand
+                0xc3e0e2e4                saveenv_nand_adv
+                0xc3e0e2ec                env_relocate_spec_onenand
+                0xc3e0e378                env_relocate_spec_nand
+                0xc3e0e37c                env_relocate_spec_movinand
+                0xc3e0e3b4                env_relocate_spec
+                0xc3e0e3ec                saveenv_onenand
+                0xc3e0e404                saveenv_movinand
+                0xc3e0e43c                saveenv
+ .text          0xc3e0e484      0x13c libcommon.a(env_common.o)
+                0xc3e0e484                env_get_char_memory
+                0xc3e0e4a8                env_get_addr
+                0xc3e0e4cc                env_get_char
+                0xc3e0e4fc                env_crc_update
+                0xc3e0e524                set_default_env
+                0xc3e0e568                env_relocate
+ .text          0xc3e0e5c0      0x1e4 libcommon.a(exports.o)
+                0xc3e0e5c4                get_version
+                0xc3e0e5cc                jumptable_init
+ .text          0xc3e0e7a4      0x7b4 libcommon.a(image.o)
+                0xc3e0e7dc                image_multi_count
+                0xc3e0e804                get_table_entry_name
+                0xc3e0e830                genimg_get_os_name
+                0xc3e0e848                genimg_get_arch_name
+                0xc3e0e860                genimg_get_type_name
+                0xc3e0e878                genimg_get_comp_name
+                0xc3e0e890                genimg_get_image
+                0xc3e0e894                genimg_has_config
+                0xc3e0e89c                get_table_entry_id
+                0xc3e0e8e8                genimg_get_comp_id
+                0xc3e0e900                genimg_get_type_id
+                0xc3e0e918                genimg_get_arch_id
+                0xc3e0e930                genimg_get_os_id
+                0xc3e0e96c                genimg_get_format
+                0xc3e0e990                image_multi_getimg
+                0xc3e0ea18                genimg_print_size
+                0xc3e0ea44                image_print_contents
+                0xc3e0ebd8                memmove_wd
+                0xc3e0ebdc                getenv_bootm_low
+                0xc3e0ec10                getenv_yesno
+                0xc3e0ec34                getenv_bootm_size
+                0xc3e0ec68                image_check_dcrc
+                0xc3e0ecb0                image_check_hcrc
+                0xc3e0ed04                boot_get_ramdisk
+ .text          0xc3e0ef58     0x10f4 libcommon.a(main.o)
+                0xc3e0ef58                __show_boot_progress
+                0xc3e0ef58                show_boot_progress
+                0xc3e0ef5c                parse_line
+                0xc3e0efe8                run_command
+                0xc3e0f3b8                do_run
+                0xc3e0f650                readline_into_buffer
+                0xc3e0fed0                readline
+                0xc3e0feec                main_loop
+ .text          0xc3e1004c      0x2d8 libcommon.a(s_record.o)
+                0xc3e100c0                srec_decode
+ .text          0xc3e10324      0x174 libcommon.a(stdio.o)
+                0xc3e10324                stdio_get_list
+                0xc3e10330                stdio_clone
+                0xc3e10378                stdio_get_by_name
+                0xc3e103cc                stdio_register
+                0xc3e1040c                stdio_init
+ .text          0xc3e10498      0x97c libcommon.a(xyzModem.o)
+                0xc3e10498                parse_num
+                0xc3e105d4                xyzModem_error
+                0xc3e105f4                xyzModem_stream_close
+                0xc3e10644                CYGACC_COMM_IF_PUTC
+                0xc3e1064c                CYGACC_COMM_IF_GETC_TIMEOUT
+                0xc3e106cc                xyzModem_stream_terminate
+                0xc3e10a1c                xyzModem_stream_read
+                0xc3e10cb0                xyzModem_stream_open
+ .text          0xc3e10e14      0x41c libsmdkc210.a(smdkc210.o)
+                0xc3e10e14                board_init
+                0xc3e10e38                virt_to_phy_smdkc210
+                0xc3e10e48                checkboard
+                0xc3e10e74                dram_init
+                0xc3e11084                chk_bootdev
+                0xc3e11128                check_bootmode
+                0xc3e111cc                board_late_init
+ .text          0xc3e11230       0x44 libgeneric.a(crc16.o)
+                0xc3e11230                cyg_crc16
+ .text          0xc3e11274      0x104 libgeneric.a(crc32.o)
+                0xc3e11274                crc32_no_comp
+                0xc3e11360                crc32
+                0xc3e11374                crc32_wd
+ .text          0xc3e11378      0x23c libgeneric.a(display_options.o)
+                0xc3e11378                print_size
+                0xc3e1143c                display_options
+                0xc3e1145c                print_buffer
+ .text          0xc3e115b4      0x1c4 libgeneric.a(gunzip.o)
+                0xc3e115b4                zunzip
+                0xc3e116ac                gunzip
+                0xc3e11760                zfree
+                0xc3e11768                zalloc
+ .text          0xc3e11778       0x78 libgeneric.a(net_utils.o)
+                0xc3e11778                string_to_ip
+ .text          0xc3e117f0      0xc0c libgeneric.a(vsprintf.o)
+                0xc3e1180c                simple_strtoul
+                0xc3e118c8                simple_strtol
+                0xc3e118f0                ustrtoul
+                0xc3e11964                simple_strtoull
+                0xc3e11a7c                panic
+                0xc3e11f6c                vsprintf
+                0xc3e123d8                sprintf
+ .text          0xc3e123fc     0x2718 libgeneric.a(zlib.o)
+                0xc3e123fc                inflate_fast
+                0xc3e12918                inflate_table
+                0xc3e12e80                inflateReset
+                0xc3e12f1c                inflateInit2_
+                0xc3e13018                inflateInit_
+                0xc3e13028                inflateEnd
+                0xc3e130ac                adler32
+                0xc3e133a8                zcfree
+                0xc3e133b0                zcalloc
+                0xc3e133b8                inflate
+ .text          0xc3e14b14        0x0 libgeneric.a(ctype.o)
+ .text          0xc3e14b14       0xf4 libgeneric.a(div64.o)
+                0xc3e14b14                __div64_32
+ .text          0xc3e14c08      0x304 libarm_cortexa9.a(cpu.o)
+                0xc3e14c44                InitBaseHwForNfc
+                0xc3e14ccc                _console_write
+                0xc3e14d20                _console_setup
+                0xc3e14d80                cpu_init
+                0xc3e14da0                icache_enable
+                0xc3e14dbc                icache_disable
+                0xc3e14dd8                icache_status
+                0xc3e14de8                dcache_enable
+                0xc3e14e04                dcache_disable
+                0xc3e14e20                dcache_status
+                0xc3e14e30                branch_enable
+                0xc3e14e4c                branch_disable
+                0xc3e14e68                branch_status
+                0xc3e14e78                cpu_mmc_init
+                0xc3e14e90                reset_cpu
+                0xc3e14ec4                do_reset
+                0xc3e14edc                cleanup_before_linux
+ .text          0xc3e14f0c       0xa4 libs5pc210.a(serial.o)
+                0xc3e14f0c                serial_setbrg
+                0xc3e14f10                serial_init
+                0xc3e14f2c                serial_tstc
+                0xc3e14f40                serial_putc
+                0xc3e14f6c                serial_puts
+                0xc3e14f94                serial_getc
+ .text          0xc3e14fb0     0x1dc0 libs5pc210.a(usbd-otg-hs.o)
+                0xc3e14fb0                s3c_usb_phy_off
+                0xc3e14fdc                s3c_usb_core_soft_reset
+                0xc3e15000                s3c_usb_init_core
+                0xc3e1501c                s3c_usb_check_current_mode
+                0xc3e15034                s3c_usb_set_soft_disconnect
+                0xc3e1504c                s3c_usb_clear_soft_disconnect
+                0xc3e15064                s3c_usb_init_device
+                0xc3e15090                s3c_usbc_activate
+                0xc3e15098                s3c_usb_stop
+                0xc3e150ac                s3c_usb_set_inep_xfersize
+                0xc3e150e0                s3c_usb_set_outep_xfersize
+                0xc3e15114                s3c_usb_write_ep0_fifo
+                0xc3e15164                s3c_usb_write_in_fifo
+                0xc3e151b4                s3c_usb_read_out_fifo
+                0xc3e15200                s3c_usb_get_desc
+                0xc3e1530c                s3c_usb_clear_feature
+                0xc3e1537c                s3c_usb_set_feature
+                0xc3e154d4                s3c_usb_get_status
+                0xc3e1556c                s3c_usb_ep0_int_hndlr
+                0xc3e156dc                s3c_usb_set_otherspeed_conf_desc
+                0xc3e157c8                s3c_usb_transfer_ep0
+                0xc3e16050                s3c_usb_int_bulkin
+                0xc3e16118                s3c_usb_upload_start
+                0xc3e16270                s3c_usb_download_start
+                0xc3e1638c                s3c_usb_dma_in_done
+                0xc3e16424                s3c_usb_set_all_outep_nak
+                0xc3e1644c                s3c_usb_clear_all_outep_nak
+                0xc3e16474                s3c_usb_set_max_pktsize
+                0xc3e164c0                s3c_usb_set_endpoint
+                0xc3e16504                s3c_usb_set_descriptors
+                0xc3e16654                s3c_usb_check_speed
+                0xc3e1666c                s3c_usb_clear_dnfile_info
+                0xc3e16688                s3c_usb_clear_upfile_info
+                0xc3e166a4                s3c_usb_check_setconf
+                0xc3e166bc                s3c_usb_set_opmode
+                0xc3e1672c                s3c_usb_reset
+                0xc3e1678c                s3c_usb_set_init
+                0xc3e167ec                s3c_usb_verify_checksum
+                0xc3e1688c                s3c_usb_download_continue
+                0xc3e16938                s3c_usb_int_bulkout
+                0xc3e16960                s3c_usb_pkt_receive
+                0xc3e169cc                s3c_usb_print_pkt
+                0xc3e16a18                s3c_usb_dma_out_done
+                0xc3e16abc                s3c_usb_transfer
+                0xc3e16bb8                s3c_udc_int_hndlr
+                0xc3e16c58                s3c_usb_wait_cable_insert
+                0xc3e16ca8                s3c_usb_init_phy
+                0xc3e16ce8                s3c_usbctl_init
+ .text          0xc3e16d70      0x18c libs5pc210.a(cpu_info.o)
+                0xc3e16d70                get_device_type
+                0xc3e16d80                arch_cpu_init
+                0xc3e16edc                print_cpuinfo
+ .text          0xc3e16efc     0x204c libs5pc210.a(fastboot.o)
+                0xc3e16efc                fboot_usb_phy_off
+                0xc3e16f28                fboot_usb_core_soft_reset
+                0xc3e16f4c                fboot_usb_init_core
+                0xc3e16f68                fboot_usb_check_current_mode
+                0xc3e16f80                fboot_usb_set_soft_disconnect
+                0xc3e16f98                fboot_usb_clear_soft_disconnect
+                0xc3e16fb0                fboot_usb_init_device
+                0xc3e16fdc                fboot_usbc_activate
+                0xc3e16fe4                fboot_usb_stop
+                0xc3e16ff8                fboot_usb_set_inep_xfersize
+                0xc3e1702c                fboot_usb_set_outep_xfersize
+                0xc3e17060                fboot_usb_write_ep0_fifo
+                0xc3e170b0                fboot_usb_write_in_fifo
+                0xc3e17100                fboot_usb_read_out_fifo
+                0xc3e1714c                fboot_usb_get_desc
+                0xc3e1726c                fboot_usb_clear_feature
+                0xc3e172dc                fboot_usb_set_feature
+                0xc3e17434                fboot_usb_get_status
+                0xc3e174cc                fboot_usb_ep0_int_hndlr
+                0xc3e1763c                fboot_usb_set_otherspeed_conf_desc
+                0xc3e17728                fboot_usb_transfer_ep0
+                0xc3e17fc8                fboot_usb_upload_start
+                0xc3e18120                fboot_usb_download_start
+                0xc3e1823c                fboot_usb_dma_in_done
+                0xc3e182d4                fboot_usb_set_all_outep_nak
+                0xc3e182fc                fboot_usb_clear_all_outep_nak
+                0xc3e18324                fboot_usb_set_max_pktsize
+                0xc3e18370                fboot_usb_set_endpoint
+                0xc3e183b4                fboot_usb_set_descriptors
+                0xc3e18508                fboot_usb_check_speed
+                0xc3e18520                fboot_usb_clear_dnfile_info
+                0xc3e1853c                fboot_usb_clear_upfile_info
+                0xc3e18558                fboot_usb_check_setconf
+                0xc3e18570                fboot_usb_set_opmode
+                0xc3e185e0                fboot_usb_reset
+                0xc3e18640                fastboot_shutdown
+                0xc3e18644                fastboot_fifo_size
+                0xc3e18660                fastboot_getvar
+                0xc3e18668                fboot_usb_int_bulkin
+                0xc3e186f4                fastboot_preboot
+                0xc3e18788                fboot_usb_set_init
+                0xc3e187e8                fboot_usb_verify_checksum
+                0xc3e1887c                fboot_usb_download_continue
+                0xc3e18928                fboot_usb_print_pkt
+                0xc3e18968                fboot_usb_dma_out_done
+                0xc3e18a0c                fboot_usb_transfer
+                0xc3e18b0c                fboot_usb_wait_cable_insert
+                0xc3e18b4c                fboot_usb_init_phy
+                0xc3e18b8c                fboot_usbctl_init
+                0xc3e18c14                fastboot_init
+                0xc3e18cf0                fboot_usb_int_bulkout
+                0xc3e18d80                fboot_usb_pkt_receive
+                0xc3e18dec                fboot_usb_int_hndlr
+                0xc3e18ea8                fastboot_poll
+                0xc3e18efc                fastboot_tx_status
+ .text          0xc3e18f48      0x468 libs5pc210.a(pmic.o)
+                0xc3e18f48                PMIC_GetVoltage_Buck
+                0xc3e18f90                PMIC_SetVoltage_Buck
+                0xc3e18fd4                I2C_S5M8767_VolSetting
+                0xc3e19040                pmic8767_init
+                0xc3e19098                PMIC_InitIp
+                0xc3e19320                GPIO_Reset_B
+                0xc3e19368                GPIO_Reset_A
+ .text          0xc3e193b0     0x2be4 libs5pc210.a(gpio.o)
+                0xc3e193b0                GPIO_Init
+                0xc3e193c4                GPIO_SetFunctionEach
+                0xc3e193f4                GPIO_SetFunctionAll
+                0xc3e1940c                GPIO_SetDataEach
+                0xc3e1943c                GPIO_SetDataAll
+                0xc3e19458                GPIO_GetDataAll
+                0xc3e19474                GPIO_SetPullUpDownEach
+                0xc3e194a8                GPIO_SetPullUpDownAll
+                0xc3e194c4                ETC_SetPullUpDownEach
+                0xc3e194f4                ETC_SetPullUpDownAll
+                0xc3e1950c                GPIO_SetDSEach
+                0xc3e19540                GPIO_SetDSAll
+                0xc3e1956c                GPIO_SetConRegPDNAll
+                0xc3e19588                GPIO_SetPullUDPDNAll
+                0xc3e195a4                GPIO_EINT1ClrPend
+                0xc3e195c8                GPIO_EINT1UnMask
+                0xc3e195f0                GPIO_EINT1Mask
+                0xc3e19620                GPIO_EINT2ClrPend
+                0xc3e19644                GPIO_EINT2UnMask
+                0xc3e1966c                GPIO_EINT2Mask
+                0xc3e1969c                GPIO_EINT3ClrPend
+                0xc3e196c0                GPIO_EINT3UnMask
+                0xc3e196e8                GPIO_EINT3Mask
+                0xc3e19718                GPIO_EINT4ClrPend
+                0xc3e1973c                GPIO_EINT4UnMask
+                0xc3e19764                GPIO_EINT4Mask
+                0xc3e19794                GPIO_EINT5ClrPend
+                0xc3e197b8                GPIO_EINT5UnMask
+                0xc3e197e0                GPIO_EINT5Mask
+                0xc3e19810                GPIO_EINT6ClrPend
+                0xc3e19834                GPIO_EINT6UnMask
+                0xc3e1985c                GPIO_EINT6Mask
+                0xc3e1988c                GPIO_EINT7ClrPend
+                0xc3e198b0                GPIO_EINT7UnMask
+                0xc3e198d8                GPIO_EINT7Mask
+                0xc3e19908                GPIO_EINT8ClrPend
+                0xc3e1992c                GPIO_EINT8UnMask
+                0xc3e19954                GPIO_EINT8Mask
+                0xc3e19984                GPIO_EINT9ClrPend
+                0xc3e199a8                GPIO_EINT9UnMask
+                0xc3e199d0                GPIO_EINT9Mask
+                0xc3e19a00                GPIO_EINT10ClrPend
+                0xc3e19a24                GPIO_EINT10UnMask
+                0xc3e19a4c                GPIO_EINT10Mask
+                0xc3e19a7c                GPIO_EINT11ClrPend
+                0xc3e19aa0                GPIO_EINT11UnMask
+                0xc3e19ac8                GPIO_EINT11Mask
+                0xc3e19af8                GPIO_EINT12ClrPend
+                0xc3e19b1c                GPIO_EINT12UnMask
+                0xc3e19b44                GPIO_EINT12Mask
+                0xc3e19b74                GPIO_EINT13ClrPend
+                0xc3e19b98                GPIO_EINT13UnMask
+                0xc3e19bc0                GPIO_EINT13Mask
+                0xc3e19bf0                GPIO_EINT14ClrPend
+                0xc3e19c14                GPIO_EINT14UnMask
+                0xc3e19c3c                GPIO_EINT14Mask
+                0xc3e19c6c                GPIO_EINT15ClrPend
+                0xc3e19c90                GPIO_EINT15UnMask
+                0xc3e19cb8                GPIO_EINT15Mask
+                0xc3e19ce8                GPIO_EINT16ClrPend
+                0xc3e19d0c                GPIO_EINT16UnMask
+                0xc3e19d34                GPIO_EINT16Mask
+                0xc3e19d64                GPIO_EINT21ClrPend
+                0xc3e19d80                GPIO_EINT21UnMask
+                0xc3e19da0                GPIO_EINT21Mask
+                0xc3e19dc8                GPIO_EINT22ClrPend
+                0xc3e19de4                GPIO_EINT22UnMask
+                0xc3e19e04                GPIO_EINT22Mask
+                0xc3e19e2c                GPIO_EINT23ClrPend
+                0xc3e19e48                GPIO_EINT23UnMask
+                0xc3e19e68                GPIO_EINT23Mask
+                0xc3e19e90                GPIO_EINT24ClrPend
+                0xc3e19eac                GPIO_EINT24UnMask
+                0xc3e19ecc                GPIO_EINT24Mask
+                0xc3e19ef4                GPIO_EINT25ClrPend
+                0xc3e19f10                GPIO_EINT25UnMask
+                0xc3e19f30                GPIO_EINT25Mask
+                0xc3e19f58                GPIO_EINT26ClrPend
+                0xc3e19f74                GPIO_EINT26UnMask
+                0xc3e19f94                GPIO_EINT26Mask
+                0xc3e19fbc                GPIO_EINT27ClrPend
+                0xc3e19fd8                GPIO_EINT27UnMask
+                0xc3e19ff8                GPIO_EINT27Mask
+                0xc3e1a020                GPIO_EINT28ClrPend
+                0xc3e1a03c                GPIO_EINT28UnMask
+                0xc3e1a05c                GPIO_EINT28Mask
+                0xc3e1a084                GPIO_EINT29ClrPend
+                0xc3e1a0a0                GPIO_EINT29UnMask
+                0xc3e1a0c0                GPIO_EINT29Mask
+                0xc3e1a0e8                GPIO_EINT40ClrPend
+                0xc3e1a104                GPIO_EINT40UnMask
+                0xc3e1a124                GPIO_EINT40Mask
+                0xc3e1a14c                GPIO_EINT41ClrPend
+                0xc3e1a168                GPIO_EINT41UnMask
+                0xc3e1a188                GPIO_EINT41Mask
+                0xc3e1a1b0                GPIO_EINT42ClrPend
+                0xc3e1a1cc                GPIO_EINT42UnMask
+                0xc3e1a1ec                GPIO_EINT42Mask
+                0xc3e1a214                GPIO_EINT43ClrPend
+                0xc3e1a230                GPIO_EINT43UnMask
+                0xc3e1a250                GPIO_EINT43Mask
+                0xc3e1a278                EINT_GRPPRI_XA
+                0xc3e1a2a0                EINT_GRPPRI_XB
+                0xc3e1a2c0                EINT_PRIORITY_XA
+                0xc3e1a2f4                EINT_PRIORITY_XB
+                0xc3e1a320                Get_EINTSVC_XA
+                0xc3e1a33c                Get_EINTSVC_XB
+                0xc3e1a350                Get_EINTSVCPEND_XA
+                0xc3e1a36c                Get_EINTSVCPEND_XB
+                0xc3e1a380                EINT_GRPFIXPRI_XA
+                0xc3e1a3a8                EINT_GRPFIXPRI_XB
+                0xc3e1a3c8                EINT_FIXPRI_XB
+                0xc3e1a40c                EINT_FIXPRI_XA
+                0xc3e1a480                GPIO_SetEint1
+                0xc3e1a57c                GPIO_SetEint2
+                0xc3e1a684                GPIO_SetEint3
+                0xc3e1a78c                GPIO_SetEint4
+                0xc3e1a874                GPIO_SetEint5
+                0xc3e1a95c                GPIO_SetEint6
+                0xc3e1aa18                GPIO_SetEint7
+                0xc3e1aad4                GPIO_SetEint8
+                0xc3e1abbc                GPIO_SetEint9
+                0xc3e1acc4                GPIO_SetEint10
+                0xc3e1adcc                GPIO_SetEint11
+                0xc3e1aed4                GPIO_SetEint12
+                0xc3e1afdc                GPIO_SetEint13
+                0xc3e1b0e4                GPIO_SetEint14
+                0xc3e1b1ec                GPIO_SetEint15
+                0xc3e1b2f4                GPIO_SetEint16
+                0xc3e1b3fc                GPIO_SetEint21
+                0xc3e1b4e8                GPIO_SetEint22
+                0xc3e1b5b4                GPIO_SetEint23
+                0xc3e1b6a0                GPIO_SetEint24
+                0xc3e1b78c                GPIO_SetEint25
+                0xc3e1b878                GPIO_SetEint26
+                0xc3e1b964                GPIO_SetEint27
+                0xc3e1ba50                GPIO_SetEint28
+                0xc3e1baf8                GPIO_SetEint29
+                0xc3e1bbe4                GPIO_SetEint40
+                0xc3e1bcd0                GPIO_SetEint41
+                0xc3e1bdbc                GPIO_SetEint42
+                0xc3e1bea8                GPIO_SetEint43
+ .text          0xc3e1bf94     0x1364 libs5pc210.a(i2c.o)
+                0xc3e1bf94                I2C_GetLastError
+                0xc3e1bfac                I2C_SetClock
+                0xc3e1c018                I2C_SetAckGeneration
+                0xc3e1c054                I2C_SetSlaveAddress
+                0xc3e1c088                I2C_SetFilter
+                0xc3e1c0c4                I2C_SetOutputDelay
+                0xc3e1c0fc                I2C_EnableInt
+                0xc3e1c120                I2C_DisableInt
+                0xc3e1c144                I2C_GetIntStatus
+                0xc3e1c164                I2C_WaitForXferNoAck
+                0xc3e1c1a4                I2C_ClearIntStatus
+                0xc3e1c1c8                I2C_SetMode
+                0xc3e1c2c4                I2C_GenerateSignal
+                0xc3e1c300                I2C_GetBusStatus
+                0xc3e1c320                I2C_IsBusReady
+                0xc3e1c344                I2C_WaitForBusReady
+                0xc3e1c384                I2C_IsBusBusy
+                0xc3e1c3a4                I2C_IsMatchAddress
+                0xc3e1c3c4                I2C_WaitForMatchAddress
+                0xc3e1c414                I2C_IsXferAck
+                0xc3e1c438                I2C_WaitForXferAck
+                0xc3e1c488                I2C_WriteAddress
+                0xc3e1c4a8                I2C_WriteData
+                0xc3e1c4c4                I2C_ReadData
+                0xc3e1c4e0                I2C_SetGPIO
+                0xc3e1c918                I2C_InitSlave
+                0xc3e1c970                I2C_InitMaster
+                0xc3e1c9b8                I2C_CalculatePrescaler
+                0xc3e1ca88                I2C_PrintErrorCase
+                0xc3e1cd94                I2C_RecvEx
+                0xc3e1cd98                I2C_Recv
+                0xc3e1d0f4                I2C_SendEx
+                0xc3e1d0f8                I2C_Send
+                0xc3e1d250                I2C_InitIp
+ .text          0xc3e1d2f8     0x1f14 libs5pc210.a(cmu.o)
+                0xc3e1d2f8                SYSC_SetCpuDiv
+                0xc3e1d378                SYSC_SetCoreDiv
+                0xc3e1d414                SYSC_SetTopBusDiv
+                0xc3e1d4ac                SYSC_SetDivDefaultVal
+                0xc3e1d534                SYSC_SetLocktimeVal
+                0xc3e1d5b4                SYSC_CheckPllLock
+                0xc3e1d608                SYSC_EnablePll
+                0xc3e1d66c                SYSC_DisablePll
+                0xc3e1d6c4                SYSC_SetDitherParam
+                0xc3e1d92c                SYSC_CalcPllFout
+                0xc3e1da68                SYSC_GetMuxSrc
+                0xc3e1da90                SYSC_SetMuxSrc
+                0xc3e1db48                SYSC_SetClkDiv
+                0xc3e1db9c                SYSC_GetClkDiv
+                0xc3e1dbc8                SYSC_SetClkGateIp
+                0xc3e1dbfc                SYSC_GetClkGateIp
+                0xc3e1dc28                SYSC_SetClkGateBlock
+                0xc3e1dc5c                SYSC_GetClkGateBlock
+                0xc3e1dce0                SYSC_SetClkOut
+                0xc3e1ddf0                SYSC_SetPllByPms
+                0xc3e1e078                SYSC_SetPllByFout
+                0xc3e1e524                SYSC_GetVcoPll
+                0xc3e1e67c                SYSC_GetFoutPll
+                0xc3e1e7ec                SYSC_ChangePllnDiv
+                0xc3e1e9b0                SYSC_InitSysClk
+                0xc3e1f068                SYSC_GetClkFreq
+ .text          0xc3e1f20c       0x98 libs5pc210.a(speed.o)
+                0xc3e1f260                get_ARM_CLK
+                0xc3e1f294                get_MPLL_CLK
+                0xc3e1f29c                get_APLL_CLK
+ .text          0xc3e1f2a4      0x458 libs5pc210.a(max8997.o)
+                0xc3e1f5c0                pmic_write
+                0xc3e1f5c4                max8997_init
+                0xc3e1f68c                lowlevel_init_max8997
+                0xc3e1f6f8                pmic_read
+ .text          0xc3e1f6fc      0x260 libs5pc210.a(setup_hsmmc.o)
+                0xc3e1f6fc                setup_sdhci0_cfg_card
+                0xc3e1f700                setup_hsmmc_cfg_gpio
+                0xc3e1f798                setup_hsmmc_clock
+                0xc3e1f884                set_hsmmc_pre_ratio
+                0xc3e1f90c                clear_hsmmc_clock_div
+ .text          0xc3e1f95c      0x174 libs5pc210.a(recovery.o)
+                0xc3e1f95c                factory_reset
+                0xc3e1fa20                recovery_preboot
+ .text          0xc3e1fad0      0x238 libarm.a(bootm.o)
+                0xc3e1fad0                do_bootm_linux
+ .text          0xc3e1fd08        0x4 libarm.a(cache.o)
+                0xc3e1fd08                flush_cache
+ .text          0xc3e1fd0c     0x19d0 libfat.a(fat.o)
+                0xc3e1fec4                disk_read
+                0xc3e20218                file_fat_detectfs
+                0xc3e20650                do_fat_read
+                0xc3e20f44                file_fat_read
+                0xc3e20f7c                file_fat_ls
+                0xc3e20f8c                fat_register_device
+                0xc3e2109c                fat_format_device
+ .text          0xc3e216dc     0x3370 libext2fs.a(ext2fs.o)
+                0xc3e216dc                get_random_val
+                0xc3e216f4                default_journal_size
+                0xc3e21734                ext2fs_format
+                0xc3e23c70                ext2fs_free_node
+                0xc3e23c90                ext2fs_close
+                0xc3e23e10                ext2fs_mount
+                0xc3e23ec4                ext2fs_read_file
+                0xc3e24398                ext2fs_read
+                0xc3e24640                ext2fs_find_file1
+                0xc3e248c8                ext2fs_find_file
+                0xc3e24944                ext2fs_open
+                0xc3e249d8                ext2fs_ls
+ .text          0xc3e24a4c      0x224 libext2fs.a(dev.o)
+                0xc3e24a4c                ext2fs_devread
+                0xc3e24c24                ext2fs_set_blk_dev
+ .text          0xc3e24c70      0x37c libdisk.a(part.o)
+                0xc3e24c70                dev_print
+                0xc3e24e6c                get_partition_info
+                0xc3e24e90                init_part
+                0xc3e24eac                get_dev
+                0xc3e24f10                print_part
+ .text          0xc3e24fec      0x508 libdisk.a(part_dos.o)
+                0xc3e25030                test_part_dos
+                0xc3e252dc                get_partition_info_dos
+                0xc3e254c8                print_part_dos
+ .text          0xc3e254f4      0x528 libmmc.a(s3c_hsmmc.o)
+                0xc3e258c4                smdk_s3c_hsmmc_init
+ .text          0xc3e25a1c      0xd14 libmmc.a(s5p_mshc.o)
+                0xc3e25bdc                mshci_fifo_deinit
+                0xc3e2663c                emmc_mode_change
+                0xc3e2668c                smdk_s5p_mshc_init
+ .text          0xc3e26730       0x1c /home/sw/pp_self/1/iTop4412_uboot/sw_build/eabi_compat.o
+                0xc3e26730                raise
+ .text          0xc3e2674c      0x20c /home/sw/bb/arm-2009q3/bin/../lib/gcc/arm-none-linux-gnueabi/4.4.1/libgcc.a(_udivsi3.o)
+                0xc3e2674c                __udivsi3
+                0xc3e2674c                __aeabi_uidiv
+                0xc3e26938                __aeabi_uidivmod
+ .text          0xc3e26958      0x240 /home/sw/bb/arm-2009q3/bin/../lib/gcc/arm-none-linux-gnueabi/4.4.1/libgcc.a(_divsi3.o)
+                0xc3e26958                __aeabi_idiv
+                0xc3e26958                __divsi3
+                0xc3e26b78                __aeabi_idivmod
+ .text          0xc3e26b98       0x1c /home/sw/bb/arm-2009q3/bin/../lib/gcc/arm-none-linux-gnueabi/4.4.1/libgcc.a(_lshrdi3.o)
+                0xc3e26b98                __aeabi_llsr
+                0xc3e26b98                __lshrdi3
+ .text          0xc3e26bb4      0x3b8 /home/sw/bb/arm-2009q3/bin/../lib/gcc/arm-none-linux-gnueabi/4.4.1/libgcc.a(_arm_addsubdf3.o)
+                0xc3e26bb4                __aeabi_drsub
+                0xc3e26bbc                __aeabi_dsub
+                0xc3e26bbc                __subdf3
+                0xc3e26bc0                __adddf3
+                0xc3e26bc0                __aeabi_dadd
+                0xc3e26e6c                __aeabi_ui2d
+                0xc3e26e6c                __floatunsidf
+                0xc3e26e90                __floatsidf
+                0xc3e26e90                __aeabi_i2d
+                0xc3e26eb8                __extendsfdf2
+                0xc3e26eb8                __aeabi_f2d
+                0xc3e26ef8                __aeabi_ul2d
+                0xc3e26ef8                __floatundidf
+                0xc3e26f0c                __floatdidf
+                0xc3e26f0c                __aeabi_l2d
+ .text          0xc3e26f6c      0x470 /home/sw/bb/arm-2009q3/bin/../lib/gcc/arm-none-linux-gnueabi/4.4.1/libgcc.a(_arm_muldivdf3.o)
+                0xc3e26f6c                __aeabi_dmul
+                0xc3e26f6c                __muldf3
+                0xc3e271d8                __aeabi_ddiv
+                0xc3e271d8                __divdf3
+ .text          0xc3e273dc       0xa0 /home/sw/bb/arm-2009q3/bin/../lib/gcc/arm-none-linux-gnueabi/4.4.1/libgcc.a(_arm_truncdfsf2.o)
+                0xc3e273dc                __aeabi_d2f
+                0xc3e273dc                __truncdfsf2
+ .text          0xc3e2747c      0x250 /home/sw/bb/arm-2009q3/bin/../lib/gcc/arm-none-linux-gnueabi/4.4.1/libgcc.a(_arm_addsubsf3.o)
+                0xc3e2747c                __aeabi_frsub
+                0xc3e27484                __subsf3
+                0xc3e27484                __aeabi_fsub
+                0xc3e27488                __aeabi_fadd
+                0xc3e27488                __addsf3
+                0xc3e27618                __aeabi_ui2f
+                0xc3e27618                __floatunsisf
+                0xc3e27620                __aeabi_i2f
+                0xc3e27620                __floatsisf
+                0xc3e27640                __floatundisf
+                0xc3e27640                __aeabi_ul2f
+                0xc3e27650                __floatdisf
+                0xc3e27650                __aeabi_l2f
+ .text          0xc3e276cc      0x2f8 /home/sw/bb/arm-2009q3/bin/../lib/gcc/arm-none-linux-gnueabi/4.4.1/libgcc.a(_arm_muldivsf3.o)
+                0xc3e276cc                __mulsf3
+                0xc3e276cc                __aeabi_fmul
+                0xc3e27864                __divsf3
+                0xc3e27864                __aeabi_fdiv
+ .text          0xc3e279c4       0xfc /home/sw/bb/arm-2009q3/bin/../lib/gcc/arm-none-linux-gnueabi/4.4.1/libgcc.a(_arm_cmpsf2.o)
+                0xc3e279c4                __gtsf2
+                0xc3e279c4                __gesf2
+                0xc3e279cc                __lesf2
+                0xc3e279cc                __ltsf2
+                0xc3e279d4                __nesf2
+                0xc3e279d4                __eqsf2
+                0xc3e279d4                __cmpsf2
+                0xc3e27a38                __aeabi_cfrcmple
+                0xc3e27a48                __aeabi_cfcmple
+                0xc3e27a48                __aeabi_cfcmpeq
+                0xc3e27a5c                __aeabi_fcmpeq
+                0xc3e27a70                __aeabi_fcmplt
+                0xc3e27a84                __aeabi_fcmple
+                0xc3e27a98                __aeabi_fcmpge
+                0xc3e27aac                __aeabi_fcmpgt
+ .text          0xc3e27ac0       0x54 /home/sw/bb/arm-2009q3/bin/../lib/gcc/arm-none-linux-gnueabi/4.4.1/libgcc.a(_arm_fixunssfsi.o)
+                0xc3e27ac0                __aeabi_f2uiz
+                0xc3e27ac0                __fixunssfsi
+ .text          0xc3e27b14       0x10 /home/sw/bb/arm-2009q3/bin/../lib/gcc/arm-none-linux-gnueabi/4.4.1/libgcc.a(_dvmd_lnx.o)
+                0xc3e27b14                __aeabi_ldiv0
+                0xc3e27b14                __aeabi_idiv0
 
-.glue_7         0xc3e27aa4        0x0
+.glue_7         0xc3e27b24        0x0
  .glue_7        0x00000000        0x0 linker stubs
 
-.glue_7t        0xc3e27aa4        0x0
+.glue_7t        0xc3e27b24        0x0
  .glue_7t       0x00000000        0x0 linker stubs
 
-.vfp11_veneer   0xc3e27aa4        0x0
+.vfp11_veneer   0xc3e27b24        0x0
  .vfp11_veneer  0x00000000        0x0 linker stubs
 
-.v4_bx          0xc3e27aa4        0x0
+.v4_bx          0xc3e27b24        0x0
  .v4_bx         0x00000000        0x0 linker stubs
-                0xc3e27aa4                . = ALIGN (0x4)
+                0xc3e27b24                . = ALIGN (0x4)
 
-.rodata         0xc3e27aa4     0xcb22
+.rodata         0xc3e27b24     0xcb22
  *(SORT(.rodata*))
- .rodata        0xc3e27aa4       0x14 ace_sha1.o
-                0xc3e27aa4                sha1_digest_emptymsg
- .rodata        0xc3e27ab8       0x80 libs5pc210.a(interrupts.o)
- .rodata        0xc3e27b38       0x44 libarm.a(board.o)
-                0xc3e27b38                version_string
- .rodata        0xc3e27b7c       0x4c libcommon.a(cmd_bootm.o)
- .rodata        0xc3e27bc8       0x58 libcommon.a(command.o)
- .rodata        0xc3e27c20       0x20 libcommon.a(xyzModem.o)
- .rodata        0xc3e27c40      0x200 libgeneric.a(crc16.o)
- .rodata        0xc3e27e40      0x400 libgeneric.a(crc32.o)
- .rodata        0xc3e28240       0x24 libgeneric.a(vsprintf.o)
-                0xc3e28250                hex_asc
- .rodata        0xc3e28264      0x9d0 libgeneric.a(zlib.o)
-                0xc3e28c0c                z_errmsg
- .rodata        0xc3e28c34       0xac libs5pc210.a(usbd-otg-hs.o)
-                0xc3e28c34                config_full
-                0xc3e28c40                config_full_total
-                0xc3e28c60                config_high
-                0xc3e28c6c                config_high_total
-                0xc3e28c8c                qualifier_desc
-                0xc3e28c98                string_desc0
-                0xc3e28c9c                string_desc1
-                0xc3e28cb4                string_desc2
- .rodata        0xc3e28ce0       0xb4 libs5pc210.a(fastboot.o)
-                0xc3e28ce0                fboot_config_full
-                0xc3e28cec                fboot_config_full_total
-                0xc3e28d0c                fboot_config_high
-                0xc3e28d18                fboot_config_high_total
-                0xc3e28d38                fboot_qualifier_desc
-                0xc3e28d44                fboot_string_desc0
-                0xc3e28d48                fboot_string_desc1
-                0xc3e28d60                fboot_string_desc2
-                0xc3e28d78                string_desc3
- .rodata        0xc3e28d94       0x18 libs5pc210.a(pmic.o)
-                0xc3e28d94                gVoltage_Type
- .rodata        0xc3e28dac     0x4c08 libs5pc210.a(cmu.o)
- .rodata        0xc3e2d9b4       0x10 libdisk.a(part.o)
- .rodata        0xc3e2d9c4        0x2 libs5pc210.a(cpu_info.o)
+ .rodata        0xc3e27b24       0x14 ace_sha1.o
+                0xc3e27b24                sha1_digest_emptymsg
+ .rodata        0xc3e27b38       0x80 libs5pc210.a(interrupts.o)
+ .rodata        0xc3e27bb8       0x44 libarm.a(board.o)
+                0xc3e27bb8                version_string
+ .rodata        0xc3e27bfc       0x4c libcommon.a(cmd_bootm.o)
+ .rodata        0xc3e27c48       0x58 libcommon.a(command.o)
+ .rodata        0xc3e27ca0       0x20 libcommon.a(xyzModem.o)
+ .rodata        0xc3e27cc0      0x200 libgeneric.a(crc16.o)
+ .rodata        0xc3e27ec0      0x400 libgeneric.a(crc32.o)
+ .rodata        0xc3e282c0       0x24 libgeneric.a(vsprintf.o)
+                0xc3e282d0                hex_asc
+ .rodata        0xc3e282e4      0x9d0 libgeneric.a(zlib.o)
+                0xc3e28c8c                z_errmsg
+ .rodata        0xc3e28cb4       0xac libs5pc210.a(usbd-otg-hs.o)
+                0xc3e28cb4                config_full
+                0xc3e28cc0                config_full_total
+                0xc3e28ce0                config_high
+                0xc3e28cec                config_high_total
+                0xc3e28d0c                qualifier_desc
+                0xc3e28d18                string_desc0
+                0xc3e28d1c                string_desc1
+                0xc3e28d34                string_desc2
+ .rodata        0xc3e28d60       0xb4 libs5pc210.a(fastboot.o)
+                0xc3e28d60                fboot_config_full
+                0xc3e28d6c                fboot_config_full_total
+                0xc3e28d8c                fboot_config_high
+                0xc3e28d98                fboot_config_high_total
+                0xc3e28db8                fboot_qualifier_desc
+                0xc3e28dc4                fboot_string_desc0
+                0xc3e28dc8                fboot_string_desc1
+                0xc3e28de0                fboot_string_desc2
+                0xc3e28df8                string_desc3
+ .rodata        0xc3e28e14       0x18 libs5pc210.a(pmic.o)
+                0xc3e28e14                gVoltage_Type
+ .rodata        0xc3e28e2c     0x4c08 libs5pc210.a(cmu.o)
+ .rodata        0xc3e2da34       0x10 libdisk.a(part.o)
+ .rodata        0xc3e2da44        0x2 libs5pc210.a(cpu_info.o)
  .rodata.str1.1
-                0xc3e2d9c6      0x21f libs5pc210.a(interrupts.o)
+                0xc3e2da46      0x21f libs5pc210.a(interrupts.o)
                                 0x236 (size before relaxing)
  .rodata.str1.1
-                0xc3e2dbe5       0x5f libarm.a(board.o)
+                0xc3e2dc65       0x5f libarm.a(board.o)
                                  0x61 (size before relaxing)
  .rodata.str1.1
-                0xc3e2dc44      0x396 libmmc.a(mmc.o)
+                0xc3e2dcc4      0x396 libmmc.a(mmc.o)
                                 0x39e (size before relaxing)
  .rodata.str1.1
-                0xc3e2dfda       0x81 libcommon.a(cmd_bdinfo.o)
+                0xc3e2e05a       0x81 libcommon.a(cmd_bdinfo.o)
                                  0x82 (size before relaxing)
  .rodata.str1.1
-                0xc3e2e05b       0xef libcommon.a(cmd_boot.o)
+                0xc3e2e0db       0xef libcommon.a(cmd_boot.o)
                                  0xf0 (size before relaxing)
  .rodata.str1.1
-                0xc3e2e14a      0x7f4 libcommon.a(cmd_bootm.o)
+                0xc3e2e1ca      0x7f4 libcommon.a(cmd_bootm.o)
                                 0x848 (size before relaxing)
  .rodata.str1.1
-                0xc3e2e93e       0x5c libcommon.a(cmd_console.o)
+                0xc3e2e9be       0x5c libcommon.a(cmd_console.o)
                                  0x61 (size before relaxing)
  .rodata.str1.1
-                0xc3e2e99a       0x50 libcommon.a(cmd_echo.o)
+                0xc3e2ea1a       0x50 libcommon.a(cmd_echo.o)
                                  0x55 (size before relaxing)
  .rodata.str1.1
-                0xc3e2e9ea      0x24c libcommon.a(cmd_elf.o)
+                0xc3e2ea6a      0x24c libcommon.a(cmd_elf.o)
                                 0x25c (size before relaxing)
  .rodata.str1.1
-                0xc3e2ec36      0x4d6 libcommon.a(cmd_ext2.o)
+                0xc3e2ecb6      0x4d6 libcommon.a(cmd_ext2.o)
                                 0x56e (size before relaxing)
  .rodata.str1.1
-                0xc3e2f10c      0xdef libcommon.a(cmd_fastboot.o)
+                0xc3e2f18c      0xdef libcommon.a(cmd_fastboot.o)
                                 0xe8f (size before relaxing)
  .rodata.str1.1
-                0xc3e2fefb      0x543 libcommon.a(cmd_fat.o)
+                0xc3e2ff7b      0x543 libcommon.a(cmd_fat.o)
                                 0x656 (size before relaxing)
  .rodata.str1.1
-                0xc3e3043e       0x9a libcommon.a(cmd_help.o)
+                0xc3e304be       0x9a libcommon.a(cmd_help.o)
                                  0x9b (size before relaxing)
  .rodata.str1.1
-                0xc3e304d8       0xb3 libcommon.a(cmd_itest.o)
+                0xc3e30558       0xb3 libcommon.a(cmd_itest.o)
                                  0xb5 (size before relaxing)
  .rodata.str1.1
-                0xc3e3058b      0x336 libcommon.a(cmd_load.o)
+                0xc3e3060b      0x336 libcommon.a(cmd_load.o)
                                 0x353 (size before relaxing)
  .rodata.str1.1
-                0xc3e308c1       0x5c libcommon.a(cmd_max8997.o)
+                0xc3e30941       0x5c libcommon.a(cmd_max8997.o)
  .rodata.str1.1
-                0xc3e3091d       0x3f libcommon.a(cmd_mdmupgrade.o)
+                0xc3e3099d       0x3f libcommon.a(cmd_mdmupgrade.o)
  .rodata.str1.1
-                0xc3e3095c      0x480 libcommon.a(cmd_mem.o)
+                0xc3e309dc      0x480 libcommon.a(cmd_mem.o)
                                 0x491 (size before relaxing)
  .rodata.str1.1
-                0xc3e30ddc       0x5f libcommon.a(cmd_misc.o)
+                0xc3e30e5c       0x5f libcommon.a(cmd_misc.o)
  .rodata.str1.1
-                0xc3e30e3b      0x6fb libcommon.a(cmd_mmc.o)
+                0xc3e30ebb      0x6fb libcommon.a(cmd_mmc.o)
                                 0x738 (size before relaxing)
  .rodata.str1.1
-                0xc3e31536      0x28d libcommon.a(cmd_mmc_fdisk.o)
+                0xc3e315b6      0x28d libcommon.a(cmd_mmc_fdisk.o)
                                 0x291 (size before relaxing)
  .rodata.str1.1
-                0xc3e317c3      0x375 libcommon.a(cmd_movi.o)
+                0xc3e31843      0x375 libcommon.a(cmd_movi.o)
                                 0x3ed (size before relaxing)
  .rodata.str1.1
-                0xc3e31b38      0x33c libcommon.a(cmd_nvedit.o)
+                0xc3e31bb8      0x33c libcommon.a(cmd_nvedit.o)
                                 0x392 (size before relaxing)
  .rodata.str1.1
-                0xc3e31e74      0x101 libcommon.a(cmd_source.o)
+                0xc3e31ef4      0x101 libcommon.a(cmd_source.o)
                                 0x108 (size before relaxing)
  .rodata.str1.1
-                0xc3e31f75       0x93 libcommon.a(cmd_usbd.o)
+                0xc3e31ff5       0x93 libcommon.a(cmd_usbd.o)
                                  0x9e (size before relaxing)
  .rodata.str1.1
-                0xc3e32008       0x16 libcommon.a(cmd_version.o)
+                0xc3e32088       0x16 libcommon.a(cmd_version.o)
                                  0x24 (size before relaxing)
  .rodata.str1.1
-                0xc3e3201e      0x187 libcommon.a(cmd_ximg.o)
+                0xc3e3209e      0x187 libcommon.a(cmd_ximg.o)
                                 0x22f (size before relaxing)
  .rodata.str1.1
-                0xc3e321a5       0x95 libcommon.a(command.o)
+                0xc3e32225       0x95 libcommon.a(command.o)
  .rodata.str1.1
-                0xc3e3223a       0x70 libcommon.a(console.o)
+                0xc3e322ba       0x70 libcommon.a(console.o)
                                  0x74 (size before relaxing)
  .rodata.str1.1
-                0xc3e322aa      0x128 libcommon.a(decompress_ext4.o)
+                0xc3e3232a      0x128 libcommon.a(decompress_ext4.o)
                                 0x12c (size before relaxing)
  .rodata.str1.1
-                0xc3e323d2       0xb7 libcommon.a(env_auto.o)
+                0xc3e32452       0xb7 libcommon.a(env_auto.o)
  .rodata.str1.1
-                0xc3e32489       0x33 libcommon.a(env_common.o)
+                0xc3e32509       0x33 libcommon.a(env_common.o)
  .rodata.str1.1
-                0xc3e324bc      0x44d libcommon.a(image.o)
+                0xc3e3253c      0x44d libcommon.a(image.o)
                                 0x4f0 (size before relaxing)
  .rodata.str1.1
-                0xc3e32909       0xc8 libcommon.a(main.o)
+                0xc3e32989       0xc8 libcommon.a(main.o)
                                  0xf0 (size before relaxing)
  .rodata.str1.1
-                0xc3e329d1        0x7 libcommon.a(stdio.o)
+                0xc3e32a51        0x7 libcommon.a(stdio.o)
                                  0x1b (size before relaxing)
  .rodata.str1.1
-                0xc3e329d8       0xe3 libcommon.a(xyzModem.o)
+                0xc3e32a58       0xe3 libcommon.a(xyzModem.o)
                                  0xe5 (size before relaxing)
  .rodata.str1.1
-                0xc3e32abb      0x15a libsmdkc210.a(smdkc210.o)
+                0xc3e32b3b      0x15a libsmdkc210.a(smdkc210.o)
                                 0x193 (size before relaxing)
  .rodata.str1.1
-                0xc3e32c15       0x11 libgeneric.a(display_options.o)
+                0xc3e32c95       0x11 libgeneric.a(display_options.o)
                                  0x36 (size before relaxing)
  .rodata.str1.1
-                0xc3e32c26       0x85 libgeneric.a(gunzip.o)
+                0xc3e32ca6       0x85 libgeneric.a(gunzip.o)
  .rodata.str1.1
-                0xc3e32cab        0xe libgeneric.a(vsprintf.o)
+                0xc3e32d2b        0xe libgeneric.a(vsprintf.o)
  .rodata.str1.1
-                0xc3e32cb9      0x21c libgeneric.a(zlib.o)
+                0xc3e32d39      0x21c libgeneric.a(zlib.o)
                                 0x21d (size before relaxing)
  .rodata.str1.1
-                0xc3e32ed5       0x12 libarm_cortexa9.a(cpu.o)
+                0xc3e32f55       0x12 libarm_cortexa9.a(cpu.o)
  .rodata.str1.1
-                0xc3e32ee7      0x145 libs5pc210.a(usbd-otg-hs.o)
+                0xc3e32f67      0x145 libs5pc210.a(usbd-otg-hs.o)
                                 0x14a (size before relaxing)
  .rodata.str1.1
-                0xc3e3302c      0x183 libs5pc210.a(cpu_info.o)
+                0xc3e330ac      0x183 libs5pc210.a(cpu_info.o)
  .rodata.str1.1
-                0xc3e331af       0x6f libs5pc210.a(fastboot.o)
+                0xc3e3322f       0x6f libs5pc210.a(fastboot.o)
                                 0x181 (size before relaxing)
  .rodata.str1.1
-                0xc3e3321e       0x84 libs5pc210.a(pmic.o)
+                0xc3e3329e       0x84 libs5pc210.a(pmic.o)
  .rodata.str1.1
-                0xc3e332a2       0x37 libs5pc210.a(gpio.o)
+                0xc3e33322       0x37 libs5pc210.a(gpio.o)
  .rodata.str1.1
-                0xc3e332d9       0xe6 libs5pc210.a(i2c.o)
+                0xc3e33359       0xe6 libs5pc210.a(i2c.o)
  .rodata.str1.1
-                0xc3e333bf       0x17 libs5pc210.a(setup_hsmmc.o)
+                0xc3e3343f       0x17 libs5pc210.a(setup_hsmmc.o)
  .rodata.str1.1
-                0xc3e333d6       0xf1 libs5pc210.a(recovery.o)
+                0xc3e33456       0xf1 libs5pc210.a(recovery.o)
                                 0x121 (size before relaxing)
  .rodata.str1.1
-                0xc3e334c7       0x5a libarm.a(bootm.o)
+                0xc3e33547       0x5a libarm.a(bootm.o)
                                  0x63 (size before relaxing)
  .rodata.str1.1
-                0xc3e33521      0x3fd libfat.a(fat.o)
+                0xc3e335a1      0x3fd libfat.a(fat.o)
                                 0x402 (size before relaxing)
  .rodata.str1.1
-                0xc3e3391e      0x4f6 libext2fs.a(ext2fs.o)
+                0xc3e3399e      0x4f6 libext2fs.a(ext2fs.o)
                                 0x579 (size before relaxing)
  .rodata.str1.1
-                0xc3e33e14       0xdc libext2fs.a(dev.o)
+                0xc3e33e94       0xdc libext2fs.a(dev.o)
  .rodata.str1.1
-                0xc3e33ef0      0x1b4 libdisk.a(part.o)
+                0xc3e33f70      0x1b4 libdisk.a(part.o)
                                 0x1e0 (size before relaxing)
  .rodata.str1.1
-                0xc3e340a4       0xe5 libdisk.a(part_dos.o)
+                0xc3e34124       0xe5 libdisk.a(part_dos.o)
                                  0xf1 (size before relaxing)
  .rodata.str1.1
-                0xc3e34189       0xfd libmmc.a(s3c_hsmmc.o)
+                0xc3e34209       0xfd libmmc.a(s3c_hsmmc.o)
  .rodata.str1.1
-                0xc3e34286      0x325 libmmc.a(s5p_mshc.o)
+                0xc3e34306      0x325 libmmc.a(s5p_mshc.o)
                                 0x347 (size before relaxing)
  .rodata.str1.1
-                0xc3e345ab       0x1b /home/sw/pp_self/1/iTop4412_uboot/sw_build/eabi_compat.o
+                0xc3e3462b       0x1b /home/sw/pp_self/1/iTop4412_uboot/sw_build/eabi_compat.o
 
 .mmudata        0xc3e38000     0x4000
  .mmudata       0xc3e38000     0x4000 lowlevel_init.o
@@ -2132,87 +2132,87 @@ OUTPUT(u-boot elf32-littlearm)
  .note.GNU-stack
                 0x00000000        0x0 /home/sw/bb/arm-2009q3/bin/../lib/gcc/arm-none-linux-gnueabi/4.4.1/libgcc.a(_dvmd_lnx.o)
 
-.debug_line     0x00000000     0xa51f
- .debug_line    0x00000000      0x16c start.o
- .debug_line    0x0000016c      0x10f cpu_init.o
- .debug_line    0x0000027b      0x1e5 lowlevel_init.o
- .debug_line    0x00000460       0x5d ace_sha1.o
- .debug_line    0x000004bd      0x1d9 libgeneric.a(string.o)
- .debug_line    0x00000696       0xe3 libs5pc210.a(nand_cp.o)
- .debug_line    0x00000779      0x1e3 libs5pc210.a(interrupts.o)
- .debug_line    0x0000095c       0x72 libs5pc210.a(onenand_cp.o)
- .debug_line    0x000009ce      0x12e libs5pc210.a(movi.o)
- .debug_line    0x00000afc      0x1af libarm.a(board.o)
- .debug_line    0x00000cab      0x622 libmmc.a(mmc.o)
- .debug_line    0x000012cd      0x11f libcommon.a(cmd_bdinfo.o)
- .debug_line    0x000013ec       0xbf libcommon.a(cmd_boot.o)
- .debug_line    0x000014ab      0x3f0 libcommon.a(cmd_bootm.o)
- .debug_line    0x0000189b       0xd3 libcommon.a(cmd_console.o)
- .debug_line    0x0000196e       0x84 libcommon.a(cmd_echo.o)
- .debug_line    0x000019f2      0x1ad libcommon.a(cmd_elf.o)
- .debug_line    0x00001b9f      0x174 libcommon.a(cmd_ext2.o)
- .debug_line    0x00001d13      0x640 libcommon.a(cmd_fastboot.o)
- .debug_line    0x00002353      0x164 libcommon.a(cmd_fat.o)
- .debug_line    0x000024b7       0x76 libcommon.a(cmd_help.o)
- .debug_line    0x0000252d      0x110 libcommon.a(cmd_itest.o)
- .debug_line    0x0000263d      0x390 libcommon.a(cmd_load.o)
- .debug_line    0x000029cd       0x8d libcommon.a(cmd_max8997.o)
- .debug_line    0x00002a5a       0x97 libcommon.a(cmd_mdmupgrade.o)
- .debug_line    0x00002af1      0x233 libcommon.a(cmd_mem.o)
- .debug_line    0x00002d24       0xbd libcommon.a(cmd_misc.o)
- .debug_line    0x00002de1      0x259 libcommon.a(cmd_mmc.o)
- .debug_line    0x0000303a      0x2a6 libcommon.a(cmd_mmc_fdisk.o)
- .debug_line    0x000032e0      0x254 libcommon.a(cmd_movi.o)
- .debug_line    0x00003534      0x294 libcommon.a(cmd_nvedit.o)
- .debug_line    0x000037c8      0x1af libcommon.a(cmd_source.o)
- .debug_line    0x00003977       0xbb libcommon.a(cmd_usbd.o)
- .debug_line    0x00003a32       0x76 libcommon.a(cmd_version.o)
- .debug_line    0x00003aa8      0x1b6 libcommon.a(cmd_ximg.o)
- .debug_line    0x00003c5e       0xde libcommon.a(command.o)
- .debug_line    0x00003d3c      0x289 libcommon.a(console.o)
- .debug_line    0x00003fc5       0xbd libcommon.a(decompress_ext4.o)
- .debug_line    0x00004082      0x386 libcommon.a(dlmalloc.o)
- .debug_line    0x00004408      0x17e libcommon.a(env_auto.o)
- .debug_line    0x00004586      0x15e libcommon.a(env_common.o)
- .debug_line    0x000046e4      0x181 libcommon.a(exports.o)
- .debug_line    0x00004865      0x350 libcommon.a(image.o)
- .debug_line    0x00004bb5      0x354 libcommon.a(main.o)
- .debug_line    0x00004f09       0xe0 libcommon.a(s_record.o)
- .debug_line    0x00004fe9      0x17f libcommon.a(stdio.o)
- .debug_line    0x00005168      0x202 libcommon.a(xyzModem.o)
- .debug_line    0x0000536a      0x16f libsmdkc210.a(smdkc210.o)
- .debug_line    0x000054d9       0xbd libgeneric.a(crc16.o)
- .debug_line    0x00005596      0x13e libgeneric.a(crc32.o)
- .debug_line    0x000056d4      0x11c libgeneric.a(display_options.o)
- .debug_line    0x000057f0       0xcb libgeneric.a(gunzip.o)
- .debug_line    0x000058bb      0x144 libgeneric.a(net_utils.o)
- .debug_line    0x000059ff      0x2c7 libgeneric.a(vsprintf.o)
- .debug_line    0x00005cc6      0x699 libgeneric.a(zlib.o)
- .debug_line    0x0000635f       0x28 libgeneric.a(ctype.o)
- .debug_line    0x00006387       0xd0 libgeneric.a(div64.o)
- .debug_line    0x00006457      0x1c0 libarm_cortexa9.a(cpu.o)
- .debug_line    0x00006617      0x13c libs5pc210.a(serial.o)
- .debug_line    0x00006753      0x57a libs5pc210.a(usbd-otg-hs.o)
- .debug_line    0x00006ccd       0xa7 libs5pc210.a(cpu_info.o)
- .debug_line    0x00006d74      0x65e libs5pc210.a(fastboot.o)
- .debug_line    0x000073d2      0x127 libs5pc210.a(pmic.o)
- .debug_line    0x000074f9      0xa66 libs5pc210.a(gpio.o)
- .debug_line    0x00007f5f      0x341 libs5pc210.a(i2c.o)
- .debug_line    0x000082a0      0x355 libs5pc210.a(cmu.o)
- .debug_line    0x000085f5       0xdb libs5pc210.a(speed.o)
- .debug_line    0x000086d0      0x174 libs5pc210.a(max8997.o)
- .debug_line    0x00008844      0x18d libs5pc210.a(setup_hsmmc.o)
- .debug_line    0x000089d1       0xdd libs5pc210.a(recovery.o)
- .debug_line    0x00008aae      0x18f libarm.a(bootm.o)
- .debug_line    0x00008c3d       0x38 libarm.a(cache.o)
- .debug_line    0x00008c75      0x540 libfat.a(fat.o)
- .debug_line    0x000091b5      0x90c libext2fs.a(ext2fs.o)
- .debug_line    0x00009ac1      0x140 libext2fs.a(dev.o)
- .debug_line    0x00009c01      0x1a1 libdisk.a(part.o)
- .debug_line    0x00009da2      0x172 libdisk.a(part_dos.o)
- .debug_line    0x00009f14      0x261 libmmc.a(s3c_hsmmc.o)
- .debug_line    0x0000a175      0x369 libmmc.a(s5p_mshc.o)
- .debug_line    0x0000a4de       0x41 /home/sw/pp_self/1/iTop4412_uboot/sw_build/eabi_compat.o
+.debug_line     0x00000000     0xa535
+ .debug_line    0x00000000      0x182 start.o
+ .debug_line    0x00000182      0x10f cpu_init.o
+ .debug_line    0x00000291      0x1e5 lowlevel_init.o
+ .debug_line    0x00000476       0x5d ace_sha1.o
+ .debug_line    0x000004d3      0x1d9 libgeneric.a(string.o)
+ .debug_line    0x000006ac       0xe3 libs5pc210.a(nand_cp.o)
+ .debug_line    0x0000078f      0x1e3 libs5pc210.a(interrupts.o)
+ .debug_line    0x00000972       0x72 libs5pc210.a(onenand_cp.o)
+ .debug_line    0x000009e4      0x12e libs5pc210.a(movi.o)
+ .debug_line    0x00000b12      0x1af libarm.a(board.o)
+ .debug_line    0x00000cc1      0x622 libmmc.a(mmc.o)
+ .debug_line    0x000012e3      0x11f libcommon.a(cmd_bdinfo.o)
+ .debug_line    0x00001402       0xbf libcommon.a(cmd_boot.o)
+ .debug_line    0x000014c1      0x3f0 libcommon.a(cmd_bootm.o)
+ .debug_line    0x000018b1       0xd3 libcommon.a(cmd_console.o)
+ .debug_line    0x00001984       0x84 libcommon.a(cmd_echo.o)
+ .debug_line    0x00001a08      0x1ad libcommon.a(cmd_elf.o)
+ .debug_line    0x00001bb5      0x174 libcommon.a(cmd_ext2.o)
+ .debug_line    0x00001d29      0x640 libcommon.a(cmd_fastboot.o)
+ .debug_line    0x00002369      0x164 libcommon.a(cmd_fat.o)
+ .debug_line    0x000024cd       0x76 libcommon.a(cmd_help.o)
+ .debug_line    0x00002543      0x110 libcommon.a(cmd_itest.o)
+ .debug_line    0x00002653      0x390 libcommon.a(cmd_load.o)
+ .debug_line    0x000029e3       0x8d libcommon.a(cmd_max8997.o)
+ .debug_line    0x00002a70       0x97 libcommon.a(cmd_mdmupgrade.o)
+ .debug_line    0x00002b07      0x233 libcommon.a(cmd_mem.o)
+ .debug_line    0x00002d3a       0xbd libcommon.a(cmd_misc.o)
+ .debug_line    0x00002df7      0x259 libcommon.a(cmd_mmc.o)
+ .debug_line    0x00003050      0x2a6 libcommon.a(cmd_mmc_fdisk.o)
+ .debug_line    0x000032f6      0x254 libcommon.a(cmd_movi.o)
+ .debug_line    0x0000354a      0x294 libcommon.a(cmd_nvedit.o)
+ .debug_line    0x000037de      0x1af libcommon.a(cmd_source.o)
+ .debug_line    0x0000398d       0xbb libcommon.a(cmd_usbd.o)
+ .debug_line    0x00003a48       0x76 libcommon.a(cmd_version.o)
+ .debug_line    0x00003abe      0x1b6 libcommon.a(cmd_ximg.o)
+ .debug_line    0x00003c74       0xde libcommon.a(command.o)
+ .debug_line    0x00003d52      0x289 libcommon.a(console.o)
+ .debug_line    0x00003fdb       0xbd libcommon.a(decompress_ext4.o)
+ .debug_line    0x00004098      0x386 libcommon.a(dlmalloc.o)
+ .debug_line    0x0000441e      0x17e libcommon.a(env_auto.o)
+ .debug_line    0x0000459c      0x15e libcommon.a(env_common.o)
+ .debug_line    0x000046fa      0x181 libcommon.a(exports.o)
+ .debug_line    0x0000487b      0x350 libcommon.a(image.o)
+ .debug_line    0x00004bcb      0x354 libcommon.a(main.o)
+ .debug_line    0x00004f1f       0xe0 libcommon.a(s_record.o)
+ .debug_line    0x00004fff      0x17f libcommon.a(stdio.o)
+ .debug_line    0x0000517e      0x202 libcommon.a(xyzModem.o)
+ .debug_line    0x00005380      0x16f libsmdkc210.a(smdkc210.o)
+ .debug_line    0x000054ef       0xbd libgeneric.a(crc16.o)
+ .debug_line    0x000055ac      0x13e libgeneric.a(crc32.o)
+ .debug_line    0x000056ea      0x11c libgeneric.a(display_options.o)
+ .debug_line    0x00005806       0xcb libgeneric.a(gunzip.o)
+ .debug_line    0x000058d1      0x144 libgeneric.a(net_utils.o)
+ .debug_line    0x00005a15      0x2c7 libgeneric.a(vsprintf.o)
+ .debug_line    0x00005cdc      0x699 libgeneric.a(zlib.o)
+ .debug_line    0x00006375       0x28 libgeneric.a(ctype.o)
+ .debug_line    0x0000639d       0xd0 libgeneric.a(div64.o)
+ .debug_line    0x0000646d      0x1c0 libarm_cortexa9.a(cpu.o)
+ .debug_line    0x0000662d      0x13c libs5pc210.a(serial.o)
+ .debug_line    0x00006769      0x57a libs5pc210.a(usbd-otg-hs.o)
+ .debug_line    0x00006ce3       0xa7 libs5pc210.a(cpu_info.o)
+ .debug_line    0x00006d8a      0x65e libs5pc210.a(fastboot.o)
+ .debug_line    0x000073e8      0x127 libs5pc210.a(pmic.o)
+ .debug_line    0x0000750f      0xa66 libs5pc210.a(gpio.o)
+ .debug_line    0x00007f75      0x341 libs5pc210.a(i2c.o)
+ .debug_line    0x000082b6      0x355 libs5pc210.a(cmu.o)
+ .debug_line    0x0000860b       0xdb libs5pc210.a(speed.o)
+ .debug_line    0x000086e6      0x174 libs5pc210.a(max8997.o)
+ .debug_line    0x0000885a      0x18d libs5pc210.a(setup_hsmmc.o)
+ .debug_line    0x000089e7       0xdd libs5pc210.a(recovery.o)
+ .debug_line    0x00008ac4      0x18f libarm.a(bootm.o)
+ .debug_line    0x00008c53       0x38 libarm.a(cache.o)
+ .debug_line    0x00008c8b      0x540 libfat.a(fat.o)
+ .debug_line    0x000091cb      0x90c libext2fs.a(ext2fs.o)
+ .debug_line    0x00009ad7      0x140 libext2fs.a(dev.o)
+ .debug_line    0x00009c17      0x1a1 libdisk.a(part.o)
+ .debug_line    0x00009db8      0x172 libdisk.a(part_dos.o)
+ .debug_line    0x00009f2a      0x261 libmmc.a(s3c_hsmmc.o)
+ .debug_line    0x0000a18b      0x369 libmmc.a(s5p_mshc.o)
+ .debug_line    0x0000a4f4       0x41 /home/sw/pp_self/1/iTop4412_uboot/sw_build/eabi_compat.o
 
 .debug_info     0x00000000    0x29cfe
  .debug_info    0x00000000       0x64 start.o

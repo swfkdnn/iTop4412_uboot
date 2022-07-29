@@ -477,11 +477,11 @@
 #define CFG_UBOOT_SIZE		(2*1024*1024)
 
  /* base address for uboot */
-//#ifdef CONFIG_ENABLE_MMU
-//#define CFG_UBOOT_BASE		0xc3e00000
-//#else
+#ifdef CONFIG_ENABLE_MMU
+#define CFG_UBOOT_BASE		0xc3e00000
+#else
 #define CFG_UBOOT_BASE		0x43e00000
-//#endif
+#endif
 
 #define CFG_PHY_UBOOT_BASE	MEMORY_BASE_ADDRESS + 0x3e00000
 #define CFG_PHY_KERNEL_BASE	MEMORY_BASE_ADDRESS + 0x8000
