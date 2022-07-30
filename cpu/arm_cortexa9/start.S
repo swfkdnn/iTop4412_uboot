@@ -33,7 +33,7 @@
  */
 
 	/*字(word)在ARM体系结构中，字的长度为32位(bite)，4个字节(byte) 约为32K*/
-	.word 0x0
+	.word 0x2000
 	.word 0x0
 	.word 0x0
 	.word 0x0
@@ -168,54 +168,6 @@ FIQ_STACK_START:
 /* the actual reset code */
 reset:
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#define GPIOBASE 0x11000000
-#define GPK1CON (GPIOBASE + 0x0060)
-#define GPK1DAT (GPIOBASE + 0x0064)
-#define GPK1PUD (GPIOBASE + 0x0068)
-#define GPK1DRV (GPIOBASE + 0x006C)
-#define GPL2CON (GPIOBASE + 0x0100)
-#define GPL2DAT (GPIOBASE + 0x0104)
-#define GPL2PUD (GPIOBASE + 0x0108)
-#define GPL2DRV (GPIOBASE + 0x010C)
-#define GPX0CON (GPIOBASE + 0x0C00)
-#define GPX0DAT (GPIOBASE + 0x0C04)
-#define GPX0PUD (GPIOBASE + 0x0C08)
-#define GPX0DRV (GPIOBASE + 0x0C0C)
-#define POW_MNG_UNIT_BASE 0x10020000 
-#define PS_HOLD_CONTROL (POW_MNG_UNIT_BASE + 0x330C)
-
-	ldr r0, =PS_HOLD_CONTROL                    /*power hold*/
-	ldr r1, [r0]
-	ldr r1, =0x0300
-	str r1, [r0]
-
-	ldr r0, =GPX0PUD                            /*no reset*/
-	ldr r1, =0x0
-	str r1, [r0]
-
-	ldr r0, =GPL2CON
-	mov r1, #(0x01 << 0)
-	str r1, [r0]
-
-	ldr r0, =GPK1CON
-	mov r1, #(0x01 << 4)
-	str r1, [r0]
-
-	ldr r0, =GPK1DAT
-	/*mov r1, #0x00        LED3 灭*/
-	mov r1, #0x2         /*LED3 亮*/
-	str r1, [r0]
-
-	ldr r0, =GPL2DAT
-	mov r1, #0x00        /*LED2 灭*/
-	/*mov r1, #0x1         LED2 亮*/
-	str r1, [r0]
-
-	mov pc, lr
-	b .
-	#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 
 
@@ -243,13 +195,6 @@ reset:
 #endif
 	orr	r0, r0, #0xd3    //11010011 bit[7:6],bit[4],bit[1:0]=1
 	msr	cpsr, r0
-
-
-
-
-
-
-
 
 
 //cache_invalidate_dcache_v7     @ call cache macro
@@ -282,140 +227,67 @@ cache_init:
 	mcr	p15, 0, r0, c1, c0, 0
 #endif
 
-
-
-
-
-
-
-
-
-/* LED Test Code */
-#if 1
-	ldr r0, =0x11000080
-	ldr r1, [r0]
-	bic r1, r1, #0xf00
-	orr r1, r1, #0x100       /* GPK2CON[2] */
-	str r1, [r0]
-	mov	r4, #0x10000     //?us
-	5: subs r4, r4, #1
-	bne	5b
-#endif
-/*
----------------------------------
-LED3
---> VDD50_EN(in) 
---> Xmmc1CMD/GPK1_1(J2)
---> GPK1CON = 0x11000060 --> (0x1 << 4) = 0x10 (output)
---> GPK1PUDPDN = 0x11000074 --> (0x1 << 2) = 0x4 Enables Pull-down/(0x3 << 2) = Enables Pull-up
-*/
-	ldr	r0, =0x11000060        /* GPK1(1)  */
-/*
-	ldr	r1, 0x00000010     GPK1(1)  output  Error: internal_relocation (type: OFFSET_IMM) not fixed up
-*/
-	mov	r1, #0x10            /* GPK1(1)  output   */
-	str	r1, [r0]
-	ldr	r2, =0x11000074
-	mov	r3, #0x4             /* Pull down */
-	str	r3, [r2]
-	mov	r4, #0x10000
-	9: subs r4, r4, #1
-	bne	9b
-/* 
-------------------------------------
-LED2
---> KP_COL0 (in) 
---> XGNSS_GPIO_0/GPL2_0 (AA4) 
---> GPL2CON = 0x11000100  --> 0x1(output) 
---> GPL2PUDPDN = 0x11000114 --> 0x1 = Enables Pull-down/0x3 = Enables Pull-up
-*/
-	ldr	r0, =0x11000100  /* GPL2(0)  */
-	mov	r1, #0x1         /* GPL2(0) output */
-	str	r1, [r0]
-	ldr	r2, =0x11000114
-	mov	r3, #0x3         //Pull up
-	str	r3, [r2]
-	mov	r4, #0x10000     //?us
-	10: subs r4, r4, #1
-	bne	10b
-
-/*
-	ldr r0, =0x11000100
-	movl r1,[r0]
-	orr r1, r1, #0x1
-	str r1,[r0]
-	ldr r0, =0x11000114
-	movl r1, [r0]
-	orr r1, r1, #0x1
-	str r1, [r0]
--------------------------------
-*/
-
-
-
-
-
 /* Read booting information */
 /* 这个寄存器就是去读取OM(从哪启动)寄存器的值 */
-	ldr	r0, =POWER_BASE      //0x10020000 
-//[]sw2022-0508  error :internal_relocation (type: OFFSET_IMM) not fixed up
+	ldr	r0, =POWER_BASE            //0x10020000 = OM_STAT
 	ldr	r1, [r0,#OMR_OFFSET]
-	bic	r2, r1, #0xffffffc1
+	bic	r2, r1, #0xffffffc1        //OM[5:1]
 
-	/* NAND BOOT ? */
-@	cmp	r2, #0x0		@ 512B 4-cycle
-@	moveq	r3, #BOOT_NAND
-@	cmp	r2, #0x2		@ 2KB 5-cycle
-@	moveq	r3, #BOOT_NAND
-@	cmp	r2, #0x4		@ 4KB 5-cycle	8-bit ECC
-@	moveq	r3, #BOOT_NAND
-	cmp     r2, #0xA
-	moveq   r3, #BOOT_ONENAND
-@	cmp	r2, #0x6		@ 4KB 5-cycle	16-bit ECC
-@	moveq	r3, #BOOT_NAND
+/* 5b’00010 (0x2)  (1:0)  SDMMC_CH2  / USB        */
+/* 5b’10100 (0x14) (0:1)  eMMC_44CH4 / SDMMC_CH2  */
+//	cmp    r2, #0x2
+//	moveq  r3, #BOOT_NAND
+//	cmp    r2, #0x14
+//	moveq  r3, #BOOT_NOR
 
-/* SD/MMC BOOT ? */
-	cmp     r2, #0x4
-	moveq   r3, #BOOT_MMCSD
-
-/* eMMC4.3 BOOT ? */
-	cmp		r2, #0x6
-	moveq	r3, #BOOT_EMMC43
-
-/* eMMC441 BOOT ? */
-	cmp		r2, #0x28
-	moveq	r3, #BOOT_EMMC441
-
-/* NOR BOOT ? */
-@	cmp     r2, #0x14
-@	moveq   r3, #BOOT_NOR	
-
-/* For second device booting */
-/* OneNAND BOOTONG failed */
-@	cmp     r2, #0x8
-@	moveq   r3, #BOOT_SEC_DEV
-
-/* Uart BOOTONG failed */
-@	cmp     r2, #(0x1<<4)
-@	moveq   r3, #BOOT_SEC_DEV
+	ldr	r0, =INF_REG_BASE                   //将配置写⼊相应的寄存器
+	str	r3, [r0, #INF_REG3_OFFSET]          // LPI_MASK2  ??
 
 
-//[]sw2022-0508  error :internal_relocation (type: OFFSET_IMM) not fixed up
-	ldr	r0, =INF_REG_BASE   //将配置写⼊相应的寄存器
-	str	r3, [r0, #INF_REG3_OFFSET]
+
 
 /* Go setup Memory and board specific bits prior to relocation.*/
-	bl	lowlevel_init    /* go setup pll,mux,memory */
-	ldr	r0, =0x1002330C  /* PS_HOLD_CONTROL register */
-	ldr	r1, =0x00005300	 /* PS_HOLD output high */
-	str	r1, [r0]
+	bl	iTop4412_uboot_lowlevel_init    /* go setup pll,mux */
 
-	/* get ready to call C functions */
-	ldr	sp, _TEXT_PHY_BASE	/* setup temp stack pointer  0x43e00000   */
+
+
+
+
+
+
+
+
+
+
+
+
+	ldr	r0, =0x1002330C  /* PS_HOLD_CONTROL register */
+	ldr	r1, =0x00005300  /* PS_HOLD output high */
+	str	r1, [r0]         /* power hold*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* get ready to call C functions */
+	ldr	sp, _TEXT_PHY_BASE         /* stack pointer = 0x43e00000 */
 	sub	sp, sp, #12
-	mov	fp, #0			/* no previous frame, so fp=0 */
+	mov	fp, #0                     /* no previous frame, so fp=0 ?? */
 // 如果已经在DRAM⾥⾯跑了就不需要重载了,实际上SDRAM在BL1的时候就初始化了,
 //所以uboot已经运⾏在了SDRAM上,但具体在哪运⾏可能不是我们想定义
+
+
+
+
+
 
 /* I-Cache & D-Cache Enabled */
 //	mrc p15, 0, r0, c1, c0, 0
@@ -457,8 +329,27 @@ LED2
 //	cmp	r1, r2
 //	beq     mmcsd_boot
 
+
+
+
+
+
+/////#define BOOT_ONENAND	0x1
+/////#define BOOT_NAND		0x40000
+/////#define BOOT_MMCSD		0x3
+/////#define BOOT_NOR		0x4
+/////#define BOOT_SEC_DEV	0x5
+/////#define BOOT_EMMC43		0x6
+/////#define BOOT_EMMC441	0x7
+
+
+
+
+
+
+
+
 	ldr	r0, =INF_REG_BASE  //读出寄存器值,可知从哪⾥启动的
-//[]sw2022-0508  error :internal_relocation (type: OFFSET_IMM) not fixed up
 	ldr	r1, [r0, #INF_REG3_OFFSET]
 
 	cmp	r1, #BOOT_NAND     /* 0x0 => boot device is nand */

@@ -90,6 +90,13 @@ mem_ctrl_asm_init_ddr3:
 
 	ldr	r1, =0x00302600				
 	str	r1, [r0, #DMC_MEMCONTROL]
+
+
+
+
+
+
+
 #if 0
 	ldr	r1, =0x40C01323	
 	str	r1, [r0, #DMC_MEMCONFIG0]
@@ -99,13 +106,16 @@ mem_ctrl_asm_init_ddr3:
 	ldr r1, =0x40801323
 	str	r1, [r0, #DMC_MEMCONFIG0]
 	*/
-
 	/* 2Gb * 8 */
-
 	ldr r1, =0x40801333
 	str	r1, [r0, #DMC_MEMCONFIG0]
-	
 #endif
+
+
+
+
+
+
 	ldr	r1, =(0x80000000 | CONFIG_IV_SIZE)
 	str	r1, [r0, #DMC_IVCONTROL]
 
@@ -121,7 +131,7 @@ mem_ctrl_asm_init_ddr3:
 #ifdef CONFIG_EVT0_RECOMMEND
 	ldr	r1, =0x34A98691
 #else	
-	ldr	r1, =0x34498691  
+	ldr	r1, =0x34498691
 #endif
 
 	ldr	r1, =0x7846654F/*0x4046654F*/
@@ -130,6 +140,13 @@ mem_ctrl_asm_init_ddr3:
 	str	r1, [r0, #DMC_TIMINGDATA] @TimingData
 	ldr	r1, =0x52000A3C    				
 	str	r1, [r0, #DMC_TIMINGPOWER] @TimingPower
+
+
+
+
+
+
+
 
 	/* minimum wait time is 100 nano seconds */
 	/* 0x64: wait 250 nano seconds at ARMCLK 1.5 Ghz */
@@ -223,6 +240,9 @@ mem_ctrl_asm_init_ddr3:
 
 	ldr	r1, =0x00302600				
 	str	r1, [r0, #DMC_MEMCONTROL]
+
+
+
 #if 0
 	ldr	r1, =0x40C01323	
 	str	r1, [r0, #DMC_MEMCONFIG0]
@@ -238,6 +258,13 @@ mem_ctrl_asm_init_ddr3:
 	str	r1, [r0, #DMC_MEMCONFIG0]
 
 #endif
+
+
+
+
+
+
+
 	ldr	r1, =(0x80000000 | CONFIG_IV_SIZE)
 	str	r1, [r0, #DMC_IVCONTROL]
 

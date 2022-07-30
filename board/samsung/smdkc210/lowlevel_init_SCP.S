@@ -1,43 +1,10 @@
-/*
- * Memory Setup stuff - taken from blob memsetup.S
- *
- * Copyright (C) 1999 2000 2001 Erik Mouw (J.A.K.Mouw@its.tudelft.nl) and
- *                     Jan-Derk Bakker (J.D.Bakker@its.tudelft.nl)
- *
- * Modified for the Samsung SMDK2410 by
- * (C) Copyright 2002
- * David Mueller, ELSOFT AG, <d.mueller@elsoft.ch>
- *
- * See file CREDITS for list of people who contributed to this
- * project.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of
- * the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston,
- * MA 02111-1307 USA
- */
-
-
 #include <config.h>
 #include <version.h>
-
 #include <s5pc210.h>
 #include "smdk4x12_val.h" //mj
 
-#define check_mem
 #define MEM_DLLl_ON
 
-/* add by cym 20130218 */
 wait_mux_state:
 	ldr r1, [r0, r2]
 	cmp r1, r3
@@ -60,16 +27,12 @@ wait_phy_state:
 _TEXT_BASE:
 	.word	TEXT_BASE
 
-
-	.globl lowlevel_init
-lowlevel_init:
-#if 1
+	.globl iTop4412_uboot_lowlevel_init
+iTop4412_uboot_lowlevel_init:
 /*
-use iROM stack in bl2
-设置成iram的栈保险⼀些，因为不⽤初始化，uboot刚开始并不知道dram是否初始化了，所以使⽤iram
-*/
-ldr	sp, =0x02060000
-#endif
+ *   uboot刚开始并不知道dram是否初始化了，所以使⽤iram
+ */
+	ldr	sp, =0x02060000
 	push	{lr}
 
 /* check reset status  */
@@ -87,13 +50,13 @@ ldr	sp, =0x02060000
 	beq	wakeup_reset
 
 /* PS-Hold high */
-	ldr r0, =0x1002330c
+	ldr r0, =0x1002330c                                     /*power hold*/
 	ldr r1, [r0]
 	orr r1, r1, #0x300
 	str r1, [r0]
 
 /*  Disables Pull-up/Pull-down  */
-	ldr r0, =0x11000c08
+	ldr r0, =0x11000c08                                      /* no reset */
 	ldr r1, =0x0
 	str r1, [r0]
 
@@ -102,77 +65,85 @@ ldr	sp, =0x02060000
 	ldr r1, =0x00
 	str r1, [r0]
 
-/* []sw0626 */
-/*liyang 20110822*/
-
-#ifdef check_mem                                        /* 检测是否需要重载 */
-/*
- when we already run in ram, we don't need to relocate U-Boot.
- and actually, memory controller must be configured before U-Boot
- is running in ram.
-*/
-	ldr	r0, =0xff000fff
-/*
-=  1111 1111 0000 0000 0000 1111 1111 1111
-=  0000 0000 1111 1111 1111 0000 0000 0000
-=0xc3e00000
-=  1100 0011 1110 0000 0000 0000 0000 0000
-*/
-	bic	r1, pc, r0                                        /* r0 <- current base addr of code */
-	ldr	r2, _TEXT_BASE                                    /* r1 <- original base addr in ram */
-	bic	r2, r2, r0                                        /* r0 <- current base addr of code */
-	cmp r1, r2                                            /* compare r0, r1 */
-/*
-如果 r1 和 r2 相等就说明是在DDR运行,就要跳过时钟初始化和初始化DDR。
-如果 r1 和 r2 不相等就说明是在 SRAM 运行,就要进行 时钟初始化 和 初始化DDR。
-*/
-	beq 1f                                                /* r0 == r1 then skip sdram init */
+#define check_mem
+#ifdef check_mem                   /* 检测是否需要重载 */
+	ldr	r0, =0xff000fff              /* 1111 1111 0000 0000 0000 1111 1111 1111 */
+	bic	r1, pc, r0                   /* r0 <- current base addr of code */
+	ldr	r2, _TEXT_BASE               /* r1 <- original base addr in ram */
+	bic	r2, r2, r0                   /* r0 <- current base addr of code */
+	cmp r1, r2                       /* compare r0, r1 */
+/* 如果 r1 和 r2 相等就说明是在DDR运行,就要跳过时钟初始化和初始化DDR。 */
+/* 如果 r1 和 r2 不相等就说明是在 SRAM 运行,就要进行 时钟初始化 和 初始化DDR。*/
+	beq 1f                           /* r0 == r1 then skip sdram init */
 #endif
 
-/*
------liyang 20110822
 ldr	r0, =CHIP_ID_BASE
-ldr	r1, [r0]
-lsr	r1, r1, #8
-and	r1, r1, #3
-cmp	r1, #2
+ldr	r1, [r0]                       /*  PRO_ID */
+lsr	r1, r1, #8                     /* r1 >> 8 */
+and	r1, r1, #3                     /* Package Information */
+cmp	r1, #2                         /* Exynos 4412:0x2 */
 bne v310_1
-*/
 
-/* init system clock */
 	bl system_clock_init_scp
-
-/* Memory initialize */
 	bl mem_ctrl_asm_init_ddr3
-
 	bl tzpc_init
-/* 	bl led2 */
 	b 1f
 
-/*[]sw0625
-------------------------------------
-*/
-led2:
-	ldr r0, =0x11000080
-	ldr r1, [r0]
-	bic r1, r1, #0xf00
-	orr r1, r1, #0x100
-	str r1, [r0]
-	/* wait ?us 延时*/
-	mov	r1, #0x10000
-	8: subs r1, r1, #1
-	bne	8b
-
-
-
-
-v310_1:
-/* add by cym 20130218 */
-/* init system clock */
+v310_1:                            /* do */
 	bl	system_clock_init_scp
-
-/* Memory initialize	*/
 	bl	mem_ctrl_asm_init_ddr3
+
+
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#define GPIOBASE 0x11000000
+#define GPK1CON (GPIOBASE + 0x0060)
+#define GPK1DAT (GPIOBASE + 0x0064)
+#define GPK1PUD (GPIOBASE + 0x0068)
+#define GPK1DRV (GPIOBASE + 0x006C)
+#define GPL2CON (GPIOBASE + 0x0100)
+#define GPL2DAT (GPIOBASE + 0x0104)
+#define GPL2PUD (GPIOBASE + 0x0108)
+#define GPL2DRV (GPIOBASE + 0x010C)
+
+	ldr r0, =GPL2CON
+	mov r1, #(0x01 << 0)
+	str r1, [r0]
+
+	ldr r0, =GPK1CON
+	mov r1, #(0x01 << 4)
+	str r1, [r0]
+
+	ldr r0, =GPK1DAT
+	/*mov r1, #0x00        LED3 灭*/
+	mov r1, #0x2         /*LED3 亮*/
+	str r1, [r0]
+
+	ldr r0, =GPL2DAT
+	/*mov r1, #0x00        LED2 灭*/
+	mov r1, #0x1         /*LED2 亮*/
+	str r1, [r0]
+	#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 1:
@@ -274,14 +245,9 @@ exit_wakeup:
 	nop
 	nop
 
-/*
-system_clock_init: Initialize core clock and bus clock.
-void system_clock_init(void)
-add by cym 20130218 
-*/
 system_clock_init_scp:
 	push	{lr}
-	ldr	r0, =ELFIN_CLOCK_BASE	@0x1003_0000
+	ldr	r0, =ELFIN_CLOCK_BASE                  /* 0x1003_0000 */
 
 @ CMU_CPU MUX / DIV
 	ldr	r1, =0x0
@@ -384,8 +350,8 @@ system_clock_init_scp:
 	ldr	r1, =MPLL_CON0_VAL
 	ldr	r2, =MPLL_CON0_OFFSET
 	str	r1, [r0, r2]
-skip_mpll:
 
+skip_mpll:
 @ Set EPLL
 	ldr     r1, =EPLL_CON2_VAL
 	ldr     r2, =EPLL_CON2_OFFSET
@@ -537,10 +503,16 @@ skip_mpll:
 	ldr	r2, =DMC_MEMCONTROL
 	str	r1, [r0, r2]
 
-v310_2:
+v310_2:                                 /* do */
 	pop	{pc}
 
-/* end add */
+
+
+
+
+
+
+
 
 /*
 Check clock until stable.
