@@ -1,40 +1,26 @@
-#
-# (C) Copyright 2000-2006
-# Wolfgang Denk, DENX Software Engineering, wd@denx.de.
-#
-# See file CREDITS for list of people who contributed to this
-# project.
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License as
-# published by the Free Software Foundation; either version 2 of
-# the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston,
-# MA 02111-1307 USA
-#
-
 include $(TOPDIR)/config.mk
 
 # CFLAGS += -DDEBUG
 
 LIB	= $(obj)libnet.a
 
-COBJS-$(CONFIG_CMD_NET)  += bootp.o
-COBJS-$(CONFIG_CMD_DNS)  += dns.o
-COBJS-$(CONFIG_CMD_NET)  += eth.o
-COBJS-$(CONFIG_CMD_NET)  += net.o
-COBJS-$(CONFIG_CMD_NFS)  += nfs.o
-COBJS-$(CONFIG_CMD_NET)  += rarp.o
-COBJS-$(CONFIG_CMD_SNTP) += sntp.o
-COBJS-$(CONFIG_CMD_NET)  += tftp.o
+#COBJS-$(CONFIG_CMD_NET)  += bootp.o
+#COBJS-$(CONFIG_CMD_DNS)  += dns.o
+#COBJS-$(CONFIG_CMD_NET)  += eth.o
+#COBJS-$(CONFIG_CMD_NET)  += net.o
+#COBJS-$(CONFIG_CMD_NFS)  += nfs.o
+#COBJS-$(CONFIG_CMD_NET)  += rarp.o
+#COBJS-$(CONFIG_CMD_SNTP) += sntp.o
+#COBJS-$(CONFIG_CMD_NET)  += tftp.o
+
+COBJS-y += bootp.o
+COBJS-y += dns.o
+COBJS-y += net.o
+COBJS-y += eth.o
+COBJS-y += nfs.o
+COBJS-y += rarp.o
+COBJS-y += sntp.o
+COBJS-y += tftp.o
 
 COBJS	:= $(COBJS-y)
 SRCS	:= $(COBJS:.o=.c)
@@ -43,6 +29,14 @@ OBJS	:= $(addprefix $(obj),$(COBJS))
 all:	$(LIB)
 
 $(LIB):	$(obj).depend $(OBJS)
+	@echo "~~~in -/net/Makefile a5463621  ar?-"
+	@echo "~~~OBJS = $(OBJS)"
+	@echo "~~~@    = $(@)"
+	@echo "~~~ COBJS-(CONFIG_CMD_NET)   = COBJS-$(CONFIG_CMD_NET)"
+	@echo "~~~ COBJS-(CONFIG_CMD_DNS)   = COBJS-$(CONFIG_CMD_DNS)"
+	@echo "~~~CONFIG_CMD_NET = $(CONFIG_CMD_NET)"
+	@echo "~~~COBJS = $(COBJS) "
+	@echo "~~~ARFLAGS = $(ARFLAGS) "
 	$(AR) $(ARFLAGS) $@ $(OBJS)
 
 #########################################################################

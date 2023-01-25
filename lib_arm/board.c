@@ -1,31 +1,4 @@
 /*
- * (C) Copyright 2002-2006
- * Wolfgang Denk, DENX Software Engineering, wd@denx.de.
- *
- * (C) Copyright 2002
- * Sysgo Real-Time Solutions, GmbH <www.elinos.com>
- * Marius Groeger <mgroeger@sysgo.de>
- *
- * See file CREDITS for list of people who contributed to this
- * project.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of
- * the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston,
- * MA 02111-1307 USA
- */
-
-/*
  * To match the U-Boot user interface on ARM platforms to the U-Boot
  * standard (as on PPC platforms), some messages with debug character
  * are removed from the default U-Boot build.
@@ -37,7 +10,6 @@
  * IRQ Stack: 00ebff7c
  * FIQ Stack: 00ebef7c
  */
-
 #include <common.h>
 #include <command.h>
 #include <malloc.h>
@@ -46,7 +18,8 @@
 #include <stdio_dev.h>
 #include <timestamp.h>
 #include <version.h>
-#include <net.h>
+#include "/home/sw/pp_self/1/iTop4412_uboot/include/net.h"
+//#include <net.h>
 #include <serial.h>
 #include <nand.h>
 #include <onenand_uboot.h>
@@ -347,10 +320,9 @@ init_fnc_t *init_sequence[] = {
 	NULL,
 };
 
-//[]sw0712
 void start_armboot (void)
 {
-	debug ("0713 target is ok ~~ in start_armboot");
+//printf("target is ok ~~ in start_armboot");
 	init_fnc_t **init_fnc_ptr;
 	char *s;
 	int mmc_exist = 0;
@@ -507,7 +479,20 @@ extern void davinci_eth_set_mac_addr (const u_int8_t *addr);
 		load_addr = simple_strtoul (s, NULL, 16);
 	}
 #if defined(CONFIG_CMD_NET)
-	if ((s = getenv ("bootfile")) != NULL) {
+
+
+//void copy_filename (char *dst, char *src, int size)
+//{
+//  if (*src && (*src == '"')) {
+//    ++src;
+//    --size;
+//  }
+//  while ((--size > 0) && *src && (*src != '"')) {
+//    *dst++ = *src++;
+//  }
+//  *dst = '\0';
+//}
+	if ((s = getenv ("Bootfile")) != NULL) {
 		copy_filename (BootFile, s, sizeof (BootFile));
 	}
 #endif
@@ -519,15 +504,25 @@ extern void davinci_eth_set_mac_addr (const u_int8_t *addr);
 #ifdef CONFIG_BITBANGMII
 	bb_miiphy_init();
 #endif
+//  printf("CONFIG_CMD_NET = CONFIG_CMD_NET +++++");
 #if defined(CONFIG_CMD_NET)
+
 #if defined(CONFIG_NET_MULTI)
-	puts ("Net:   ");
+puts ("Net:   ");
 #endif
-	eth_initialize(gd->bd);
+
+extern int eth_initialize(bd_t *bis);
+eth_initialize(gd->bd);
+/* net/libnet.a  DM9621ANP 
+ * -->hub芯片usb4640 USB3503A
+ * --> 然后usb4640通过HSIC接口
+ * （XhsicSTROBE0和XhsicDATA0）连接到exynos4412上*/
+
 #if defined(CONFIG_RESET_PHY_R)
-	debug ("Reset Ethernet PHY\n");
-	reset_phy();
+debug ("Reset Ethernet PHY\n");
+reset_phy();
 #endif
+
 #endif
 
 /*

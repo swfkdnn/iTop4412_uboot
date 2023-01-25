@@ -775,6 +775,8 @@ int fdc_fdos_read (void *buffer, int len)
  */
 int do_fdcboot (cmd_tbl_t *cmdtp, int flag, int argc, char *argv[])
 {
+  printf("[%s %s] %s: %s: %d\n", \
+      __DATE__, __TIME__, __FILE__, __func__, __LINE__);
 	FD_GEO_STRUCT *pFG = (FD_GEO_STRUCT *)floppy_type;
 	FDC_COMMAND_STRUCT *pCMD = &cmd;
 	unsigned long addr,imsize;

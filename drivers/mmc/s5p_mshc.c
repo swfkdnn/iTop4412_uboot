@@ -486,7 +486,14 @@ static int mshci_change_clock(struct mshci_host *host, uint clock)
 		
 	}
 
-	mshci_writel(host, div, MSHCI_CLKDIV);
+
+  printf("test hhahah######## \n\r");
+
+
+
+
+
+  mshci_writel(host, div, MSHCI_CLKDIV);
 
 	mshci_writel(host, 0, MSHCI_CMD);
 	mshci_writel(host, CMD_ONLY_CLK, MSHCI_CMD);

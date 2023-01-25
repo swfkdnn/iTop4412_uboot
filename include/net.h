@@ -12,6 +12,7 @@
 #ifndef __NET_H__
 #define __NET_H__
 
+
 #if defined(CONFIG_8xx)
 #include <commproc.h>
 # if !defined(CONFIG_NET_MULTI)
@@ -67,17 +68,16 @@
 # define PKTBUFSRX	4
 #endif
 
-#define PKTALIGN	32
+#define PKTALIGN 32
 
-typedef ulong		IPaddr_t;
-
+typedef ulong IPaddr_t;
 
 /*
  * The current receive packet handler.  Called with a pointer to the
  * application packet, and a protocol type (PORT_BOOTPC or PORT_TFTP).
  * All other packets are dealt with without calling the handler.
  */
-typedef void	rxhand_f(uchar *, unsigned, unsigned, unsigned);
+typedef void rxhand_f(uchar *, unsigned, unsigned, unsigned);
 
 /*
  *	A timeout handler.  Called after time interval has expired.
@@ -352,6 +352,7 @@ extern int		NetState;		/* Network loop state		*/
 #define NETLOOP_SUCCESS		3
 #define NETLOOP_FAIL		4
 
+#define CONFIG_NET_MULTI
 #ifdef CONFIG_NET_MULTI
 extern int		NetRestartWrap;		/* Tried all network devices	*/
 #endif

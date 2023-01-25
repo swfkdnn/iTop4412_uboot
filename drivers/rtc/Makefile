@@ -64,12 +64,18 @@ COBJS-$(CONFIG_RTC_S3C44B0) += s3c44b0_rtc.o
 COBJS-$(CONFIG_RTC_X1205) += x1205.o
 
 COBJS	:= $(sort $(COBJS-y))
+SSSSS	:= $(sort a.o d.o c.o c.b b.o)
+AAAAA	:= $(sort a.o)
 SRCS	:= $(COBJS:.o=.c)
 OBJS	:= $(addprefix $(obj),$(COBJS))
 
 all:	$(LIB)
 
 $(LIB):	$(obj).depend $(OBJS)
+	@echo "~~~in drivers/rtc/Makefile  54f6sdfs"
+	@echo "~~~COBJS = $(COBJS)  "
+	@echo "~~~SSSSS    = $(SSSSS)"
+	@echo "~~~AAAAA    = $(AAAAA)"
 	$(AR) $(ARFLAGS) $@ $(OBJS)
 
 #########################################################################

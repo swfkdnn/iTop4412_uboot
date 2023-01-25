@@ -1,4 +1,6 @@
 /*
+ * =/home/sw/pp_self/1/iTop4412_uboot/sw_build itop_4412_android_config_scp_1GDDR
+ * &&make O=/home/sw/pp_self/1/iTop4412_uboot/sw_build  --debug > make_result  2>&19
  * (C) Copyright 2007
  * Gerald Van Baren, Custom IDEAS, vanbaren@cideas.com
  *

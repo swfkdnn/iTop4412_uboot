@@ -33,7 +33,7 @@
  */
 
 	/*字(word)在ARM体系结构中，字的长度为32位(bite)，4个字节(byte) 约为32K*/
-	.word 0x2000
+	.word 0x0
 	.word 0x0
 	.word 0x0
 	.word 0x0
@@ -167,15 +167,6 @@ FIQ_STACK_START:
 
 /* the actual reset code */
 reset:
-
-
-
-
-
-
-
-
-
 /* set SVC32 mode and IRQ & FIQ disable
  * 31   30   29   28   27--8   7   6   5   4   3   2   1   0
  * N    Z    C    V  Reserved  I   F   T   M4  M3  M2  M1  M0
@@ -196,9 +187,7 @@ reset:
 	orr	r0, r0, #0xd3    //11010011 bit[7:6],bit[4],bit[1:0]=1
 	msr	cpsr, r0
 
-
 //cache_invalidate_dcache_v7     @ call cache macro
-
 
 
 #if 0 //*****ly
@@ -242,9 +231,6 @@ cache_init:
 
 	ldr	r0, =INF_REG_BASE                   //将配置写⼊相应的寄存器
 	str	r3, [r0, #INF_REG3_OFFSET]          // LPI_MASK2  ??
-
-
-
 
 /* Go setup Memory and board specific bits prior to relocation.*/
 	bl	iTop4412_uboot_lowlevel_init    /* go setup pll,mux */

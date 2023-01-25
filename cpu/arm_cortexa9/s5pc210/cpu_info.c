@@ -104,7 +104,8 @@ u32 get_device_type(void)
 int print_cpuinfo(void)
 {
 	arch_cpu_init();
-
+  printf("hohsdasdasdadsadasd\n\r");
+  printf("CONFIG_CMD_NFS = CONFIG_CMD_NFS ~~~\n\r");
 #ifdef CONFIG_PM
 	printf("PMIC:	");
 	PMIC_InitIp();

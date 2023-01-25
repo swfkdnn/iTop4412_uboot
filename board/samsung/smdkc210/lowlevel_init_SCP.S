@@ -95,35 +95,6 @@ v310_1:                            /* do */
 
 
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#define GPIOBASE 0x11000000
-#define GPK1CON (GPIOBASE + 0x0060)
-#define GPK1DAT (GPIOBASE + 0x0064)
-#define GPK1PUD (GPIOBASE + 0x0068)
-#define GPK1DRV (GPIOBASE + 0x006C)
-#define GPL2CON (GPIOBASE + 0x0100)
-#define GPL2DAT (GPIOBASE + 0x0104)
-#define GPL2PUD (GPIOBASE + 0x0108)
-#define GPL2DRV (GPIOBASE + 0x010C)
-
-	ldr r0, =GPL2CON
-	mov r1, #(0x01 << 0)
-	str r1, [r0]
-
-	ldr r0, =GPK1CON
-	mov r1, #(0x01 << 4)
-	str r1, [r0]
-
-	ldr r0, =GPK1DAT
-	/*mov r1, #0x00        LED3 灭*/
-	mov r1, #0x2         /*LED3 亮*/
-	str r1, [r0]
-
-	ldr r0, =GPL2DAT
-	/*mov r1, #0x00        LED2 灭*/
-	mov r1, #0x1         /*LED2 亮*/
-	str r1, [r0]
-	#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 
@@ -154,25 +125,31 @@ v310_1:                            /* do */
 	sub	r0, r0, #4
 	str	r6, [r0]
 #endif
-#if 0                      /* test for mt6620 turn off GPC1(0) */
+
+
+#if 0                     /* test for (wifi)mt6620 turn off GPC1(0) */
 /*wenpin.cui: headphone and sw uart switch init*/
-	ldr r0, =0x11000C44
+	ldr r0, =0x11000C44                             /*GPX2DAT*/
 	ldr r1, [r0]
 	and r1, r1, #0x4
 	cmp r1, #0x4                                    /* uart */
 	beq out
-	ldr r0, =0x11400084                             /* GPC1(0)  */
+	ldr r0, =0x11400084                             /* GPC1(0)  GPC1DAT   */
 	ldr r1, [r0]                                    /* read GPC1DAT status*/
 	orr r1, r1, #0x1                                /* GPC1(0) output high  */
 	str r1, [r0]
-	ldr r0, =0x11400080                             /* GPC1(0)  */
+	ldr r0, =0x11400080                             /* GPC1(0)  GPC1CON   */
 	ldr r1, [r0]
 	and r1, r1, #0xfffffff0
 	orr r1, r1, #0x1                                /* GPC1(0) output  */
 	str r1, [r0]
 #endif
-out:
 
+
+
+
+
+out:
 /* for UART */
 	bl uart_asm_init
 
@@ -189,6 +166,16 @@ out:
 	ldr	r0, =ELFIN_UART_CONSOLE_BASE
 	ldr	r1, =0x4b4b4b4b
 	str	r1, [r0, #UTXH_OFFSET]
+
+
+
+
+
+
+
+
+
+
 
 /* 2010.08.27 by icarus : for temporary 3D clock fix */
 	ldr	r1, =0x1
@@ -565,7 +552,7 @@ uart_asm_init:
 	ldr	r2, =CLK_DIV_PERIL0_OFFSET
 	str	r1, [r0, r2]
 
-	ldr	r0, =ELFIN_UART_CONSOLE_BASE		@0xEC000000
+	ldr	r0, =ELFIN_UART_CONSOLE_BASE		@0x13800000
 	ldr	r1, =0x111
 	str	r1, [r0, #UFCON_OFFSET]
 

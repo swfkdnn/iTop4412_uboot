@@ -357,6 +357,8 @@ int do_ide (cmd_tbl_t *cmdtp, int flag, int argc, char *argv[])
 
 int do_diskboot (cmd_tbl_t *cmdtp, int flag, int argc, char *argv[])
 {
+  printf("[%s %s] %s: %s: %d\n", \
+      __DATE__, __TIME__, __FILE__, __func__, __LINE__);
 	char *boot_device = NULL;
 	char *ep;
 	int dev, part = 0;

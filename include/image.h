@@ -35,12 +35,14 @@
 
 #include "compiler.h"
 
+#define USE_HOSTCC
+
 #ifdef USE_HOSTCC
 
 /* new uImage format support enabled on host */
-#define CONFIG_FIT		1
-#define CONFIG_OF_LIBFDT	1
-#define CONFIG_FIT_VERBOSE	1 /* enable fit_format_{error,warning}() */
+#define CONFIG_FIT 1
+#define CONFIG_OF_LIBFDT 1
+#define CONFIG_FIT_VERBOSE 1 /* enable fit_format_{error,warning}() */
 
 #else
 
@@ -288,7 +290,7 @@ typedef struct bootm_headers {
 #define CHUNKSZ_SHA1 (64 * 1024)
 #endif
 
-#define uimage_to_cpu(x)		be32_to_cpu(x)
+#define uimage_to_cpu(x) be32_to_cpu(x)
 #define cpu_to_uimage(x)		cpu_to_be32(x)
 
 /*
@@ -367,6 +369,8 @@ static inline uint32_t image_get_header_size (void)
 #define image_get_hdr_l(f) \
 	static inline uint32_t image_get_##f(const image_header_t *hdr) \
 	{ \
+    printf("[%s %s] %s: %s: %d\n", \
+      __DATE__, __TIME__, __FILE__, __func__, __LINE__);\
 		return uimage_to_cpu (hdr->ih_##f); \
 	}
 image_get_hdr_l (magic);	/* image_get_magic */
@@ -461,6 +465,8 @@ void memmove_wd (void *to, void *from, size_t len, ulong chunksz);
 
 static inline int image_check_magic (const image_header_t *hdr)
 {
+  printf("[%s %s] %s: %s: %d\n", \
+      __DATE__, __TIME__, __FILE__, __func__, __LINE__);
 	return (image_get_magic (hdr) == IH_MAGIC);
 }
 static inline int image_check_type (const image_header_t *hdr, uint8_t type)

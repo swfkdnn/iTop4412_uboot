@@ -1,74 +1,3 @@
-/*
- * Copyright (C) 2010 Samsung Electronics Co. Ltd
- *
- * Many parts of this program were copied from the work of Windriver.
- * Major modifications are as follows:
- * - Adding default partition table.
- * - Supporting OneNAND device.
- * - Supporting SDMMC device.
- * - Adding new command, sdfuse.
- * - Removing Lock scheme.
- * - Removing direct flash operations because they are implemented at others.
- * - Fixing several bugs
- * This program is under the same License with the their work.
- *
- * This is their Copyright:
- *
- * (C) Copyright 2008 - 2009
- * Windriver, <www.windriver.com>
- * Tom Rix <Tom.Rix@windriver.com>
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of
- * the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston,
- * MA 02111-1307 USA
- *
- * Part of the rx_handler were copied from the Android project
- * Specifically rx command parsing in the  usb_rx_data_complete
- * function of the file bootable/bootloader/legacy/usbloader/usbloader.c
- *
- * The logical naming of flash comes from the Android project
- * Thse structures and functions that look like fastboot_flash_*
- * They come from bootable/bootloader/legacy/libboot/flash.c
- *
- * This is their Copyright:
- *
- * Copyright (C) 2008 The Android Open Source Project
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *  * Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- *  * Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in
- *    the documentation and/or other materials provided with the
- *    distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
- * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
- * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
- * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
- * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS
- * OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
- * AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
- * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- * SUCH DAMAGE.
- */
 #include <asm/byteorder.h>
 #include <common.h>
 #include <command.h>
@@ -579,8 +508,12 @@ static int write_to_ptn_sdmmc(struct fastboot_ptentry *ptn, unsigned int addr, u
 
 static int rx_handler (const unsigned char *buffer, unsigned int buffer_size)
 {
+  printf("[%s %s] %s: %s: %d\n", \
+      __DATE__, __TIME__, __FILE__, __func__, __LINE__);
 	int ret = 1;
 
+  printf("[%s %s] %s: %s: %d\n", \
+            __DATE__, __TIME__, __FILE__, __func__, __LINE__);
 	/* Use 65 instead of 64
 	   null gets dropped
 	   strcpy's need the extra byte */
@@ -957,7 +890,8 @@ static int rx_handler (const unsigned char *buffer, unsigned int buffer_size)
 					if (strlen ((char *) &fb_hdr->cmdline[0]))
 						set_env ("bootargs", (char *) &fb_hdr->cmdline[0]);
 
-					do_bootm (NULL, 0, 2, bootm);
+
+        do_bootm (NULL, 0, 2, bootm);
 				} else {
 					/* Raw image, maybe another uboot */
 					printf ("Booting raw image..\n");

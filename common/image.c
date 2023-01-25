@@ -1,28 +1,3 @@
-/*
- * (C) Copyright 2008 Semihalf
- *
- * (C) Copyright 2000-2006
- * Wolfgang Denk, DENX Software Engineering, wd@denx.de.
- *
- * See file CREDITS for list of people who contributed to this
- * project.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of
- * the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston,
- * MA 02111-1307 USA
- */
-
 #ifndef USE_HOSTCC
 #include <common.h>
 #include <watchdog.h>
@@ -294,13 +269,15 @@ static void image_print_type (const image_header_t *hdr)
  */
 void image_print_contents (const void *ptr)
 {
+  printf("[%s %s] %s: %s: %d\n", \
+      __DATE__, __TIME__, __FILE__, __func__, __LINE__);
 	const image_header_t *hdr = (const image_header_t *)ptr;
 	const char *p;
 
 #ifdef USE_HOSTCC
 	p = "";
 #else
-	p = "   ";
+	p = "==sw==";
 #endif
 
 	printf ("%sImage Name:   %.*s\n", p, IH_NMLEN, image_get_name (hdr));
@@ -381,7 +358,7 @@ static const image_header_t *image_get_ramdisk (ulong rd_addr, uint8_t arch,
 	image_print_contents (rd_hdr);
 
 	if (verify) {
-		puts("   Verifying Checksum ... ");
+		puts(" asdasfg  Verifying Checksum ... ");
 		if (!image_check_dcrc (rd_hdr)) {
 			puts ("Bad Data CRC\n");
 			show_boot_progress (-12);
@@ -509,6 +486,8 @@ static void genimg_print_time (time_t timestamp)
  */
 char *get_table_entry_name (table_entry_t *table, char *msg, int id)
 {
+  printf("[%s %s] %s: %s: %d\n", \
+      __DATE__, __TIME__, __FILE__, __func__, __LINE__);
 	for (; table->id >= 0; ++table) {
 		if (table->id == id)
 #if defined(USE_HOSTCC) || defined(CONFIG_RELOC_FIXUP_WORKS)
@@ -522,6 +501,8 @@ char *get_table_entry_name (table_entry_t *table, char *msg, int id)
 
 const char *genimg_get_os_name (uint8_t os)
 {
+  printf("[%s %s] %s: %s: %d\n", \
+      __DATE__, __TIME__, __FILE__, __func__, __LINE__);
 	return (get_table_entry_name (uimage_os, "Unknown OS", os));
 }
 
@@ -625,6 +606,8 @@ int genimg_get_comp_id (const char *name)
  */
 int genimg_get_format (void *img_addr)
 {
+  printf("[%s %s] %s: %s: %d\n", \
+      __DATE__, __TIME__, __FILE__, __func__, __LINE__);
 	ulong format = IMAGE_FORMAT_INVALID;
 	const image_header_t *hdr;
 #if defined(CONFIG_FIT) || defined(CONFIG_OF_LIBFDT)
@@ -632,7 +615,10 @@ int genimg_get_format (void *img_addr)
 #endif
 
 	hdr = (const image_header_t *)img_addr;
-	if (image_check_magic(hdr))
+  printf("hdr = 0x%x \n",hdr);
+	printf("IMAGE_FORMAT_LEGACY = 0x%x \n",IMAGE_FORMAT_LEGACY);
+  if (image_check_magic(hdr))
+    printf(" in ????????????? \n");
 		format = IMAGE_FORMAT_LEGACY;
 #if defined(CONFIG_FIT) || defined(CONFIG_OF_LIBFDT)
 	else {
@@ -641,7 +627,9 @@ int genimg_get_format (void *img_addr)
 			format = IMAGE_FORMAT_FIT;
 	}
 #endif
-
+  printf("IMAGE_FORMAT_INVALID; = %u \n",IMAGE_FORMAT_INVALID);
+  printf("format = %u \n",format);
+  printf("format 应该为1 \n");
 	return format;
 }
 
@@ -1088,7 +1076,7 @@ static const image_header_t *image_get_fdt (ulong fdt_addr)
 
 	image_print_contents (fdt_hdr);
 
-	puts ("   Verifying Checksum ... ");
+	puts (" fdgsdfgds  Verifying Checksum ... ");
 	if (!image_check_hcrc (fdt_hdr)) {
 		fdt_error ("fdt header checksum invalid");
 		return NULL;

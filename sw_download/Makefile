@@ -31,7 +31,7 @@ $(LIB)/libc.a:
 %.o : %.c
 	$(Q)$(CROSS_COMPILE)gcc $(CPPFLAGS) $(CFLAGS)  -o $@ $< -c
 
-.PHONY:clean install
+.PHONY:clean install install2
 clean:
 	$(Q)rm -rf *.o *.elf $(BL2) *.dis mkbl1 mkbl2 sw_u-boot.bin
 
@@ -55,5 +55,8 @@ install2:
 	dd if=./sw_u-boot.bin of=$(LOCATION) bs=512 seek=1 iflag=dsync oflag=dsync; \
 #	dd  if=./bl2.bin of=$(LOCATION) seek=17 iflag=dsync oflag=dsync;\
 	fi
+
+mk_u-boot_bin_pad:
+	$(Q)gcc mk_u-boot_bin_pad.c -static -o mk_u-boot_bin_pad
 
 

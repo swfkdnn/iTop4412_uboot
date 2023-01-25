@@ -58,11 +58,31 @@ static struct tag *params;
 
 int do_bootm_linux(int flag, int argc, char *argv[], bootm_headers_t *images)
 {
-	bd_t	*bd = gd->bd;
-	char	*s;
-	int	machid = bd->bi_arch_number;
-	void	(*theKernel)(int zero, int arch, uint params);
-	int	ret;
+  printf("[%s %s] %s: %s: %d\n", \
+  __DATE__, __TIME__, __FILE__, __func__, __LINE__);
+	bd_t *bd = gd->bd;
+	char *s;
+	int machid = bd->bi_arch_number;
+
+  printf("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n");
+  printf("bi_dram[CONFIG_NR_DRAM_BANKS] = bi_dram[%d] \n", CONFIG_NR_DRAM_BANKS);
+  printf("bd->bi_baudrate = %d \n"       , bd->bi_baudrate);
+  printf("bd->bi_ip_addr  = %ld  \n"     , bd->bi_ip_addr);
+
+  //printf("environment_s  :   %d \n", CONFIG_SYS_REDUNDAND_ENVIRONMENT);
+  //printf("bd->bi_env->crc = %d \n"       , bd->bi_env->crc);
+  //printf("bd->bi_env->flags = %d \n",    bd->bi_env->flags );
+
+  //printf("data[ENV_SIZE] = data[%d] \n", ENV_SIZE);
+  printf("bd->bi_arch_number = %lu \n"   , bd->bi_arch_number);
+  printf("bd->bi_boot_params = 0x%x \n"   , bd->bi_boot_params);
+  //printf("bd->bi_dram[0].start = %lu \n" , bd->bi_dram[0].start);
+  //printf("bd->bi_dram[0].size = %lu \n"  , bd->bi_dram[0].size);
+  printf("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n");
+
+
+	void (*theKernel)(int zero, int arch, uint params);
+	int ret;
 
 #ifdef CONFIG_CMDLINE_TAG
 	char *commandline = getenv ("bootargs");
@@ -76,7 +96,7 @@ int do_bootm_linux(int flag, int argc, char *argv[], bootm_headers_t *images)
 	s = getenv ("machid");
 	if (s) {
 		machid = simple_strtoul (s, NULL, 16);
-		printf ("Using machid 0x%x from environment\n", machid);
+		printf ("~~~~~~~~~~~Using machid 0x%x from environment\n", machid);
 	}
 	
 	ret = boot_get_ramdisk(argc, argv, images, IH_ARCH_ARM, 
@@ -86,7 +106,7 @@ int do_bootm_linux(int flag, int argc, char *argv[], bootm_headers_t *images)
 
 	show_boot_progress (15);
 
-	debug ("## Transferring control to Linux (at address %08lx) ...\n",
+	printf("## Transferring control to Linux (at address %08lx) ...\n",
 	       (ulong) theKernel);
 
 #if defined (CONFIG_SETUP_MEMORY_TAGS) || \
@@ -119,11 +139,13 @@ int do_bootm_linux(int flag, int argc, char *argv[], bootm_headers_t *images)
 	setup_end_tag (bd);
 #endif
 
+	printf ("\nafter tag ...\n\n");
 	/* we assume that the kernel is in place */
 	printf ("\nStarting kernel ...\n\n");
 
 #ifdef CONFIG_USB_DEVICE
 	{
+    printf("\ndefien CONFIG_USB_DEVICE ...\n\n");
 		extern void udc_disconnect (void);
 		udc_disconnect ();
 	}
@@ -131,6 +153,8 @@ int do_bootm_linux(int flag, int argc, char *argv[], bootm_headers_t *images)
 
 	cleanup_before_linux ();
 
+  printf("theKernel...machid = %d , bd->bi_boot_params = 0x%x \n", \
+      machid, bd->bi_boot_params );
 	theKernel (0, machid, bd->bi_boot_params);
 	/* does not return */
 
@@ -147,6 +171,8 @@ int do_bootm_linux(int flag, int argc, char *argv[], bootm_headers_t *images)
     defined (CONFIG_VFD)
 static void setup_start_tag (bd_t *bd)
 {
+  printf("[%s %s] %s: %s: %d\n", \
+      __DATE__, __TIME__, __FILE__, __func__, __LINE__);
 	params = (struct tag *) bd->bi_boot_params;
 
 	params->hdr.tag = ATAG_CORE;
@@ -164,15 +190,14 @@ static void setup_start_tag (bd_t *bd)
 int nr_dram_banks = -1;
 static void setup_memory_tags (bd_t *bd)
 {
+  printf("[%s %s] %s: %s: %d\n", \
+      __DATE__, __TIME__, __FILE__, __func__, __LINE__);
 	int i;
-
 	for (i = 0; i < nr_dram_banks; i++) {
 		params->hdr.tag = ATAG_MEM;
 		params->hdr.size = tag_size (tag_mem32);
-
 		params->u.mem.start = bd->bi_dram[i].start;
 		params->u.mem.size = bd->bi_dram[i].size;
-
 		params = tag_next (params);
 	}
 }
@@ -181,14 +206,13 @@ static void setup_memory_tags (bd_t *bd)
 
 static void setup_commandline_tag (bd_t *bd, char *commandline)
 {
+  printf("[%s %s] %s: %s: %d\n", \
+      __DATE__, __TIME__, __FILE__, __func__, __LINE__);
 	char *p;
-
 	if (!commandline)
 		return;
-
 	/* eat leading white space */
 	for (p = commandline; *p == ' '; p++);
-
 	/* skip non-existent command lines so the kernel will still
 	 * use its default command line.
 	 */
@@ -208,6 +232,8 @@ static void setup_commandline_tag (bd_t *bd, char *commandline)
 #ifdef CONFIG_INITRD_TAG
 static void setup_initrd_tag (bd_t *bd, ulong initrd_start, ulong initrd_end)
 {
+  printf("[%s %s] %s: %s: %d\n", \
+      __DATE__, __TIME__, __FILE__, __func__, __LINE__);
 	/* an ATAG_INITRD node tells the kernel where the compressed
 	 * ramdisk can be found. ATAG_RDIMG is a better name, actually.
 	 */
@@ -226,6 +252,8 @@ static void setup_initrd_tag (bd_t *bd, ulong initrd_start, ulong initrd_end)
 extern ulong calc_fbsize (void);
 static void setup_videolfb_tag (gd_t *gd)
 {
+  printf("[%s %s] %s: %s: %d\n", \
+      __DATE__, __TIME__, __FILE__, __func__, __LINE__);
 	/* An ATAG_VIDEOLFB node tells the kernel where and how large
 	 * the framebuffer for video was allocated (among other things).
 	 * Note that a _physical_ address is passed !
@@ -248,6 +276,8 @@ static void setup_videolfb_tag (gd_t *gd)
 #ifdef CONFIG_SERIAL_TAG
 void setup_serial_tag (struct tag **tmp)
 {
+  printf("[%s %s] %s: %s: %d\n", \
+      __DATE__, __TIME__, __FILE__, __func__, __LINE__);
 	struct tag *params = *tmp;
 	struct tag_serialnr serialnr;
 	void get_board_serial(struct tag_serialnr *serialnr);
@@ -265,6 +295,8 @@ void setup_serial_tag (struct tag **tmp)
 #ifdef CONFIG_REVISION_TAG
 void setup_revision_tag(struct tag **in_params)
 {
+  printf("[%s %s] %s: %s: %d\n", \
+      __DATE__, __TIME__, __FILE__, __func__, __LINE__);
 	u32 rev = 0;
 	u32 get_board_rev(void);
 
@@ -279,6 +311,8 @@ void setup_revision_tag(struct tag **in_params)
 
 static void setup_end_tag (bd_t *bd)
 {
+  printf("[%s %s] %s: %s: %d\n", \
+      __DATE__, __TIME__, __FILE__, __func__, __LINE__);
 	params->hdr.tag = ATAG_NONE;
 	params->hdr.size = 0;
 }

@@ -1,26 +1,3 @@
-/*
- * (C) Copyright 2001-2004
- * Wolfgang Denk, DENX Software Engineering, wd@denx.de.
- *
- * See file CREDITS for list of people who contributed to this
- * project.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of
- * the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston,
- * MA 02111-1307 USA
- */
-
 #include <common.h>
 #include <command.h>
 #include <net.h>
@@ -191,7 +168,8 @@ int eth_initialize(bd_t *bis)
 	eth_devices = NULL;
 	eth_current = NULL;
 
-	show_boot_progress (64);
+	show_boot_progress (64);          // no use
+
 #if defined(CONFIG_MII) || defined(CONFIG_CMD_MII)
 	miiphy_init();
 #endif
@@ -207,7 +185,7 @@ int eth_initialize(bd_t *bis)
 	mv6446x_eth_initialize(bis);
 #endif
 	if (!eth_devices) {
-		puts ("No ethernet found.\n");
+		puts ("187   eth.c  ..  No ethernet found.\n");
 		show_boot_progress (-64);
 	} else {
 		struct eth_device *dev = eth_devices;
@@ -261,7 +239,6 @@ int eth_initialize(bd_t *bis)
 
 	return eth_number;
 }
-
 #ifdef CONFIG_MCAST_TFTP
 /* Multicast.
  * mcast_addr: multicast ipaddr from which multicast Mac is made
@@ -314,7 +291,7 @@ int eth_init(bd_t *bis)
 	struct eth_device *old_current, *dev;
 
 	if (!eth_current) {
-		puts ("No ethernet found.\n");
+		puts ("293  eth.c .. No ethernet found.\n");
 		return -1;
 	}
 
@@ -342,6 +319,7 @@ int eth_init(bd_t *bis)
 		}
 		debug("FAIL\n");
 
+    void eth_try_another(int first_restart);
 		eth_try_another(0);
 	} while (old_current != eth_current);
 
@@ -453,7 +431,7 @@ void eth_try_another(int first_restart)
 #endif
 
 	if (first_failed == eth_current) {
-		NetRestartWrap = 1;
+    NetRestartWrap = 1;
 	}
 }
 

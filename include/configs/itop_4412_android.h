@@ -313,6 +313,19 @@
 #undef CONFIG_USB_STORAGE
 #define CONFIG_S3C_USBD
 
+
+//SW[]0805~~~~~~~~no use~~~~u-boot_cmd~~~~
+#define CONFIG_CMD_NET  y
+#define CONFIG_CMD_DNS  y
+#define CONFIG_CMD_NFS  y
+#define CONFIG_CMD_SNTP y
+//~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+
+
 #define USBD_DOWN_ADDR		0xc0000000
 
 /************************************************************

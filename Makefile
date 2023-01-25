@@ -495,7 +495,7 @@ $(obj)u-boot:	depend $(SUBDIRS) $(OBJS) $(LIBBOARD) $(LIBS) $(LDSCRIPT) $(obj)u-
 		@echo "-SYM_PREFIX=$(SYM_PREFIX)"
 		@echo " LNDIR = $(LNDIR) -"
 		@echo "-LD = $(LD)-"
-		@echo "-LDFLAGS = $(LDFLAGS) -"
+		@echo "LDFLAGS = $(LDFLAGS)"
 		@echo "--UNDEF_SYM = $$UNDEF_SYM"
 		@echo "-__LIBS = $(__LIBS)-"
 		@echo "-PLATFORM_LIBS = $(PLATFORM_LIBS)"

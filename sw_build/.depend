@@ -38,9 +38,11 @@
  /home/sw/pp_self/1/iTop4412_uboot/include/linux/byteorder/little_endian.h \
  /home/sw/pp_self/1/iTop4412_uboot/include/linux/byteorder/swab.h \
  /home/sw/pp_self/1/iTop4412_uboot/include/linux/byteorder/generic.h \
- /home/sw/pp_self/1/iTop4412_uboot/include/lmb.h \
+ /home/sw/pp_self/1/iTop4412_uboot/include/fdt.h \
+ /home/sw/pp_self/1/iTop4412_uboot/include/libfdt.h \
+ /home/sw/pp_self/1/iTop4412_uboot/include/libfdt_env.h \
+ /home/sw/pp_self/1/iTop4412_uboot/include/fdt_support.h \
  /home/sw/pp_self/1/iTop4412_uboot/sw_build/include2/asm/u-boot.h \
- /home/sw/pp_self/1/iTop4412_uboot/include/command.h \
  /home/sw/pp_self/1/iTop4412_uboot/sw_build/include2/asm/global_data.h \
  /home/sw/pp_self/1/iTop4412_uboot/sw_build/include2/asm/mach-types.h \
  /home/sw/pp_self/1/iTop4412_uboot/sw_build/include2/asm/setup.h \
@@ -80,9 +82,11 @@
  /home/sw/pp_self/1/iTop4412_uboot/include/linux/byteorder/little_endian.h \
  /home/sw/pp_self/1/iTop4412_uboot/include/linux/byteorder/swab.h \
  /home/sw/pp_self/1/iTop4412_uboot/include/linux/byteorder/generic.h \
- /home/sw/pp_self/1/iTop4412_uboot/include/lmb.h \
+ /home/sw/pp_self/1/iTop4412_uboot/include/fdt.h \
+ /home/sw/pp_self/1/iTop4412_uboot/include/libfdt.h \
+ /home/sw/pp_self/1/iTop4412_uboot/include/libfdt_env.h \
+ /home/sw/pp_self/1/iTop4412_uboot/include/fdt_support.h \
  /home/sw/pp_self/1/iTop4412_uboot/sw_build/include2/asm/u-boot.h \
- /home/sw/pp_self/1/iTop4412_uboot/include/command.h \
  /home/sw/pp_self/1/iTop4412_uboot/sw_build/include2/asm/global_data.h \
  /home/sw/pp_self/1/iTop4412_uboot/sw_build/include2/asm/mach-types.h \
  /home/sw/pp_self/1/iTop4412_uboot/sw_build/include2/asm/setup.h \

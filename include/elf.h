@@ -34,7 +34,6 @@
 #define _ELF_H
 
 #include "compiler.h"
-
 /*
  *  This version doesn't work for 64-bit ABIs - Erik.
  */

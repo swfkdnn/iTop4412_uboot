@@ -65,12 +65,13 @@ int mmc_set_blocklen(struct mmc *mmc, int len)
 
 struct mmc *find_mmc_device(int dev_num)
 {
+  printf("[%s %s] %s: %s: %d\n", \
+      __DATE__, __TIME__, __FILE__, __func__, __LINE__);
 	struct mmc *m;
+  printf("");
 	struct list_head *entry;
-
 	list_for_each(entry, &mmc_devices) {
 		m = list_entry(entry, struct mmc, link);
-
 		if (m->block_dev.dev == dev_num)
 			return m;
 	}

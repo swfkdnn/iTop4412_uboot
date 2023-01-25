@@ -1,14 +1,3 @@
-/*
- * Copyright (c) 2010 Samsung Electronics Co., Ltd.
- *              http://www.samsung.com/
- *
- * fdisk command for U-boot
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 2 as
- * published by the Free Software Foundation.
- */
-
 #include <common.h>
 #include <command.h>
 #include <mmc.h>
@@ -175,6 +164,7 @@ void make_partitionInfo(int LBA_start, int count, SDInfo sdInfo, PartitionInfo *
 //-----------------------------------------------------
         if (sdInfo.addr_mode == CHS_MODE)
         {
+                printf("sdInfo.addr_mode = CHS_MODE  \n\r");
                 partInfo->C_start       = partInfo->block_start / (sdInfo.H_end * sdInfo.S_end);
                 temp                    = partInfo->block_start % (sdInfo.H_end * sdInfo.S_end);
                 partInfo->H_start       = temp / sdInfo.S_end;
@@ -228,40 +218,62 @@ void make_partitionInfo(int LBA_start, int count, SDInfo sdInfo, PartitionInfo *
         }
 }
 
-/////////////////////////////////////////////////////////////////
 int make_mmc_partition(int total_block_count, unsigned char *mbr, int flag, char *argv[])
 {
-	unsigned int		block_start = 0, block_offset;
-
-	SDInfo		sdInfo;
-	PartitionInfo	partInfo[4];
-
-///////////////////////////////////////////////////////////	
+  printf("[%s %s] %s: %s: %d\n", \
+      __DATE__, __TIME__, __FILE__, __func__, __LINE__);
+  printf("in make_mmc_partition \n\r");
+  printf("argv[0] = %s .. argv[1] = %s .. argv[2] = %s ..argv[3] = %s.. argv[4] = %s.. argv[5] = %s \n\r" \
+      ,argv[0],argv[1],argv[2],argv[3],argv[4],argv[5]);
+  unsigned int  block_start = 0, block_offset;
+  SDInfo sdInfo;
+  PartitionInfo partInfo[4];
 	memset((unsigned char *)&sdInfo, 0x00, sizeof(SDInfo));
-
-///////////////////////////////////////////////////////////	
 	get_SDInfo(total_block_count, &sdInfo);
-
-///////////////////////////////////////////////////////////
-// 반드시 Unit단위로 먼저 계산한다.
-	block_start	= calc_unit(DISK_START, sdInfo);
+	block_start = calc_unit(DISK_START, sdInfo);
 /* modify by cym 20131206 */
 #if 0
 	block_offset	= calc_unit(SYSTEM_PART_SIZE, sdInfo);
 #else
 	if (flag)
-		block_offset = calc_unit((unsigned long long)simple_strtoul(argv[3], NULL, 0)*1024*1024, sdInfo);
+    {
+      block_offset = calc_unit((unsigned long long)simple_strtoul(argv[3], NULL, 0)*1024*1024, sdInfo);
+      printf("calc_unit length = %ld  \n\r  ",(unsigned long long)simple_strtoul(argv[3], NULL, 0)*1024*1024);
+    }
 	else
 		block_offset = calc_unit(SYSTEM_PART_SIZE, sdInfo);
 #endif
 /* end modify */
 
+  printf("sdInfo.C_start           = %x \n\r",sdInfo.C_start            );
+  printf("sdInfo.H_start           = %d \n\r",sdInfo.H_start            );
+  printf("sdInfo.S_start           = %d \n\r",sdInfo.S_start            );
+  printf("sdInfo.C_end             = %d \n\r",sdInfo.C_end              );
+  printf("sdInfo.H_end             = %d \n\r",sdInfo.H_end              );
+  printf("sdInfo.S_end             = %d \n\r",sdInfo.S_end              );
+  printf("sdInfo.available_block   = %d \n\r",sdInfo.available_block    );
+  printf("sdInfo.unit              = %d \n\r",sdInfo.unit               );
+  printf("sdInfo.total_block_count = %d \n\r",sdInfo.total_block_count  );
+  printf("sdInfo.addr_mode         = %d \n\r",sdInfo.addr_mode          ); // LBA_MODE or CHS_MODE
+  printf("total_block_count = %d \n\r",total_block_count);
+  printf("DISK_START = %d \n\r ",DISK_START);
+  printf("flag = %d \n\r ",flag);
+  printf("block_start = %d \n\r "   ,block_start);
+  printf("block_offset = %d \n\r " ,block_offset);
 	partInfo[0].bootable	= 0x00;
 	partInfo[0].partitionId	= 0x83;
-
 	make_partitionInfo(block_start, block_offset, sdInfo, &partInfo[0]);
-
-///////////////////////////////////////////////////////////	
+  printf("partInfo[0].bootable      = %x \n\r", partInfo[0].bootable      );
+  printf("partInfo[0].partitionId   = %x \n\r", partInfo[0].partitionId   );
+  printf("partInfo[0].C_start       = %d \n\r", partInfo[0].C_start       );
+  printf("partInfo[0].H_start       = %d \n\r", partInfo[0].H_start       );
+  printf("partInfo[0].S_start       = %d \n\r", partInfo[0].S_start       );
+  printf("partInfo[0].C_end         = %d \n\r", partInfo[0].C_end         );
+  printf("partInfo[0].H_end         = %d \n\r", partInfo[0].H_end         );
+  printf("partInfo[0].S_end         = %d \n\r", partInfo[0].S_end         );
+  printf("partInfo[0].block_start   = %d \n\r", partInfo[0].block_start   );
+  printf("partInfo[0].block_count   = %d \n\r", partInfo[0].block_count   );
+  printf("partInfo[0].block_end     = %d \n\r", partInfo[0].block_end     );
 	block_start += block_offset;
 /* modify by cym 20131206 */
 #if 0
@@ -287,7 +299,20 @@ int make_mmc_partition(int total_block_count, unsigned char *mbr, int flag, char
 
 	make_partitionInfo(block_start, block_offset, sdInfo, &partInfo[1]);
 
-///////////////////////////////////////////////////////////	
+
+  printf("partInfo[1].bootable      = %x \n\r", partInfo[1].bootable      );
+  printf("partInfo[1].partitionId   = %x \n\r", partInfo[1].partitionId   );
+  printf("partInfo[1].C_start       = %d \n\r", partInfo[1].C_start       );
+  printf("partInfo[1].H_start       = %d \n\r", partInfo[1].H_start       );
+  printf("partInfo[1].S_start       = %d \n\r", partInfo[1].S_start       );
+  printf("partInfo[1].C_end         = %d \n\r", partInfo[1].C_end         );
+  printf("partInfo[1].H_end         = %d \n\r", partInfo[1].H_end         );
+  printf("partInfo[1].S_end         = %d \n\r", partInfo[1].S_end         );
+  printf("partInfo[1].block_start   = %d \n\r", partInfo[1].block_start   );
+  printf("partInfo[1].block_count   = %d \n\r", partInfo[1].block_count   );
+  printf("partInfo[1].block_end     = %d \n\r", partInfo[1].block_end     );
+
+
 	block_start += block_offset;
 /* modify by cym 20131206 */
 #if 0
@@ -305,7 +330,22 @@ int make_mmc_partition(int total_block_count, unsigned char *mbr, int flag, char
 
 	make_partitionInfo(block_start, block_offset, sdInfo, &partInfo[2]);
 
-///////////////////////////////////////////////////////////	
+
+  printf("partInfo[2].bootable      = %x \n\r", partInfo[2].bootable      );
+  printf("partInfo[2].partitionId   = %x \n\r", partInfo[2].partitionId   );
+  printf("partInfo[2].C_start       = %d \n\r", partInfo[2].C_start       );
+  printf("partInfo[2].H_start       = %d \n\r", partInfo[2].H_start       );
+  printf("partInfo[2].S_start       = %d \n\r", partInfo[2].S_start       );
+  printf("partInfo[2].C_end         = %d \n\r", partInfo[2].C_end         );
+  printf("partInfo[2].H_end         = %d \n\r", partInfo[2].H_end         );
+  printf("partInfo[2].S_end         = %d \n\r", partInfo[2].S_end         );
+  printf("partInfo[2].block_start   = %d \n\r", partInfo[2].block_start   );
+  printf("partInfo[2].block_count   = %d \n\r", partInfo[2].block_count   );
+  printf("partInfo[2].block_end     = %d \n\r", partInfo[2].block_end     );
+
+
+
+
 	block_start += block_offset;
 	block_offset = BLOCK_END;
 
@@ -314,10 +354,26 @@ int make_mmc_partition(int total_block_count, unsigned char *mbr, int flag, char
 
 	make_partitionInfo(block_start, block_offset, sdInfo, &partInfo[3]);
 
-///////////////////////////////////////////////////////////	
+  printf("partInfo[3].bootable      = %x \n\r", partInfo[3].bootable      );
+  printf("partInfo[3].partitionId   = %x \n\r", partInfo[3].partitionId   );
+  printf("partInfo[3].C_start       = %d \n\r", partInfo[3].C_start       );
+  printf("partInfo[3].H_start       = %d \n\r", partInfo[3].H_start       );
+  printf("partInfo[3].S_start       = %d \n\r", partInfo[3].S_start       );
+  printf("partInfo[3].C_end         = %d \n\r", partInfo[3].C_end         );
+  printf("partInfo[3].H_end         = %d \n\r", partInfo[3].H_end         );
+  printf("partInfo[3].S_end         = %d \n\r", partInfo[3].S_end         );
+  printf("partInfo[3].block_start   = %d \n\r", partInfo[3].block_start   );
+  printf("partInfo[3].block_count   = %d \n\r", partInfo[3].block_count   );
+  printf("partInfo[3].block_end     = %d \n\r", partInfo[3].block_end     );
+
+
+
 	memset(mbr, 0x00, sizeof(*mbr)*512);// liang, clean the mem again
 	mbr[510] = 0x55; mbr[511] = 0xAA;
-	
+
+
+
+
 	encode_partitionInfo(partInfo[0], &mbr[0x1CE]);
 	encode_partitionInfo(partInfo[1], &mbr[0x1DE]);
 	encode_partitionInfo(partInfo[2], &mbr[0x1EE]);
@@ -326,16 +382,16 @@ int make_mmc_partition(int total_block_count, unsigned char *mbr, int flag, char
 	return 0;
 }
 
-/////////////////////////////////////////////////////////////////
 int get_mmc_block_count(char *device_name)
 {
+  printf("[%s %s] %s: %s: %d\n", \
+      __DATE__, __TIME__, __FILE__, __func__, __LINE__);
 	int rv;
 	struct mmc *mmc;
 	int block_count = 0;
 	int dev_num;
-
 	dev_num = simple_strtoul(device_name, NULL, 0);
-	
+	printf("dev_num = %d",dev_num);
 	mmc = find_mmc_device(dev_num);
 	if (!mmc)
 	{
@@ -490,24 +546,21 @@ int print_mmc_part_info(int argc, char *argv[])
 /////////////////////////////////////////////////////////////////
 int create_mmc_fdisk(int argc, char *argv[])
 {
+  printf("[%s %s] %s: %s: %d\n", \
+      __DATE__, __TIME__, __FILE__, __func__, __LINE__);
 	int		rv;
 	int		total_block_count;
 	unsigned char	mbr[512];
-
 	memset(mbr, 0x00, 512);
-	
 	total_block_count = get_mmc_block_count(argv[2]);
+  printf("total_block_count = %d",total_block_count);
 	if (total_block_count < 0)
 		return -1;
-	
 	make_mmc_partition(total_block_count, mbr, (argc==6?1:0), argv);
-
 	rv = put_mmc_mbr(mbr, argv[2]);
 	if (rv != 0)
 		return -1;
-		
 	printf("fdisk is completed\n");
-
 	argv[1][1] = 'p';
 	print_mmc_part_info(argc, argv);
 	return 0;
